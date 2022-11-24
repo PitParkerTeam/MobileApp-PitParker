@@ -6,7 +6,7 @@ export default function FavPit() {
   return (
     <View>
       <Image />
-      <Tex>Location Info</Tex>
+      <Text>Location Info</Text>
     </View>
   )
 }
