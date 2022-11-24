@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function Profile() {
+export default function HistoryDetails() {
   return (
     <View>
-      <Text>Profile</Text>
+      <Text>HistoryDetails</Text>
     </View>
-  )
+  );
 }

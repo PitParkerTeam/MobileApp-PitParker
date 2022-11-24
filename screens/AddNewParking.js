@@ -1,9 +1,9 @@
-import { View, Text, TextInput } from 'react-native'
-import React from 'react'
-import LocationCard from '../components/LocationCard'
-import PitButton from '../components/PitButton'
+import { View, Text, TextInput } from "react-native";
+import React from "react";
+import LocationCard from "../components/LocationCard";
+import PitButton from "../components/PitButton";
 
-export default function AddNewPit() {
+export default function AddNewParking() {
   return (
     <View>
       <LocationCard />
@@ -18,12 +18,12 @@ export default function AddNewPit() {
       <Text>Slot</Text>
       <TextInput></TextInput>
       <Text>Image</Text>
-      <Image />
+      {/* <Image /> */}
       <PitButton />
 
       <Text>Notes</Text>
       <TextInput></TextInput>
       <PitButton />
     </View>
-  )
+  );
 }

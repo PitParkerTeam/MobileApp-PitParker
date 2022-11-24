@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function FavParking() {
+export default function ProfileSettings() {
   return (
     <View>
-      <Text>FavParking</Text>
+      <Text>ProfileSettings</Text>
     </View>
-  )
+  );
 }

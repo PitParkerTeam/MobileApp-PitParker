@@ -4,7 +4,7 @@ import React from 'react'
 export default function PitButton() {
   return (
     <View>
-      <Button></Button>
+      {/* <Button></Button> */}
     </View>
   )
 }

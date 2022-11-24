@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function HistoryParkingDetails() {
+export default function ParkingPitDetails() {
   return (
     <View>
-      <Text>HistoryParkingDetails</Text>
+      <Text>ParkingPitDetails</Text>
     </View>
   )
 }
