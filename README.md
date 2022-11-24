@@ -39,8 +39,8 @@
 
 ## Logs
 
-### Iteration 1
-
+### Iteration 1 Tasks
+- Design of all screens
 - Setup firebase & firestore
   - branch `PIT-1-firebase-setup`
   - branch `PIT-3-firestore`
@@ -52,8 +52,6 @@
   - branch `PIT-2-navigations`
 - Screens
   - branch `PIT-5-screens`
-
-![Tasks](./logs/iteration1_tasks.png)
 
 
 
