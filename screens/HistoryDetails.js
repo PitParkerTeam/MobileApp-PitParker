@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function HistoryPitRecord() {
+export default function HistoryDetails() {
   return (
     <View>
-      <Text>HistoryPitRecord</Text>
+      <Text>HistoryDetails</Text>
     </View>
-  )
+  );
 }

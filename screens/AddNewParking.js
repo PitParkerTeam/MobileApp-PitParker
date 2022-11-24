@@ -18,7 +18,7 @@ export default function AddNewParking() {
       <Text>Slot</Text>
       <TextInput></TextInput>
       <Text>Image</Text>
-      <Image />
+      {/* <Image /> */}
       <PitButton />
 
       <Text>Notes</Text>
