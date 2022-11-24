@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function FavParking() {
+export default function ParkingPitDetails() {
   return (
     <View>
-      <Text>FavParking</Text>
+      <Text>ParkingPitDetails</Text>
     </View>
   )
 }
