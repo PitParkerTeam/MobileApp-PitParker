@@ -22,13 +22,6 @@ const firebaseConfig = {
   storageBucket: storageBucket,
   messagingSenderId: messagingSenderId,
   appId: appId,
-  // apiKey: "AIzaSyBMLDxQEU52ncg399woXa_2HPqyg2sQbWw",
-  // authDomain: "mobile-pitparker.firebaseapp.com",
-  // projectId: "mobile-pitparker",
-  // storageBucket: "mobile-pitparker.appspot.com",
-  // messagingSenderId: "642596308815",
-  // appId: "1:642596308815:web:c4e064aacf3e98f95d273a",
-  // measurementId: "G-33JS3SYBBP"
 };
 
 let myApp = initializeApp(firebaseConfig);
