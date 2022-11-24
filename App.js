@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import getUser from './firebase/firestore';
 
 export default function App() {
   return (
