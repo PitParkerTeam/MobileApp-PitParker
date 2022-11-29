@@ -10,31 +10,31 @@ const options = { headerShown: false };
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Main" component={Main} options={options} />
-        <Stack.Screen
-          name="HistoryDetails"
-          component={HistoryDetails}
-          options={options}
-        />
-        <Stack.Screen
-          name="PitDetails"
-          component={PitDetails}
-          options={options}
-        />
-        <Stack.Screen
-          name="SignIn"
-          component={SignIn}
-          options={{ headerTitle: "Sign in" }}
-        />
-        <Stack.Screen
-          name="AddNewParking"
-          component={AddNewParking}
-          options={{ headerTitle: "Add New Parking" }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Main" component={Main} options={options} />
+          <Stack.Screen
+            name="HistoryDetails"
+            component={HistoryDetails}
+            options={options}
+          />
+          <Stack.Screen
+            name="PitDetails"
+            component={PitDetails}
+            options={options}
+          />
+          <Stack.Screen
+            name="SignIn"
+            component={SignIn}
+            options={{ headerTitle: "Sign in" }}
+          />
+          <Stack.Screen
+            name="AddNewParking"
+            component={AddNewParking}
+            options={{ headerTitle: "Add New Parking" }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
   );
 }
 
