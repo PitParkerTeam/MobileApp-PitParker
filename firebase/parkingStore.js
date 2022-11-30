@@ -12,9 +12,9 @@ import { firestore, auth } from "./firebase-setup";
 
 export async function createNewParking(parking) {
   try {
-    const docRef = await addDoc(collection(firestore, "History"), {
+    const docRef = await addDoc(collection(firestore, "Parkings"), {
       ...parking,
-    //   user: auth.currentUser.uid,
+      user: auth.currentUser.uid,
     });
   } catch (err) {
     console.log(err);
@@ -22,7 +22,7 @@ export async function createNewParking(parking) {
 }
 
 export async function getAllHistory() {
-  const docRef = doc(firestore, "History");
+  const docRef = doc(firestore, "Parkings");
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
