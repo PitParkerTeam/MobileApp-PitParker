@@ -1,6 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 import Map from './Map'
+import SmallMap from './SmallMap'
 
 export default function LocationCard() {
   return (
