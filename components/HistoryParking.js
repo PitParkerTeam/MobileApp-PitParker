@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function HistoryPit() {
+export default function HistoryParking() {
   return (
     <View>
       <Image />
