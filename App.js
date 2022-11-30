@@ -1,47 +1,68 @@
-import { useCallback } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
   HistoryDetails,
   PitDetails,
-  SignIn,
+  Login,
+  Signup,
   Main,
   AddNewParking,
 } from "./screens";
-import getUser from "./firebase/firestore";
+import React, { useState, useEffect } from "react";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "./firebase/firebase-setup";
 
 const Stack = createNativeStackNavigator();
 const options = { headerShown: false };
 
-
 export default function App() {
+  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsUserAuthenticated(true);
+      } else {
+        setIsUserAuthenticated(false);
+      }
+    });
+  });
+  const AuthStack = () => {
+    return (
+      <Stack.Navigator
+        screenOptions={{
+          headerTitleAlign: "center",
+        }}
+      >
+        <Stack.Screen name="Login" component={Login} />
 
+        <Stack.Screen name="Signup" component={Signup} />
+      </Stack.Navigator>
+    );
+  };
+  const AppStack = () => (
+    <Stack.Navigator>
+      <Stack.Screen name="Main" component={Main} options={options} />
+      <Stack.Screen
+        name="HistoryDetails"
+        component={HistoryDetails}
+        options={options}
+      />
+      <Stack.Screen
+        name="PitDetails"
+        component={PitDetails}
+        options={options}
+      />
+      <Stack.Screen
+        name="AddNewParking"
+        component={AddNewParking}
+        options={{ headerTitle: "Add New Parking" }}
+      />
+    </Stack.Navigator>
+  );
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Main" component={Main} options={options} />
-        <Stack.Screen
-          name="HistoryDetails"
-          component={HistoryDetails}
-          options={options}
-        />
-        <Stack.Screen
-          name="PitDetails"
-          component={PitDetails}
-          options={options}
-        />
-        <Stack.Screen
-          name="SignIn"
-          component={SignIn}
-          options={{ headerTitle: "Sign in" }}
-        />
-        <Stack.Screen
-          name="AddNewParking"
-          component={AddNewParking}
-          options={{ headerTitle: "Add New Parking" }}
-        />
-      </Stack.Navigator>
+      {isUserAuthenticated ? AppStack() : AuthStack()}
     </NavigationContainer>
   );
 }
