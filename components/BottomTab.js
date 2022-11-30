@@ -5,11 +5,12 @@ import { COLORS } from "../common";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const icons = {
-  Home:'home-outline',
-  Favorites:'star-circle-outline',
-  History:'history',
-  Account:'account-circle-outline'
-}
+  Home: "home-outline",
+  MyPits: "star-circle-outline",
+  SavedPits: "star-circle-outline",
+  History: "history",
+  Account: "account-circle-outline",
+};
 
 const AddTab = ({ navigation }) => {
   return (
