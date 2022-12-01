@@ -33,11 +33,15 @@
 - Xiaoben Yin - [@XiaobenYin](https://github.com/XiaobenYin) - yin.xiaob@northeastern.edu
 - Chenru Wu - [@wuchenru](https://github.com/wuchenru) - wu.chenru@northeastern.edu
 
+## Design
+[Figma](https://www.figma.com/file/bdToIyhr0VmqOBXjil023Y/PitParker-Mobile-Design?node-id=0%3A1&t=Zz1Viqm3hyRdWWrL-1)
+<!-- ## Screens -->
+
 <!-- LOGS -->
 
 ## Logs
 
-### Iteration 1 - 2022/11/21
+### Iteration 1 - 2022/11/23
 - Design of all screens
 - Setup firebase & firestore
 - Setup project basic structures and configurations
@@ -45,7 +49,7 @@
 - Navigations setup
 - Screens basics setup
 
-### Iteration 2 - 2022/11/29
+### Iteration 2 - 2022/11/30
 - Finished design for all major screens & components
     ![components_design](logs/v2.0.0/components_design_v2.0.0.png)
     ![screens_design](logs/v2.0.0/screens_design_v2.0.0.png)
@@ -68,7 +72,7 @@
 - Map Advanced
   - querying(? getting parking lot information from google, etc.)
   - getting names of different areas(?)
-  - how to avoid duplicate pits & recoginzations of same pits based on location details
+  - how to avoid duplicate pits & recognizations of same pits based on location details
 
 
 
