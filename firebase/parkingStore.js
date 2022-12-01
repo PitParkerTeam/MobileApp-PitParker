@@ -4,11 +4,12 @@ import {
   deleteDoc,
   doc,
   setDoc,
-  getDoc,
+  query,
+  where,
+  onSnapshot,
 } from "firebase/firestore";
 
 import { firestore, auth } from "./firebase-setup";
-
 
 export async function createNewParking(parking) {
   try {
@@ -20,33 +21,26 @@ export async function createNewParking(parking) {
     console.log(err);
   }
 }
+export function userParkingSnapshot(cb) {
+  const q = query(
+    collection(firestore, "cities"),
+    where("user", "==", auth.currentUser.uid)
+  );
+  return onSnapshot(q, cb);
+}
 
-export async function getAllHistory() {
-  const docRef = doc(firestore, "Parkings");
-  const docSnap = await getDoc(docRef);
-
-  if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
-
-    return docSnap.data();
-  } else {
-    // doc.data() will be undefined in this case
-    console.log("No parking history!");
+export async function updateParking(pid, parking) {
+  try {
+    await setDoc(doc(firestore, "Parkings", pid), parking);
+  } catch (err) {
+    console.log("update parking: ", err);
   }
 }
 
-  export async function updateParking(pid, parking) {
-    try {
-      await setDoc(doc(firestore, "Parkings", pid), parking);
-    } catch (err) {
-      console.log("update parking: ", err);
-    }
+export async function deleteParking(key) {
+  try {
+    await deleteDoc(doc(firestore, "Parkings", key));
+  } catch (err) {
+    console.log(err);
   }
-
-    export async function deleteParkingFromDB(key) {
-      try {
-        await deleteDoc(doc(firestore, "Parkings", key));
-      } catch (err) {
-        console.log(err);
-      }
-    }
+}

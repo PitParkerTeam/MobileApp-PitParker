@@ -10,7 +10,7 @@ import {
   AddNewParking,
 } from "./screens";
 import React, { useState, useEffect } from "react";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebase-setup";
 
 const Stack = createNativeStackNavigator();
