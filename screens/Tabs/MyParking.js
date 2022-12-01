@@ -2,7 +2,7 @@ import { View, Text, FlatList, SafeAreaView, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import { fetchParking } from "../../firebase/parking_store";
 import Moment from "moment";
-import { COLORS } from "../../common/colors";
+import { COLORS, textStyles } from "../../common";
 // import SmallMap from '../../components/SmallMap'
 
 export default function MyParking() {
@@ -28,11 +28,13 @@ export default function MyParking() {
   const HistoryBasics = ({ item }) => {
     if (!item.date || !item.location || !item.duration) return;
     return (
-      <View style={style.parkingItem}>
-        <Text style={style.parkingItem.title}>{item.location}</Text>
-        <Text style={style.parkingItem.text}>
+      <View style={styles.parkingItem}>
+        <Text style={styles.parkingItem.title}>{item.location}</Text>
+        <Text style={styles.parkingItem.text}>
           {Moment(item?.date?.seconds * 1000).format("YYYY-MM-DD MM:SS")} •
-          {`${item.duration} ${item.durationUnit}${item.duration > 1 ? 's' : ""}`}
+          {`${item.duration} ${item.durationUnit}${
+            item.duration > 1 ? "s" : ""
+          }`}
         </Text>
         <Text>
           {item.plate && `plate#: ${item.plate}`}
@@ -43,17 +45,23 @@ export default function MyParking() {
   };
 
   return (
-    <SafeAreaView>
-      <Text style={style.header}>My parking</Text>
-      <FlatList
-        data={parkingHistory}
-        renderItem={({ item }) => <HistoryBasics item={item} />}
-      />
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.header}>My parking</Text>
+      <View style={styles.currentParking}></View>
+      <View style={styles.listContainer}>
+        <FlatList
+          data={parkingHistory}
+          renderItem={({ item }) => <HistoryBasics item={item} />}
+        />
+      </View>
     </SafeAreaView>
   );
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
+  container: { backgroundColor: COLORS.BASE[0] },
+  listContainer: { backgroundColor: COLORS.BASE[20] },
+  currentParking: { padding: 10 },
   parkingItem: {
     height: 150,
     marginTop: 6,
@@ -66,7 +74,7 @@ const style = StyleSheet.create({
     borderLeftWidth: 0,
     borderRightWidth: 0,
     title: {
-      fontWeight: "700",
+      ...textStyles.base[700],
       marginBottom: 20,
     },
     text: {
@@ -74,8 +82,7 @@ const style = StyleSheet.create({
     },
   },
   header: {
-    fontWeight: "700",
-    fontSize: 36,
-    marginLeft:"4%"
+    ...textStyles.heading.h2,
+    marginLeft: "4%",
   },
 });

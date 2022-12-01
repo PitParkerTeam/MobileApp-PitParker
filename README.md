@@ -33,8 +33,6 @@
 - Xiaoben Yin - [@XiaobenYin](https://github.com/XiaobenYin) - yin.xiaob@northeastern.edu
 - Chenru Wu - [@wuchenru](https://github.com/wuchenru) - wu.chenru@northeastern.edu
 
-
-
 <!-- LOGS -->
 
 ## Logs
@@ -49,12 +47,16 @@
 
 ### Iteration 2
 - Finished design for all major screens & components
-- Created comprehensive data structure for database
+- Created data structure for firebase and query
 - Added authorization for login/signup
 - Connected Map API for home screen
 - Created components to share between screen
 
 
+## Testing
+Test User with some data:
+- email: abc@aaa.com
+- password: abc123
 <!-- MARKDOWN LINKS & IMAGES -->
 
 [project-url]: https://github.com/PitParkerTeam/MobileApp-PitParker
