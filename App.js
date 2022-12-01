@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
-  HistoryDetails,
+  ParkingDetails,
   PitDetails,
   Login,
   Signup,
@@ -44,8 +44,8 @@ export default function App() {
     <Stack.Navigator>
       <Stack.Screen name="Main" component={Main} options={options} />
       <Stack.Screen
-        name="HistoryDetails"
-        component={HistoryDetails}
+        name="ParkingDetails"
+        component={ParkingDetails}
         options={options}
       />
       <Stack.Screen
