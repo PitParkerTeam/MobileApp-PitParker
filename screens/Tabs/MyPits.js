@@ -67,7 +67,7 @@ export default function MyPits() {
         <FlatList
           data={dummy_pits}
           renderItem={({ item }) => {
-            console.log(item);
+            // console.log(item);
             return (
               <FavPit
                 pit={item}
