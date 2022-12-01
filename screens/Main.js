@@ -1,6 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Home, MyPits, Parking, Account } from "./Tabs";
+import { Home, MyPits, MyParking, Account } from "./Tabs";
 import { BottomTab } from "../components";
 const Tab = createBottomTabNavigator();
 
@@ -16,7 +16,11 @@ export default function Main() {
         component={MyPits}
         options={{ title: "My Pits" }}
       />
-      <Tab.Screen name="Parking" component={Parking} />
+      <Tab.Screen
+        name="MyParking"
+        component={MyParking}
+        options={{ title: "My Parking" }}
+      />
       <Tab.Screen name="Account" component={Account} />
     </Tab.Navigator>
   );

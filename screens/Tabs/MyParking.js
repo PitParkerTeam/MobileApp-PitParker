@@ -4,7 +4,7 @@ import { userParkingSnapshot } from "../../firebase/parkingStore";
 
 // import SmallMap from '../../components/SmallMap'
 
-export default function History() {
+export default function MyParking() {
   const [parkingHistory, setParkingHistory] = useState([]);
   useEffect(() => {
     const unsubscribe = userParkingSnapshot((querySnapshot) => {
