@@ -35,6 +35,7 @@
 
 ## Design
 [Figma](https://www.figma.com/file/bdToIyhr0VmqOBXjil023Y/PitParker-Mobile-Design?node-id=0%3A1&t=Zz1Viqm3hyRdWWrL-1)
+
 <!-- ## Screens -->
 
 <!-- LOGS -->
