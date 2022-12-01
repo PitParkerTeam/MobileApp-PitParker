@@ -3,8 +3,7 @@ import { firestore, auth } from "./firebase-setup";
 export async function addUser(user) {
   const { uid, email } = user;
   try {
-    const docRef = await addDoc(collection(firestore, "users"), {
-      uid,
+    const docRef = await setDoc(doc(firestore, "users", uid), {
       email,
     });
   } catch (err) {

@@ -6,7 +6,7 @@ import {
   setDoc,
   query,
   where,
-  onSnapshot,
+  onSnapshot
 } from "firebase/firestore";
 
 import { firestore, auth } from "./firebase-setup";
@@ -20,12 +20,9 @@ export async function createNewParking(parking) {
     console.log(err);
   }
 }
-export function userParkingSnapshot(cb) {
-  const q = query(
-    collection(firestore, "cities"),
-    where("user", "==", auth.currentUser.uid)
-  );
-  return onSnapshot(q, cb);
+
+export function fetchParking(cb) {
+  return onSnapshot(collection(firestore, "users", auth.currentUser.uid, "parkings"), cb);
 }
 
 export async function updateParking(pid, parking) {

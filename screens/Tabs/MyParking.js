@@ -1,13 +1,13 @@
 import { View, Text, FlatList, SafeAreaView } from "react-native";
 import React, { useEffect, useState } from "react";
-import { userParkingSnapshot } from "../../firebase/parking_store";
+import { fetchParking } from "../../firebase/parking_store";
 
 // import SmallMap from '../../components/SmallMap'
 
 export default function MyParking() {
   const [parkingHistory, setParkingHistory] = useState([]);
   useEffect(() => {
-    const unsubscribe = userParkingSnapshot((querySnapshot) => {
+    const unsubscribe = fetchParking((querySnapshot) => {
       if (querySnapshot.empty) {
         setParkingHistory([]);
         return;
@@ -27,6 +27,7 @@ export default function MyParking() {
   const HistoryBasics = ({ item }) => {
     return (
       <View>
+        <Text>123</Text>
         <Text>{item.name}</Text>
       </View>
     );
