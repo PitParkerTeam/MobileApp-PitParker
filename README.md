@@ -37,7 +37,7 @@
 
 ## Logs
 
-### Iteration 1
+### Iteration 1 - 2022/11/21
 - Design of all screens
 - Setup firebase & firestore
 - Setup project basic structures and configurations
@@ -45,7 +45,7 @@
 - Navigations setup
 - Screens basics setup
 
-### Iteration 2
+### Iteration 2 - 2022/11/29
 - Finished design for all major screens & components
     ![components_design](logs/v2.0.0/components_design_v2.0.0.png)
     ![screens_design](logs/v2.0.0/screens_design_v2.0.0.png)
@@ -58,14 +58,17 @@
   - My Pits
   - My Parking
 
-### Future goals
+#### Future Goals after iteration 2
 - Notification
 - Map configuration & customization
 - Screens:
   - Account Settings
   - Add New Parking
 - Styling
-- Map querying(? considerations of getting parking lot information from google, etc.)
+- Map Advanced
+  - querying(? getting parking lot information from google, etc.)
+  - getting names of different areas(?)
+  - how to avoid duplicate pits & recoginzations of same pits based on location details
 
 
 
