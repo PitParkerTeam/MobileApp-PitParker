@@ -8,7 +8,7 @@ export default function FavPit({ id, pit }) {
   function pressHandler() {
     navigation.navigate("PitDetails", { pitId: id });
   }
-  const [myPits, setMyPits] = useState([]);
+  // const [myPits, setMyPits] = useState([]);
   // const onAdd = function ()
   return (
     <View style={styles.container}>
