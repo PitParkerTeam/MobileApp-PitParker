@@ -13,9 +13,8 @@ import { firestore, auth } from "./firebase-setup";
 
 export async function createNewParking(parking) {
   try {
-    const docRef = await addDoc(collection(firestore, "Parkings"), {
+    const docRef = await addDoc(collection(firestore, auth.currentUser.uid, "parkings"), {
       ...parking,
-      user: auth.currentUser.uid,
     });
   } catch (err) {
     console.log(err);
@@ -31,15 +30,18 @@ export function userParkingSnapshot(cb) {
 
 export async function updateParking(pid, parking) {
   try {
-    await setDoc(doc(firestore, "Parkings", pid), parking);
+    await setDoc(
+      doc(firestore, auth.currentUser.uid, "parkings", pid),
+      parking
+    );
   } catch (err) {
     console.log("update parking: ", err);
   }
 }
 
-export async function deleteParking(key) {
+export async function deleteParking(pid) {
   try {
-    await deleteDoc(doc(firestore, "Parkings", key));
+    await deleteDoc(doc(firestore, auth.currentUser.uid, "parkings", pid));
   } catch (err) {
     console.log(err);
   }

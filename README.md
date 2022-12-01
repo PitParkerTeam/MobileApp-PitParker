@@ -39,21 +39,20 @@
 
 ## Logs
 
-### Iteration 1 Tasks
+### Iteration 1
 - Design of all screens
 - Setup firebase & firestore
-  - branch `PIT-1-firebase-setup`
-  - branch `PIT-3-firestore`
 - Setup project basic structures and configurations
-  - branch `main` & `dev`
 - Components basics
-  - branch `PIT-4-components`
-- Navigations
-  - branch `PIT-2-navigations`
-- Screens
-  - branch `PIT-5-screens`
+- Navigations setup
+- Screens basics setup
 
-
+### Iteration 2
+- Finished design for all major screens & components
+- Created comprehensive data structure for database
+- Added authorization for login/signup
+- Connected Map API for home screen
+- Created components to share between screen
 
 
 <!-- MARKDOWN LINKS & IMAGES -->

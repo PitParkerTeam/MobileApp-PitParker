@@ -1,6 +1,6 @@
 import { View, Text, FlatList, SafeAreaView } from "react-native";
 import React, { useEffect, useState } from "react";
-import { userParkingSnapshot } from "../../firebase/parkingStore";
+import { userParkingSnapshot } from "../../firebase/parking_store";
 
 // import SmallMap from '../../components/SmallMap'
 
