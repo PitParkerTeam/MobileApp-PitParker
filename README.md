@@ -43,7 +43,7 @@
 ## Logs
 
 ### Iteration 1 - 2022/11/23
-- Design of all screens
+- Basic Logic Design of all screens
 - Setup firebase & firestore
 - Setup project basic structures and configurations
 - Components basics
@@ -51,7 +51,7 @@
 - Screens basics setup
 
 ### Iteration 2 - 2022/11/30
-- Finished design for all major screens & components
+- Finished UX/UI design for all major screens & components
     ![components_design](logs/v2.0.0/components_design_v2.0.0.png)
     ![screens_design](logs/v2.0.0/screens_design_v2.0.0.png)
 - Created data structure for firebase and query
