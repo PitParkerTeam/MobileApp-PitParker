@@ -1,4 +1,4 @@
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, SafeAreaView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { userParkingSnapshot } from "../../firebase/parkingStore";
 
@@ -33,11 +33,11 @@ export default function History() {
   };
 
   return (
-    <View>
+    <SafeAreaView>
       <FlatList
         data={parkingHistory}
         renderItem={({ item }) => <HistoryBasics item={item} />}
       />
-    </View>
+    </SafeAreaView>
   );
 }

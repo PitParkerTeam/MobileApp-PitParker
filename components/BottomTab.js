@@ -8,7 +8,7 @@ const icons = {
   Home: "home-outline",
   MyPits: "star-circle-outline",
   SavedPits: "star-circle-outline",
-  History: "history",
+  Parking: "history",
   Account: "account-circle-outline",
 };
 
