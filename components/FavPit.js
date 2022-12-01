@@ -1,50 +1,15 @@
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { getFavPits } from "../firebase/firestore";
 
-const dummy_pits = [
-  {
-    id: "p1",
-    pitName: "Parking Pit #100",
-    area: "Vancouver, BC",
-    fav: "yes",
-    distance: "500m",
-  },
-  {
-    id: "p2",
-    pitName: "Parking Pit #200",
-    area: "Vancouver, BC",
-    fav: "yes",
-    distance: "500m",
-  },
-  {
-    id: "p3",
-    pitName: "Parking Pit #300",
-    area: "Vancouver, BC",
-    fav: "yes",
-    distance: "500m",
-  },
-  {
-    id: "p4",
-    pitName: "Parking Pit #400",
-    area: "Vancouver, BC",
-    fav: "yes",
-    distance: "500m",
-  },
-  {
-    id: "p5",
-    pitName: "Parking Pit #500",
-    area: "Vancouver, BC",
-    fav: "yes",
-    distance: "500m",
-  },
-];
-
-export default function FavPit({ id, pitName, region, fav, distance }) {
+export default function FavPit({ id, pit }) {
   const navigation = useNavigation();
   function pressHandler() {
     navigation.navigate("PitDetails", { pitId: id });
   }
+  const [myPits, setMyPits] = useState([]);
+  // const onAdd = function ()
   return (
     <View style={styles.container}>
       <Pressable onPress={pressHandler}>
@@ -57,16 +22,18 @@ export default function FavPit({ id, pitName, region, fav, distance }) {
           </View>
           <View>
             <View>
-              <Text>{pitName}</Text>
+              <Text>{pit.pitName}</Text>
             </View>
-            <View>{fav}</View>
+            <View>
+              <Text>{pit.fav}</Text>
+            </View>
           </View>
           <View>
             <View>
-              <Text>{region}</Text>
+              <Text>{pit.region}</Text>
             </View>
             <View>
-              <Text>{distance}</Text>
+              <Text>{pit.distance}</Text>
             </View>
           </View>
         </View>
