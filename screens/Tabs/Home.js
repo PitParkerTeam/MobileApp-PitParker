@@ -5,7 +5,6 @@ import Map from "../../components/Map";
 export default function Home() {
   return (
     <View>
-      <Text>Home</Text>
       <Map/>
     </View>
   )

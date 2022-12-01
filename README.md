@@ -33,29 +33,30 @@
 - Xiaoben Yin - [@XiaobenYin](https://github.com/XiaobenYin) - yin.xiaob@northeastern.edu
 - Chenru Wu - [@wuchenru](https://github.com/wuchenru) - wu.chenru@northeastern.edu
 
-
-
 <!-- LOGS -->
 
 ## Logs
 
-### Iteration 1 Tasks
+### Iteration 1
 - Design of all screens
 - Setup firebase & firestore
-  - branch `PIT-1-firebase-setup`
-  - branch `PIT-3-firestore`
 - Setup project basic structures and configurations
-  - branch `main` & `dev`
 - Components basics
-  - branch `PIT-4-components`
-- Navigations
-  - branch `PIT-2-navigations`
-- Screens
-  - branch `PIT-5-screens`
+- Navigations setup
+- Screens basics setup
+
+### Iteration 2
+- Finished design for all major screens & components
+- Created data structure for firebase and query
+- Added authorization for login/signup
+- Connected Map API for home screen/components/display
+- Created components to share between screens
 
 
-
-
+## Testing
+Test User with some data:
+- email: abc@aaa.com
+- password: abc123
 <!-- MARKDOWN LINKS & IMAGES -->
 
 [project-url]: https://github.com/PitParkerTeam/MobileApp-PitParker

@@ -8,7 +8,7 @@ const icons = {
   Home: "home-outline",
   MyPits: "star-circle-outline",
   SavedPits: "star-circle-outline",
-  History: "history",
+  MyParking: "history",
   Account: "account-circle-outline",
 };
 
@@ -55,7 +55,7 @@ const Tab = (props) => {
       accessibilityLabel={options.tabBarAccessibilityLabel}
       testID={options.tabBarTestID}
       onPress={onPress}
-      style={{ alignItems: "center" }}
+      style={{ alignItems: "center", width: "21%" }}
     >
       <Icon name={icons[route.name]} size={24} color={tabColor} />
       <Text
@@ -88,8 +88,8 @@ export default function BottomTab({ state, descriptors, navigation }) {
         style={{
           flexDirection: "row",
           alignItems: "center",
-          justifyContent: "space-between",
-          padding:15,
+          justifyContent: "center",
+          padding:10,
           paddingTop:0,
           borderTopColor:COLORS.BASE[40],
           borderTopWidth:1,
