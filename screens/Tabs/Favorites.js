@@ -4,6 +4,44 @@ import { SearchBar } from "@rneui/themed";
 import { useState } from "react";
 import FavPit from "../../components/FavPit";
 
+const dummy_pits = [
+  {
+    id: "p1",
+    pitName: "Parking Pit #100",
+    area: "Vancouver, BC",
+    fav: "yes",
+    distance: "500m",
+  },
+  {
+    id: "p2",
+    pitName: "Parking Pit #200",
+    area: "Vancouver, BC",
+    fav: "yes",
+    distance: "500m",
+  },
+  {
+    id: "p3",
+    pitName: "Parking Pit #300",
+    area: "Vancouver, BC",
+    fav: "yes",
+    distance: "500m",
+  },
+  {
+    id: "p4",
+    pitName: "Parking Pit #400",
+    area: "Vancouver, BC",
+    fav: "yes",
+    distance: "500m",
+  },
+  {
+    id: "p5",
+    pitName: "Parking Pit #500",
+    area: "Vancouver, BC",
+    fav: "yes",
+    distance: "500m",
+  },
+];
+
 export default function Favorites() {
   const [search, setSearch] = useState("");
   const updateSearch = (search) => {
@@ -11,15 +49,26 @@ export default function Favorites() {
   };
   return (
     <View style={styles.container}>
-        <SearchBar
-          placeholder="Type Here..."
-          onChangeText={updateSearch}
-          value={search}
-          lightTheme={true}
-          round={true}
-        />
+      <SearchBar
+        placeholder="Type Here..."
+        onChangeText={updateSearch}
+        value={search}
+        lightTheme={true}
+        round={true}
+      />
       <View>
-        <FavPit />
+        <FlatList
+          data={dummy_pits}
+          renderItem={({ item }) => {
+            console.log(item);
+            return (
+              <FavPit
+                pit={item}
+              />
+            );
+          }}
+        ></FlatList>
+        {/* <FavPit /> */}
       </View>
     </View>
   );
@@ -40,5 +89,5 @@ const styles = StyleSheet.create({
   bottomContainer: {
     flex: 1,
     backgroundColor: "pink",
-  }
+  },
 });
