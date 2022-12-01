@@ -49,8 +49,8 @@
 - Finished design for all major screens & components
 - Created data structure for firebase and query
 - Added authorization for login/signup
-- Connected Map API for home screen
-- Created components to share between screen
+- Connected Map API for home screen/components/display
+- Created components to share between screens
 
 
 ## Testing
