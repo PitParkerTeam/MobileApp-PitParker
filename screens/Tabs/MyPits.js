@@ -1,4 +1,11 @@
-import { View, Text, FlatList, StyleSheet, Image } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  Image,
+  SafeAreaView,
+} from "react-native";
 import React from "react";
 import { SearchBar } from "@rneui/themed";
 import { useState } from "react";
@@ -42,13 +49,13 @@ const dummy_pits = [
   },
 ];
 
-export default function Favorites() {
+export default function MyPits() {
   const [search, setSearch] = useState("");
   const updateSearch = (search) => {
     setSearch(search);
   };
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <SearchBar
         placeholder="Type Here..."
         onChangeText={updateSearch}
@@ -70,7 +77,7 @@ export default function Favorites() {
         ></FlatList>
         {/* <FavPit /> */}
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

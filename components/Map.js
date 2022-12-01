@@ -44,7 +44,7 @@ export default function Map() {
         return;
       }
       const userCurrentPosition = await Location.getCurrentPositionAsync();
-      console.log(userCurrentPosition);
+      // console.log(userCurrentPosition);
       // alert(userCurrentPosition);
       setUserLocation({
         latitude: userCurrentPosition.coords.latitude,
@@ -66,7 +66,7 @@ export default function Map() {
     //   longitude: event.nativeEvent.coordinate.longitude,
     // });
     goToMyLocation();
-    console.log(userLocation);
+    // console.log(userLocation);
   };
 
   // useEffect(() => {
@@ -92,9 +92,7 @@ export default function Map() {
 }, []);
 
   return (
-    <View style={styles.container} >
-
-      
+    <View style={styles.container} > 
 
       <MapView
         style={styles.map}

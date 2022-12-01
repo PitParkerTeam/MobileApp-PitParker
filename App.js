@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
-  HistoryDetails,
+  ParkingDetails,
   PitDetails,
   Login,
   Signup,
@@ -10,7 +10,7 @@ import {
   AddNewParking,
 } from "./screens";
 import React, { useState, useEffect } from "react";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebase-setup";
 
 const Stack = createNativeStackNavigator();
@@ -44,8 +44,8 @@ export default function App() {
     <Stack.Navigator>
       <Stack.Screen name="Main" component={Main} options={options} />
       <Stack.Screen
-        name="HistoryDetails"
-        component={HistoryDetails}
+        name="ParkingDetails"
+        component={ParkingDetails}
         options={options}
       />
       <Stack.Screen
