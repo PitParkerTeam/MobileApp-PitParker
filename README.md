@@ -12,7 +12,7 @@
 <h3 align="center">PitParker</h3>
 
   <p align="center">
-    The PitParker app makes your parking easier.From helping with finding the optimal parking for you and allowing you to save your parking in seconds, and friendly reminding you of the extension without having to return to your vehicle.
+    The PitParker app makes your parking easier. From helping with finding the optimal parking for you and allowing you to save your parking in seconds, and friendly reminding you of the extension without having to manually check.
     <br />
     <a href="https://github.com/PitParkerTeam/MobileApp-PitParker">
         <strong>Explore the docs »</strong>
@@ -47,12 +47,26 @@
 
 ### Iteration 2
 - Finished design for all major screens & components
-  - ![components_design](logs/v2.0.0/components_design_v2.0.0.png)
-  - ![screens_design](logs/v2.0.0/screens_design_v2.0.0.png)
+    ![components_design](logs/v2.0.0/components_design_v2.0.0.png)
+    ![screens_design](logs/v2.0.0/screens_design_v2.0.0.png)
 - Created data structure for firebase and query
 - Added authorization for login/signup
 - Connected Map API for home screen/components/display
 - Created components to share between screens
+- Basics and foundamental logics for below screens done:
+  - Home
+  - My Pits
+  - My Parking
+
+### Future goals
+- Notification
+- Map configuration & customization
+- Screens:
+  - Account Settings
+  - Add New Parking
+- Styling
+- Map querying(? considerations of getting parking lot information from google, etc.)
+
 
 
 ## Testing
