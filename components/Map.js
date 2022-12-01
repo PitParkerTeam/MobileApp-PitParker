@@ -92,9 +92,7 @@ export default function Map() {
 }, []);
 
   return (
-    <View style={styles.container} >
-
-      
+    <View style={styles.container} > 
 
       <MapView
         style={styles.map}
