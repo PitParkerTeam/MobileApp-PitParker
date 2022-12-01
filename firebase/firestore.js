@@ -8,12 +8,11 @@ import {
 } from "firebase/firestore";
 
 import { firestore, auth } from "./firebase-setup";
-const userPath = `users/${auth.currentUser.uid}/`;
 // CREATE
 export async function createParking(parking) {
   try {
     const docRef = await addDoc(
-      collection(firestore, userPath + "parkings"),
+      collection(firestore, `users/${auth.currentUser.uid}/` + "parkings"),
       parking
     );
   } catch (err) {
@@ -23,10 +22,13 @@ export async function createParking(parking) {
 
 export async function createFavPit(pit) {
   try {
-    const docRef = await addDoc(collection(firestore, userPath+"FavPits"), {
-      ...pit,
-      // user: auth.currentUser.uid,
-    });
+    const docRef = await addDoc(
+      collection(firestore, `users/${auth.currentUser.uid}/` + "FavPits"),
+      {
+        ...pit,
+        // user: auth.currentUser.uid,
+      }
+    );
   } catch (err) {
     console.log(err);
   }
@@ -34,10 +36,13 @@ export async function createFavPit(pit) {
 
 export async function createPlate(plate) {
   try {
-    const docRef = await addDoc(collection(firestore, userPath+"Plates"), {
-      ...plate,
-      // user: auth.currentUser.uid,
-    });
+    const docRef = await addDoc(
+      collection(firestore, `users/${auth.currentUser.uid}/` + "Plates"),
+      {
+        ...plate,
+        // user: auth.currentUser.uid,
+      }
+    );
   } catch (err) {
     console.log(err);
   }
