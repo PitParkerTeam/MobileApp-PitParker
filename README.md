@@ -47,6 +47,8 @@
 
 ### Iteration 2
 - Finished design for all major screens & components
+  - ![components_design](logs/v2.0.0/components_design_v2.0.0.png)
+  - ![screens_design](logs/v2.0.0/screens_design_v2.0.0.png)
 - Created data structure for firebase and query
 - Added authorization for login/signup
 - Connected Map API for home screen/components/display
