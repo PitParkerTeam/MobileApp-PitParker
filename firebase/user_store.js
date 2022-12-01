@@ -1,4 +1,4 @@
-import { collection, addDoc, doc, getDoc } from "firebase/firestore";
+import { collection, setDoc, doc, getDoc } from "firebase/firestore";
 import { firestore, auth } from "./firebase-setup";
 export async function addUser(user) {
   const { uid, email } = user;
