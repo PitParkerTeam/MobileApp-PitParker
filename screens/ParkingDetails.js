@@ -3,7 +3,6 @@ import React from "react";
 
 export default function ParkingDetails({ route, navigation }) {
   const{item} = route.params
-  console.log(item)
   return (
     <SafeAreaView>
       <Text>ParkingDetails</Text>

@@ -1,47 +1,32 @@
-import MapView, { Circle, Marker } from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import { StyleSheet, View, Text, Dimensions, Button } from "react-native";
+import { COLORS, MAP_STYLE } from "../common";
 
-export default function SmallMap({ location }) {
-
+export default function SmallMap({ location, isFlat, style }) {
+  const coords = {
+    latitude: location?.latitude || 37.78825,
+    longitude: location?.longitude || -122.4324,
+  };
   return (
-    <View style={styles.container}>
-      <MapView
-        style={styles.map}
-
-        showsCompass
-
-        initialRegion={{
-          latitude: location ? location.latitude : 37.78825,
-          longitude: location ? location.longitude : -122.4324,
-          latitudeDelta: 0.000922,
-          longitudeDelta: 0.000421,
-        }}
-      >
-        <Marker
-          coordinate={{
-            latitude: location ? location.latitude : 37.78825,
-            longitude: location ? location.longitude : -122.4324,
-          }}
-          title={"user"}
-        />
-        <Circle
-          center={{
-            latitude: location ? location.latitude : 37.78825,
-            longitude: location ? location.longitude : -122.4324,
-          }}
-          radius={20}
-        />
-      </MapView>
-    </View>
+    <MapView
+      style={[styles.map, isFlat ? styles.mapFlat : "", style]}
+      region={{ ...coords, latitudeDelta: 0.01, longitudeDelta: 0.01 }}
+      provider={PROVIDER_GOOGLE}
+      customMapStyle={MAP_STYLE}
+    >
+      <Marker coordinate={coords} />
+    </MapView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 0.5,
-  },
   map: {
-    width: 0.9 * Dimensions.get("window").width,
-    height: 0.15 * Dimensions.get("window").height,
+    width: "100%",
+    height: Dimensions.get("window").height * 0.2,
+    borderRadius: 8,
+  },
+  mapFlat: {
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
   },
 });

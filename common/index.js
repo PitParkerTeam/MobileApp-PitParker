@@ -1,2 +1,3 @@
 export { COLORS } from "./vars";
-export { textStyles } from "./shared_styles";
+export { TEXT_STYLES } from "./shared_styles";
+export {MAP_STYLE} from './map_style'
