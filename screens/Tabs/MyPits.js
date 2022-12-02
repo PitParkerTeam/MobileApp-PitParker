@@ -10,6 +10,7 @@ import React from "react";
 import { SearchBar } from "@rneui/themed";
 import { useState } from "react";
 import { MyPit } from "../../components";
+import { COLORS, TEXT_STYLES } from "../../common";
 
 const dummy_pits = [
   {
@@ -56,30 +57,35 @@ export default function MyPits() {
   };
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={styles.header}>My Pits</Text>
       <SearchBar
-        placeholder="Type Here..."
+        placeholder="Search"
         onChangeText={updateSearch}
         value={search}
         lightTheme={true}
         round={true}
       />
-      <FlatList
-        data={dummy_pits}
-        renderItem={({ item }) => <MyPit pit={item} />}
-     />
+      <View style={styles.listContainer}>
+        <FlatList
+          data={dummy_pits}
+          renderItem={({ item }) => <MyPit pit={item} />}
+        />
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    // alignItems: "center",
-    // justifyContent: "center",
+    flex: 1,
+    backgroundColor: COLORS.BASE[0],
   },
-  topContainer: {
-    // flex: 1,
-    // justifyContent: "center",
-    // alignItems: "center",
+  header: {
+    ...TEXT_STYLES.heading.h2,
+    marginLeft: "4%",
+    marginBottom: "3%",
   },
-  bottomContainer: {},
+  listContainer: {
+    backgroundColor: COLORS.BASE[20],
+  },
 });
