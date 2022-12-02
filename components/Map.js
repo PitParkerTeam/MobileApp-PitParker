@@ -2,17 +2,16 @@ import React, { useEffect, useState } from "react";
 import MapView from "react-native-maps";
 import { StyleSheet, View, Text, Dimensions, Button } from "react-native";
 import * as Location from "expo-location";
+
 import { COLORS } from "../common";
 
 export default function Map() {
   const latitudeDelta = 0.01;
   const longitudeDelta = 0.01;
-
+  const [delta, setDelta] = useState({latitudeDelta, longitudeDelta})
   const [userLocation, setUserLocation] = useState({
     latitude: 37.78825,
     longitude: -122.4324,
-    latitudeDelta,
-    longitudeDelta,
   });
 
   const locateUser = async () => {
@@ -31,6 +30,7 @@ export default function Map() {
   useEffect(()=> {
     locateUser();
   },[])
+ 
 
   const mapPressed = (event) => {
     // setUserLocation({
@@ -45,7 +45,7 @@ export default function Map() {
         style={styles.map}
         onPress={mapPressed}
         showsUserLocation
-        region={userLocation}
+        region={{...userLocation, ...delta}}
         followsUserLocation={true}
         // tintColor={COLORS.TINT[100]}
       ></MapView>

@@ -7,15 +7,7 @@ export default function SmallMap({ location }) {
     <View style={styles.container}>
       <MapView
         style={styles.map}
-
         showsCompass
-
-        initialRegion={{
-          latitude: location ? location.latitude : 37.78825,
-          longitude: location ? location.longitude : -122.4324,
-          latitudeDelta: 0.000922,
-          longitudeDelta: 0.000421,
-        }}
       >
         <Marker
           coordinate={{
@@ -23,13 +15,6 @@ export default function SmallMap({ location }) {
             longitude: location ? location.longitude : -122.4324,
           }}
           title={"user"}
-        />
-        <Circle
-          center={{
-            latitude: location ? location.latitude : 37.78825,
-            longitude: location ? location.longitude : -122.4324,
-          }}
-          radius={20}
         />
       </MapView>
     </View>
