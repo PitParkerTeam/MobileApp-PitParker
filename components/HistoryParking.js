@@ -1,6 +1,6 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import React from "react";
-import { COLORS, textStyles } from "../common";
+import { COLORS, TEXT_STYLES } from "../common";
 
 export default function HistoryParking({ item, navigation }) {
   if (!item.dateString || !item.location || !item.duration) return;
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 0,
     borderRightWidth: 0,
     title: {
-      ...textStyles.base[700],
+      ...TEXT_STYLES.base[700],
       marginBottom: 20,
     },
     text: {

@@ -1,6 +1,6 @@
 
 
-export const textStyles = {
+export const TEXT_STYLES = {
   heading: {
     h1: { fontSize: 40, fontWeight: "700" },
     h2: { fontSize: 36, fontWeight: "700" },

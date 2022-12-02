@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { fetchParking } from "../../firebase/parking_store";
-import { COLORS, textStyles } from "../../common";
+import { COLORS, TEXT_STYLES } from "../../common";
 import { HistoryParking } from "../../components";
 import Moment from "moment";
 
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   listContainer: { backgroundColor: COLORS.BASE[20] },
   currentParking: { padding: 10 },
   header: {
-    ...textStyles.heading.h2,
+    ...TEXT_STYLES.heading.h2,
     marginLeft: "4%",
   },
 });
