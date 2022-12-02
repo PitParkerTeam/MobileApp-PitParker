@@ -9,7 +9,7 @@ import {
 import React from "react";
 import { SearchBar } from "@rneui/themed";
 import { useState } from "react";
-import FavPit from "../../components/FavPit";
+import { MyPit } from "../../components";
 
 const dummy_pits = [
   {
@@ -63,28 +63,16 @@ export default function MyPits() {
         lightTheme={true}
         round={true}
       />
-      <View>
-        <FlatList
-          data={dummy_pits}
-          renderItem={({ item }) => {
-            // console.log(item);
-            return (
-              <FavPit
-                pit={item}
-              />
-            );
-          }}
-        ></FlatList>
-        {/* <FavPit /> */}
-      </View>
+      <FlatList
+        data={dummy_pits}
+        renderItem={({ item }) => <MyPit pit={item} />}
+     />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff",
     // alignItems: "center",
     // justifyContent: "center",
   },
@@ -93,8 +81,5 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
     // alignItems: "center",
   },
-  bottomContainer: {
-    flex: 1,
-    backgroundColor: "pink",
-  },
+  bottomContainer: {},
 });

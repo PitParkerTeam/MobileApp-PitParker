@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import MapView from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
 import { StyleSheet, View, Text, Dimensions, Button } from "react-native";
 import * as Location from "expo-location";
-
-import { COLORS } from "../common";
+import { COLORS, MAP_STYLE } from "../common";
 
 export default function Map() {
   const latitudeDelta = 0.01;
@@ -47,6 +46,8 @@ export default function Map() {
         showsUserLocation
         region={{...userLocation, ...delta}}
         followsUserLocation={true}
+        provider={PROVIDER_GOOGLE}
+        customMapStyle={MAP_STYLE}
         // tintColor={COLORS.TINT[100]}
       ></MapView>
     </View>
