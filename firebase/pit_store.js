@@ -20,3 +20,8 @@ export async function createNewPit(pit) {
         console.log(err)
     }
 }
+
+export function getPit(userPits) {
+    return onSnapshot(collection(firestore, "users", auth.currentUser.uid, "pits"), userPits);
+}
+
