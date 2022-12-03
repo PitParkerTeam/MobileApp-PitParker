@@ -2,12 +2,17 @@ import { View, Text, TextInput, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import { SmallMap, PitInput } from "../components";
 import { COLORS } from "../common";
+import TakePhoto from "../components/TakePhoto";
 
 export default function AddNewParking() {
   const [plate, setPlate] = useState("");
   const [cost, setCost] = useState(null);
   const [slot, setSlot] = useState(null);
   const [note, setNote] = useState(null);
+  const imageHandler = (uri) => {
+    console.log("imageHandler called", uri);
+    setUri(uri);
+  };
   return (
     <View style={styles.container}>
       <SmallMap />
@@ -32,6 +37,7 @@ export default function AddNewParking() {
         inputStyle={{minHeight: 80}}
         inputOptions={{ text: note, onChangeText: setNote, numberOfLines:6, multiline: true }}
       />
+      <TakePhoto imageHandler={imageHandler} />
     </View>
   );
 }
