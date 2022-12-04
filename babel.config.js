@@ -3,10 +3,7 @@ module.exports = function (api) {
   return {
     presets: ["babel-preset-expo"],
     plugins: [
-      [
-        "module:react-native-dotenv",
-        ("expo-image-picker", {cameraPermission: "The app needs access to your camera.",})
-      ],
-    ],
+      ["module:react-native-dotenv"]
+    ]
   };
 };
