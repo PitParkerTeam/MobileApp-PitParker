@@ -6,12 +6,15 @@ import TakePhoto from "../components/TakePhoto";
 import PitButton from "../components/PitButton";
 import { createParking } from "../firebase/firestore";
 import * as Location from "expo-location";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 export default function AddNewParking({ navigation, route }) {
   const [plate, setPlate] = useState("");
   const [cost, setCost] = useState(null);
   const [slot, setSlot] = useState(null);
   const [note, setNote] = useState(null);
+  // const [parkTime, setParkTime] = useState(new Date());
+  const [duration, setDuration] = useState(0);
 
   // const imageHandler = (uri) => {
   //   console.log("imageHandler called", uri);
@@ -41,7 +44,7 @@ export default function AddNewParking({ navigation, route }) {
         longitude: route.params.longitude,
       });
     }
-  }
+  };
 
   useEffect(() => {
     getLocation();
@@ -49,12 +52,16 @@ export default function AddNewParking({ navigation, route }) {
 
   const saveParking = () => {
     const { latitude, longitude } = location;
-    createParking({ latitude, longitude, plate, cost, slot, note });
+    createParking({ latitude, longitude, duration, plate, cost, slot, note });
   };
 
   return (
     <View style={styles.container}>
       <SmallMap location={location} />
+      <PitInput
+        label="Duration"
+        inputOptions={{ text: duration, onChangeText: setDuration }}
+      />
       <PitInput
         label="Plate"
         inputOptions={{ text: plate, onChangeText: setPlate }}
@@ -81,6 +88,20 @@ export default function AddNewParking({ navigation, route }) {
           multiline: true,
         }}
       />
+      {/* <DateTimePicker
+        date={parkTime}
+        onDateChange={(event, selectedDate) => {
+          setShowDate(false);
+
+          // on cancel set date value to previous date
+          if (event?.type === "dismissed") {
+            setParkTime(date);
+            return;
+          }
+          setParkTime(selectedDate);
+        }}
+      /> */}
+
       {/* <TakePhoto imageHandler={imageHandler} /> */}
       <PitButton
         style={styles.button}
@@ -100,6 +121,6 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: "center",
-    marginTop: 120,
+    marginTop: 140,
   },
 });
