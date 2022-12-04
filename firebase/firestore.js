@@ -92,7 +92,6 @@ export async function getFavPits() {
 }
 
 // UPDATE
-
 export async function updateParking(pid, parking) {
   try {
     await setDoc(doc(firestore, "Parkings", pid), parking);
