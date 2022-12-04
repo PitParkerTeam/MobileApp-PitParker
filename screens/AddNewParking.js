@@ -1,4 +1,4 @@
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import { View, Text, TextInput, StyleSheet, Button } from "react-native";
 import React, { useState, useEffect } from "react";
 import { SmallMap, PitInput } from "../components";
 import { COLORS } from "../common";
@@ -7,6 +7,11 @@ import PitButton from "../components/PitButton";
 import { createParking } from "../firebase/firestore";
 import * as Location from "expo-location";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import DatePicker from "react-native-datepicker";
+import moment from "moment";
+import { ComingSoon_400Regular } from "@expo-google-fonts/dev";
+
+
 
 export default function AddNewParking({ navigation, route }) {
   const [plate, setPlate] = useState("");
@@ -15,6 +20,9 @@ export default function AddNewParking({ navigation, route }) {
   const [note, setNote] = useState(null);
   // const [parkTime, setParkTime] = useState(new Date());
   const [duration, setDuration] = useState(0);
+
+
+  
 
   // const imageHandler = (uri) => {
   //   console.log("imageHandler called", uri);
@@ -52,7 +60,11 @@ export default function AddNewParking({ navigation, route }) {
 
   const saveParking = () => {
     const { latitude, longitude } = location;
-    createParking({ latitude, longitude, duration, plate, cost, slot, note });
+    var time = moment()
+      .utcOffset('-08:00')
+      .format('YYYY-MM-DD hh:mm:ss');
+
+    createParking({ latitude, longitude, time, duration, plate, cost, slot, note });
   };
 
   return (
@@ -88,19 +100,10 @@ export default function AddNewParking({ navigation, route }) {
           multiline: true,
         }}
       />
-      {/* <DateTimePicker
-        date={parkTime}
-        onDateChange={(event, selectedDate) => {
-          setShowDate(false);
 
-          // on cancel set date value to previous date
-          if (event?.type === "dismissed") {
-            setParkTime(date);
-            return;
-          }
-          setParkTime(selectedDate);
-        }}
-      /> */}
+
+      
+
 
       {/* <TakePhoto imageHandler={imageHandler} /> */}
       <PitButton
