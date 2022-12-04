@@ -13,44 +13,6 @@ import { COLORS, TEXT_STYLES } from "../../common";
 import { collection, query, where, onSnapshot, QuerySnapshot } from "firebase/firestore";
 import { getPit } from "../../firebase/pit_store";
 
-const dummy_pits = [
-  {
-    id: "p1",
-    pitName: "Parking Pit #100",
-    area: "Vancouver, BC",
-    fav: "yes",
-    distance: "500m",
-  },
-  {
-    id: "p2",
-    pitName: "Parking Pit #200",
-    area: "Vancouver, BC",
-    fav: "yes",
-    distance: "500m",
-  },
-  {
-    id: "p3",
-    pitName: "Parking Pit #300",
-    area: "Vancouver, BC",
-    fav: "yes",
-    distance: "500m",
-  },
-  {
-    id: "p4",
-    pitName: "Parking Pit #400",
-    area: "Vancouver, BC",
-    fav: "yes",
-    distance: "500m",
-  },
-  {
-    id: "p5",
-    pitName: "Parking Pit #500",
-    area: "Vancouver, BC",
-    fav: "yes",
-    distance: "500m",
-  },
-];
-
 export default function MyPits() {
   const [search, setSearch] = useState("");
   const [myPits, setMyPits] = useState([]);
