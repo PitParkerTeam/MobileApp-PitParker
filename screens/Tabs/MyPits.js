@@ -64,7 +64,9 @@ export default function MyPits() {
         querySnapshot.docs.map((snapDoc) => ({
           ...snapDoc.data(),
           id: snapDoc.id,
-          pitName: snapDoc.name,
+          pitName: snapDoc.data().name,
+          area: snapDoc.data().area,
+          distance: snapDoc.data().distance,
         }))
       );
     });

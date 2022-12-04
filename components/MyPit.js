@@ -10,7 +10,6 @@ export default function MyPit({ id, pit }) {
   function pressHandler() {
     navigation.navigate("PitDetails", { pitId: id });
   }
-  // const [myPits, setMyPits] = useState([]);
   return (
     <View style={styles.container}>
       <SmallMap style={styles.map} />
@@ -18,7 +17,7 @@ export default function MyPit({ id, pit }) {
         <View style={styles.pitItem}>
           <View style={styles.row}>
             <Text style={styles.pitName}>{pit.pitName}</Text>
-            <Entypo name="star" size={24} color={COLORS.TINT[100]} />
+            <Entypo name="star" size={21} color={COLORS.TINT[100]} />
           </View>
           <View style={styles.row}>
             <Text>{pit.area}</Text>
@@ -41,7 +40,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 3,
+    marginBottom: 2,
   },
   pitItem: {
     marginTop: 8,
