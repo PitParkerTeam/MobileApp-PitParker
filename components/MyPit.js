@@ -10,7 +10,7 @@ export default function MyPit({ id, pit }) {
   function pressHandler() {
     navigation.navigate("PitDetails", { pitId: id });
   }
-  const [myPits, setMyPits] = useState([]);
+  // const [myPits, setMyPits] = useState([]);
   return (
     <View style={styles.container}>
       <SmallMap style={styles.map} />

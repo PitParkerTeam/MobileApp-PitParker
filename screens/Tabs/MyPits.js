@@ -6,9 +6,8 @@ import {
   Image,
   SafeAreaView,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { SearchBar } from "@rneui/themed";
-import { useState, useEffect } from "react";
 import { MyPit } from "../../components";
 import { COLORS, TEXT_STYLES } from "../../common";
 import { collection, query, where, onSnapshot, QuerySnapshot } from "firebase/firestore";
@@ -65,6 +64,7 @@ export default function MyPits() {
         querySnapshot.docs.map((snapDoc) => ({
           ...snapDoc.data(),
           id: snapDoc.id,
+          pitName: snapDoc.name,
         }))
       );
     });
