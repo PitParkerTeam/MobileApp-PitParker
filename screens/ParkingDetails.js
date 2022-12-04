@@ -5,7 +5,7 @@ import { COLORS, TEXT_STYLES } from "../common";
 
 export default function ParkingDetails({ route, navigation }) {
   const { item } = route.params;
-  const { longitude, latitude, name } = item;
+  const { longitude, latitude, name, notes, image } = item;
   const displayItems = [
     { label: "Park Time", content: "dateString" },
     { label: "Duration", content: "duration" },
@@ -40,6 +40,7 @@ export default function ParkingDetails({ route, navigation }) {
         <View style={styles.attrs}>
           {displayItems.map((d) => lineDisplay(d))}
         </View>
+        {notes ? (<View></View>) : ""}
       </ScrollView>
       <View style={styles.bottomTab}>
         <PitButton style={styles.button} text="View Pit" onPres={viewPit} />
