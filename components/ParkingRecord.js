@@ -2,11 +2,11 @@ import { View, Text, Pressable, StyleSheet } from "react-native";
 import React from "react";
 import { COLORS, TEXT_STYLES } from "../common";
 
-export default function HistoryParking({ item, navigation }) {
-  if (!item.dateString || !item.location || !item.duration) return;
+export default function ParkingRecord({ item, navigation }) {
+  if (!item.dateString || !item.longitude || !item.latitude || !item.duration ) return;
   return (
     <View style={styles.parkingItem}>
-      <Text style={styles.parkingItem.title}>{item.location}</Text>
+      <Text style={styles.parkingItem.title}>{item.name}</Text>
       <Pressable
         onPress={() => navigation.navigate("ParkingDetails", { item })}
       >

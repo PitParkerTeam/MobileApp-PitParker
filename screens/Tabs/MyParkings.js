@@ -9,12 +9,12 @@ import {
 import React, { useEffect, useState } from "react";
 import { fetchParking } from "../../firebase/parking_store";
 import { COLORS, TEXT_STYLES } from "../../common";
-import { HistoryParking } from "../../components";
+import { ParkingRecord } from "../../components";
 import Moment from "moment";
 
 // import SmallMap from '../../components/SmallMap'
 
-export default function MyParking({ navigation }) {
+export default function MyParkings({ navigation }) {
   const [parkingHistory, setParkingHistory] = useState([]);
   const formatTimestamp = (timestamp) =>
     Moment(timestamp.seconds * 1000).format("YYYY-MM-DD MM:SS");
@@ -45,7 +45,7 @@ export default function MyParking({ navigation }) {
         <FlatList
           data={parkingHistory}
           renderItem={({ item }) => (
-            <HistoryParking item={item} navigation={navigation} />
+            <ParkingRecord item={item} navigation={navigation} />
           )}
         />
       </View>

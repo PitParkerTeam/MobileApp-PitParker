@@ -7,26 +7,25 @@ import { Entypo } from "@expo/vector-icons";
 
 export default function MyPit({ id, pit }) {
   const navigation = useNavigation();
-  function pressHandler() {
+  function pressHandler(e) {
     navigation.navigate("PitDetails", { pitId: id });
   }
+
   // const [myPits, setMyPits] = useState([]);
   return (
-    <View style={styles.container}>
-      <SmallMap style={styles.map} />
-      <Pressable onPress={pressHandler}>
-        <View style={styles.pitItem}>
-          <View style={styles.row}>
-            <Text style={styles.pitName}>{pit.pitName}</Text>
-            <Entypo name="star" size={24} color={COLORS.TINT[100]} />
-          </View>
-          <View style={styles.row}>
-            <Text>{pit.area}</Text>
-            <Text style={styles.distance}>{pit.distance}</Text>
-          </View>
+    <Pressable onPress={pressHandler} style={styles.container}>
+      <SmallMap style={styles.map} disabled />
+      <View style={styles.pitItem}>
+        <View style={styles.row}>
+          <Text style={styles.pitName}>{pit.pitName}</Text>
+          <Entypo name="star" size={24} color={COLORS.TINT[100]} />
         </View>
-      </Pressable>
-    </View>
+        <View style={styles.row}>
+          <Text>{pit.area}</Text>
+          <Text style={styles.distance}>{pit.distance}</Text>
+        </View>
+      </View>
+    </Pressable>
   );
 }
 
