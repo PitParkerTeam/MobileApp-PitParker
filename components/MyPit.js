@@ -7,6 +7,7 @@ import { Entypo } from "@expo/vector-icons";
 
 export default function MyPit({ id, pit }) {
   const navigation = useNavigation();
+  const dist = (pit.distance/1000).toFixed(2);
   function pressHandler() {
     navigation.navigate("PitDetails", { pitId: id });
   }
@@ -21,7 +22,7 @@ export default function MyPit({ id, pit }) {
           </View>
           <View style={styles.row}>
             <Text>{pit.area}</Text>
-            <Text style={styles.distance}>{pit.distance}</Text>
+            <Text style={styles.distance}>{dist < 1 ? `${pit.distance} m` : `${dist} km`}</Text>
           </View>
         </View>
       </Pressable>
