@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     marginBottom: "3%",
   },
   listContainer: {
+    flex: 1,
     backgroundColor: COLORS.BASE[20],
   },
 });
