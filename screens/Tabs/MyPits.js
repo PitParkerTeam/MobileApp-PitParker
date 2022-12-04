@@ -6,11 +6,13 @@ import {
   Image,
   SafeAreaView,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { SearchBar } from "@rneui/themed";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MyPit } from "../../components";
 import { COLORS, TEXT_STYLES } from "../../common";
+import { collection, query, where, onSnapshot, QuerySnapshot } from "firebase/firestore";
+import { getPit } from "../../firebase/pit_store";
 
 const dummy_pits = [
   {
@@ -52,6 +54,24 @@ const dummy_pits = [
 
 export default function MyPits() {
   const [search, setSearch] = useState("");
+  const [myPits, setMyPits] = useState([]);
+  useEffect(() => {
+    const unsubscribe = getPit((querySnapshot) => {
+      if (querySnapshot.empty) {
+        setMyPits([]);
+        return;
+      }
+      setMyPits(
+        querySnapshot.docs.map((snapDoc) => ({
+          ...snapDoc.data(),
+          id: snapDoc.id,
+        }))
+      );
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
   const updateSearch = (search) => {
     setSearch(search);
   };
@@ -67,7 +87,7 @@ export default function MyPits() {
       />
       <View style={styles.listContainer}>
         <FlatList
-          data={dummy_pits}
+          data={myPits}
           renderItem={({ item }) => <MyPit pit={item} />}
         />
       </View>
