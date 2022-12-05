@@ -1,6 +1,6 @@
 import { View, Text, TextInput, StyleSheet, Button, Alert } from "react-native";
 import React, { useState } from "react";
-import { auth } from "../backend";
+import { auth } from "../api";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 export default function Login({ navigation }) {

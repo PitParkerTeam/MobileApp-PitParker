@@ -7,7 +7,7 @@ import {
   Pressable,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { fetchParking } from "../../backend";
+import { fetchParking } from "../../api";
 import { COLORS, formatTime, TEXT_STYLES } from "../../common";
 import { ParkingRecord } from "../../components";
 
@@ -26,7 +26,7 @@ export default function MyParkings({ navigation }) {
         querySnapshot.docs.map((snapDoc) => ({
           ...snapDoc.data(),
           id: snapDoc.id,
-          parkTime: formatTime(snapDoc.parkTime)
+          parkTime: formatTime(snapDoc.parkTime),
         }))
       );
     });

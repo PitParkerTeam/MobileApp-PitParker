@@ -4,14 +4,12 @@ import { SmallMap, PitInput } from "../components";
 import { COLORS } from "../common";
 import TakePhoto from "../components/TakePhoto";
 import PitButton from "../components/PitButton";
-import { createParking } from "../backend/firestore/parking_store";
+import { createParking } from "../api/firestore/parking_store";
 import * as Location from "expo-location";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import DatePicker from "react-native-datepicker";
 import moment from "moment";
 import { ComingSoon_400Regular } from "@expo-google-fonts/dev";
-
-
 
 export default function AddNewParking({ navigation, route }) {
   const [plate, setPlate] = useState("");
@@ -20,9 +18,6 @@ export default function AddNewParking({ navigation, route }) {
   const [note, setNote] = useState(null);
   // const [parkTime, setParkTime] = useState(new Date());
   const [duration, setDuration] = useState(0);
-
-
-  
 
   // const imageHandler = (uri) => {
   //   console.log("imageHandler called", uri);
@@ -60,11 +55,18 @@ export default function AddNewParking({ navigation, route }) {
 
   const saveParking = () => {
     const { latitude, longitude } = location;
-    var time = moment()
-      .utcOffset('-08:00')
-      .format('YYYY-MM-DD hh:mm:ss');
+    var time = moment().utcOffset("-08:00").format("YYYY-MM-DD hh:mm:ss");
 
-    createParking({ latitude, longitude, time, duration, plate, cost, slot, note });
+    createParking({
+      latitude,
+      longitude,
+      time,
+      duration,
+      plate,
+      cost,
+      slot,
+      note,
+    });
   };
 
   return (
@@ -100,10 +102,6 @@ export default function AddNewParking({ navigation, route }) {
           multiline: true,
         }}
       />
-
-
-      
-
 
       {/* <TakePhoto imageHandler={imageHandler} /> */}
       <PitButton

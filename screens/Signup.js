@@ -1,7 +1,7 @@
 import { View, Text, TextInput, StyleSheet, Button, Alert } from "react-native";
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, addUser } from "../backend";
+import { auth, addUser } from "../api";
 
 export default function Signup({ navigation }) {
   const [email, setEmail] = useState(null);
@@ -22,7 +22,7 @@ export default function Signup({ navigation }) {
         auth,
         email,
         password
-      ).then((cred)=> addUser(cred.user))
+      ).then((cred) => addUser(cred.user));
     } catch (err) {
       console.log(err);
     }
