@@ -7,11 +7,10 @@ import { Entypo } from "@expo/vector-icons";
 
 export default function MyPit({ id, pit }) {
   const navigation = useNavigation();
-  function pressHandler(e) {
+  const dist = (pit.distance / 1000).toFixed(2);
+  function pressHandler() {
     navigation.navigate("PitDetails", { pitId: id });
   }
-
-  // const [myPits, setMyPits] = useState([]);
   return (
     <Pressable onPress={pressHandler} style={styles.container}>
       <SmallMap style={styles.map} disabled />
@@ -22,7 +21,9 @@ export default function MyPit({ id, pit }) {
         </View>
         <View style={styles.row}>
           <Text>{pit.area}</Text>
-          <Text style={styles.distance}>{pit.distance}</Text>
+          <Text style={styles.distance}>
+            {dist < 1 ? `${pit.distance} m` : `${dist} km`}
+          </Text>
         </View>
       </View>
     </Pressable>
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 3,
+    marginBottom: 2,
   },
   pitItem: {
     marginTop: 8,
