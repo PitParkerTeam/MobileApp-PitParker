@@ -4,7 +4,7 @@ import { SmallMap, PitInput } from "../components";
 import { COLORS } from "../common";
 import TakePhoto from "../components/TakePhoto";
 import PitButton from "../components/PitButton";
-import { createParking } from "../firebase/firestore";
+import { createParking } from "../backend/firestore/parking_store";
 import * as Location from "expo-location";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import DatePicker from "react-native-datepicker";

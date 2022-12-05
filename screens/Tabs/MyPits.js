@@ -11,7 +11,7 @@ import { SearchBar } from "@rneui/themed";
 import { MyPit } from "../../components";
 import { COLORS, TEXT_STYLES } from "../../common";
 import { collection, query, where, onSnapshot, QuerySnapshot } from "firebase/firestore";
-import { getPit } from "../../firebase/pit_store";
+import { getPit } from "../../backend";
 
 export default function MyPits() {
   const [search, setSearch] = useState("");
