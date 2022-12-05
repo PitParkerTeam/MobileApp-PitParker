@@ -1,6 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,  } from "react";
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'
-import { StyleSheet, View, Text, Dimensions, Button } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Dimensions,
+  Button,
+  Switch,
+} from "react-native";
 import * as Location from "expo-location";
 import { COLORS, MAP_STYLE } from "../common";
 
@@ -12,6 +19,8 @@ export default function Map() {
     latitude: 37.78825,
     longitude: -122.4324,
   });
+  const [isEnabled, setIsEnabled] = useState(false);
+  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
 
   const locateUser = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -40,11 +49,18 @@ export default function Map() {
 
   return (
     <View style={styles.container}>
+      <Switch
+        trackColor={{ false: "#767577", true: "#81b0ff" }}
+        thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch}
+        value={isEnabled}
+      />
       <MapView
         style={styles.map}
         onPress={mapPressed}
         showsUserLocation
-        region={{...userLocation, ...delta}}
+        region={{ ...userLocation, ...delta }}
         followsUserLocation={true}
         provider={PROVIDER_GOOGLE}
         customMapStyle={MAP_STYLE}
