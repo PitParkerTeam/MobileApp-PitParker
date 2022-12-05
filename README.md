@@ -75,7 +75,10 @@
   - getting names of different areas(?)
   - how to avoid duplicate pits & recognizations of same pits based on location details
 
-
+### Iteration 3 - 2022/12/07
+- Finished Map configuration & customization
+- Added Backend services for Google Map Places API for nearby parking information
+- 
 
 ## Testing
 Test User with some data:
