@@ -11,7 +11,7 @@ import {
 } from "./screens";
 import React, { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./backend";
+import { auth } from "./api";
 
 const Stack = createNativeStackNavigator();
 const hideHeader = { headerShown: false };
@@ -78,7 +78,5 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  header: {
-
-  }
+  header: {},
 });
