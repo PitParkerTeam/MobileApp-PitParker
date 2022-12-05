@@ -5,9 +5,9 @@ import { COLORS, TEXT_STYLES } from "../common";
 
 export default function ParkingDetails({ route, navigation }) {
   const { item } = route.params;
-  const { longitude, latitude, name, notes, image } = item;
+  const { longitude, latitude, name, notes, image, pitID } = item;
   const displayItems = [
-    { label: "Park Time", content: "dateString" },
+    { label: "Park Time", content: "parkTime" },
     { label: "Duration", content: "duration" },
     { label: "Cost", content: "cost" },
     { label: "Plate", content: "plate" },
@@ -29,7 +29,9 @@ export default function ParkingDetails({ route, navigation }) {
       </View>
     );
   };
-  const viewPit = () => {};
+  const viewPit = () => {
+
+  };
   const parkAgain = () => {};
 
   return (

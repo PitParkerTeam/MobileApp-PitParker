@@ -8,16 +8,14 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { fetchParking } from "../../firebase/parking_store";
-import { COLORS, TEXT_STYLES } from "../../common";
+import { COLORS, formatTime, TEXT_STYLES } from "../../common";
 import { ParkingRecord } from "../../components";
-import Moment from "moment";
 
 // import SmallMap from '../../components/SmallMap'
 
 export default function MyParkings({ navigation }) {
   const [parkingHistory, setParkingHistory] = useState([]);
-  const formatTimestamp = (timestamp) =>
-    Moment(timestamp.seconds * 1000).format("YYYY-MM-DD MM:SS");
+
   useEffect(() => {
     const unsubscribe = fetchParking((querySnapshot) => {
       if (querySnapshot.empty) {
@@ -28,7 +26,7 @@ export default function MyParkings({ navigation }) {
         querySnapshot.docs.map((snapDoc) => ({
           ...snapDoc.data(),
           id: snapDoc.id,
-          dateString: formatTimestamp(snapDoc.data().timestamp),
+          parkTime: formatTime(snapDoc.parkTime)
         }))
       );
     });
