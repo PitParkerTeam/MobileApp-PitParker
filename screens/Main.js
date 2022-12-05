@@ -6,9 +6,6 @@ const Tab = createBottomTabNavigator();
 
 export default function Main() {
 
-  
-
-
   return (
     <Tab.Navigator
       screenOptions={{ headerShown: false }}

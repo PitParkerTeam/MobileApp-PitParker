@@ -7,7 +7,7 @@ import {
   Pressable,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { fetchParking } from "../../firebase/parking_store";
+import { fetchParking } from "../../backend";
 import { COLORS, formatTime, TEXT_STYLES } from "../../common";
 import { ParkingRecord } from "../../components";
 

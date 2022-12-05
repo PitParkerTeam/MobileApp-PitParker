@@ -1,7 +1,8 @@
 import { SafeAreaView, Text, Button } from "react-native";
 import React from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../../firebase/firebase-setup";
+import { auth } from "../../backend";
+
 export default function ProfileSettings() {
   return (
     <SafeAreaView>

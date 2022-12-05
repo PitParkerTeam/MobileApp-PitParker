@@ -11,7 +11,7 @@ import {
 } from "./screens";
 import React, { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase/firebase-setup";
+import { auth } from "./backend/firestore/firebase-setup";
 
 const Stack = createNativeStackNavigator();
 const hideHeader = { headerShown: false };
