@@ -6,7 +6,7 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 
-import { firestore, auth } from "./firebase-setup";
+import { firestore, auth } from "./firebase_setup";
 
 export async function createNewPit(pit) {
     try {
