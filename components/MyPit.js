@@ -8,10 +8,11 @@ import { Entypo } from "@expo/vector-icons";
 export default function MyPit({ id, pit }) {
   const navigation = useNavigation();
   const dist = (pit.distance / 1000).toFixed(2);
-
+  const longitude = pit.longitude
+  const latitude = pit.latitude
   return (
-    <Pressable onPress={() => navigation.navigate("PitDetails", {pit})} style={styles.container}>
-      <SmallMap style={styles.map} disabled />
+    <Pressable onPress={() => navigation.navigate("PitDetails", { pit })} style={styles.container}>
+      <SmallMap style={styles.map} location={{ longitude, latitude }} />
       <View style={styles.pitItem}>
         <View style={styles.row}>
           <Text style={styles.pitName}>{pit.pitName}</Text>
