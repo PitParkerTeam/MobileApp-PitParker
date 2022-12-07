@@ -13,9 +13,10 @@ import { firestore, auth } from "./firebase_setup";
 
 export async function createNewParking(parking) {
   try {
-    const docRef = await addDoc(collection(firestore, auth.currentUser.uid, "parkings"), {
+    const docRef = await addDoc(collection(firestore, "parkings"), {
       ...parking,
     });
+    await addDoc(firestore, "users", auth.currentUser.uid, "parkings", docRef.id);
   } catch (err) {
     console.log(err);
   }

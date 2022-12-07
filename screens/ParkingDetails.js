@@ -5,12 +5,14 @@ import { COLORS, TEXT_STYLES } from "../common";
 
 export default function ParkingDetails({ route, navigation }) {
   const { item } = route.params;
-  const { longitude, latitude, name, notes, image, pitID } = item;
+  const { longitude, latitude, name, notes, pitID, cost, plate, duration } =
+    item;
   const displayItems = [
     { label: "Park Time", content: "parkTime" },
     { label: "Duration", content: "duration" },
     { label: "Cost", content: "cost" },
     { label: "Plate", content: "plate" },
+    { label: "Slot", content: "slot" },
   ];
 
   const lineDisplay = ({ label, content }) => {
@@ -30,9 +32,20 @@ export default function ParkingDetails({ route, navigation }) {
     );
   };
   const viewPit = () => {
-
+    navigation.navigate("PitDetails", { pitId: pitID });
   };
-  const parkAgain = () => {};
+  const parkAgain = () => {
+    const params = {
+      longitude,
+      latitude,
+      name,
+      cost,
+      plate,
+      notes,
+      duration,
+    };
+    navigation.navigate("AddNewParking", params);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -42,11 +55,22 @@ export default function ParkingDetails({ route, navigation }) {
         <View style={styles.attrs}>
           {displayItems.map((d) => lineDisplay(d))}
         </View>
-        {notes ? (<View></View>) : ""}
+        {notes ? (
+          <View>
+            <Text style={styles.line.title}>Notes</Text>
+            <Text>{notes}</Text>
+          </View>
+        ) : (
+          ""
+        )}
       </ScrollView>
       <View style={styles.bottomTab}>
-        <PitButton style={styles.button} text="View Pit" onPres={viewPit} />
-        <PitButton style={styles.button} text="Park Again" onPres={parkAgain} />
+        <PitButton style={styles.button} text="View Pit" onPress={viewPit} />
+        <PitButton
+          style={styles.button}
+          text="Park Again"
+          onPress={parkAgain}
+        />
       </View>
     </SafeAreaView>
   );
@@ -60,18 +84,18 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     marginHorizontal: 24,
-    marginVertical:10
+    marginVertical: 10,
   },
   bottomTab: {
     height: 150,
     borderTopWidth: 1,
     borderTopColor: COLORS.BASE[40],
-    paddingTop:12,
-    paddingLeft:4,
-    paddingRight:4,
+    paddingTop: 12,
+    paddingLeft: 4,
+    paddingRight: 4,
   },
   button: {
-    marginBottom:0,
+    marginBottom: 0,
   },
   name: {
     ...TEXT_STYLES.heading.h4,

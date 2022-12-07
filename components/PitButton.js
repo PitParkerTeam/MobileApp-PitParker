@@ -6,6 +6,7 @@ export default function PitButton({
   onPress,
   type = "normal",
   style,
+  textStyle,
   ...others
 }) {
   return (
@@ -13,14 +14,14 @@ export default function PitButton({
       style={({ pressed }) => [
         styles.basic,
         styles[type],
-        pressed && { opacity: 0.5 },
+        pressed && { opacity: 0.8 },
         style,
       ]}
       android_ripple={{ color: COLORS.LIGHT, foreground: true }}
       onPress={onPress}
       {...others}
     >
-      <Text style={[styles[type].text]}>{text}</Text>
+      <Text style={[styles[type].text, textStyle]}>{text}</Text>
     </Pressable>
   );
 }
@@ -42,10 +43,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginLeft: 14,
     marginRight: 14,
+    padding:12
   },
   normal: {
     ...normalBtn,
-    padding: 12,
     backgroundColor: COLORS.BASE[0],
     text: {
       ...textBasic,

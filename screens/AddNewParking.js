@@ -9,13 +9,12 @@ import * as Location from "expo-location";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import DatePicker from "react-native-datepicker";
 import moment from "moment";
-import { ComingSoon_400Regular } from "@expo-google-fonts/dev";
 
 export default function AddNewParking({ navigation, route }) {
-  const [plate, setPlate] = useState("");
-  const [cost, setCost] = useState(null);
-  const [slot, setSlot] = useState(null);
-  const [note, setNote] = useState(null);
+  const [plate, setPlate] = useState(route.params.plate);
+  const [cost, setCost] = useState(route.params.cost);
+  const [slot, setSlot] = useState(route.params.slot);
+  const [notes, setNotes] = useState(route.params.notes);
   // const [parkTime, setParkTime] = useState(new Date());
   const [duration, setDuration] = useState(0);
 
@@ -23,7 +22,7 @@ export default function AddNewParking({ navigation, route }) {
   //   console.log("imageHandler called", uri);
   //   setUri(uri);
   // };
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState({});
 
   const locateUser = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -42,20 +41,18 @@ export default function AddNewParking({ navigation, route }) {
     if (!route.params) {
       locateUser();
     } else {
-      setLocation({
-        latitude: route.params.latitude,
-        longitude: route.params.longitude,
-      });
+      const { latitude, longitude } = route.params;
+      setLocation({ latitude, longitude });
     }
   };
 
   useEffect(() => {
     getLocation();
-  }, []);
+  }, [route]);
 
   const saveParking = () => {
     const { latitude, longitude } = location;
-    var time = moment().utcOffset("-08:00").format("YYYY-MM-DD hh:mm:ss");
+    var time = moment().format("YYYY-MM-DD hh:mm:ss");
 
     createParking({
       latitude,
@@ -72,32 +69,21 @@ export default function AddNewParking({ navigation, route }) {
   return (
     <View style={styles.container}>
       <SmallMap location={location} />
-      <PitInput
-        label="Duration"
-        inputOptions={{ text: duration, onChangeText: setDuration }}
-      />
-      <PitInput
-        label="Plate"
-        inputOptions={{ text: plate, onChangeText: setPlate }}
-      />
+      <PitInput label="Duration" value={duration} onChangeText={setDuration} />
+      <PitInput label="Plate" value={plate} onChangeText={setPlate} />
       <PitInput
         label="Cost"
-        inputOptions={{
-          text: cost,
-          onChangeText: setCost,
-          keyboardType: "decimal-pad",
-        }}
+        value={cost}
+        onChangeText={setCost}
+        inputOptions={{ keyboardType: "decimal-pad", defaultValue: route.params.cost }}
       />
-      <PitInput
-        label="Slot"
-        inputOptions={{ text: slot, onChangeText: setSlot }}
-      />
+      <PitInput label="Slot" value={slot} onChangeText={setSlot} />
       <PitInput
         label="Notes"
         inputStyle={{ minHeight: 80 }}
+        value={notes}
+        onChangeText={setNotes}
         inputOptions={{
-          text: note,
-          onChangeText: setNote,
           numberOfLines: 6,
           multiline: true,
         }}
@@ -107,7 +93,8 @@ export default function AddNewParking({ navigation, route }) {
       <PitButton
         style={styles.button}
         onPress={saveParking}
-        text={"Add New Parking"}
+        text="Confirm Add"
+        type="primary"
       />
     </View>
   );
