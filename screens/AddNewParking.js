@@ -11,10 +11,10 @@ import DatePicker from "react-native-datepicker";
 import moment from "moment";
 
 export default function AddNewParking({ navigation, route }) {
-  const [plate, setPlate] = useState(route.params.plate);
-  const [cost, setCost] = useState(route.params.cost);
-  const [slot, setSlot] = useState(route.params.slot);
-  const [notes, setNotes] = useState(route.params.notes);
+  const [plate, setPlate] = useState(null);
+  const [cost, setCost] = useState(null);
+  const [slot, setSlot] = useState(null);
+  const [notes, setNotes] = useState(null);
   // const [parkTime, setParkTime] = useState(new Date());
   const [duration, setDuration] = useState(0);
 
@@ -75,7 +75,7 @@ export default function AddNewParking({ navigation, route }) {
         label="Cost"
         value={cost}
         onChangeText={setCost}
-        inputOptions={{ keyboardType: "decimal-pad", defaultValue: route.params.cost }}
+        inputOptions={{ keyboardType: "decimal-pad" }}
       />
       <PitInput label="Slot" value={slot} onChangeText={setSlot} />
       <PitInput

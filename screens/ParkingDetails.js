@@ -1,10 +1,17 @@
 import { View, Text, SafeAreaView, StyleSheet, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SmallMap, PitButton } from "../components";
-import { COLORS, TEXT_STYLES } from "../common";
+import { COLORS, formatTime, TEXT_STYLES } from "../common";
+import { getParking } from "../api/firestore/parking_store";
 
 export default function ParkingDetails({ route, navigation }) {
-  const { item } = route.params;
+  useEffect(() => {
+    const { id } = route.params;
+    getParking(id).then((res) => setItem(res));
+    return () => {};
+  }, [route]);
+
+  const [item, setItem] = useState({});
   const { longitude, latitude, name, notes, pitID, cost, plate, duration } =
     item;
   const displayItems = [
@@ -23,6 +30,8 @@ export default function ParkingDetails({ route, navigation }) {
         ? `$${item[content]}`
         : content == "duration"
         ? durationString
+        : content == "parkTime"
+        ? formatTime(item[content])
         : item[content];
     return (
       <View key={content} style={styles.line}>
@@ -32,8 +41,9 @@ export default function ParkingDetails({ route, navigation }) {
     );
   };
   const viewPit = () => {
-    navigation.navigate("PitDetails", { pitId: pitID });
+    navigation.navigate("PitDetails", { id: pitID });
   };
+
   const parkAgain = () => {
     const params = {
       longitude,

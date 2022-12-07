@@ -7,7 +7,7 @@ import {
   Pressable,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { fetchParking } from "../../api";
+import { fetchParkings } from "../../api";
 import { COLORS, formatTime, TEXT_STYLES } from "../../common";
 import { ParkingRecord } from "../../components";
 
@@ -17,7 +17,7 @@ export default function MyParkings({ navigation }) {
   const [parkingHistory, setParkingHistory] = useState([]);
 
   useEffect(() => {
-    const unsubscribe = fetchParking((querySnapshot) => {
+    const unsubscribe = fetchParkings((querySnapshot) => {
       if (querySnapshot.empty) {
         setParkingHistory([]);
         return;

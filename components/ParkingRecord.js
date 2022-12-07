@@ -9,17 +9,13 @@ export default function ParkingRecord({ item, navigation }) {
     <View style={styles.parkingItem}>
       <Text style={styles.parkingItem.title}>{item.name}</Text>
       <Pressable
-        onPress={() => navigation.navigate("ParkingDetails", { item })}
+        onPress={() => navigation.navigate("ParkingDetails", { id: item.id })}
       >
         <Text style={styles.parkingItem.text}>
           {item.parkTime} •
           {`${item.duration} ${item.durationUnit}${
             item.duration > 1 ? "s" : ""
           }`}
-        </Text>
-        <Text>
-          {item.plate && `plate#: ${item.plate}`}
-          {item.cost && ` • cost: $${item.cost}`}
         </Text>
       </Pressable>
     </View>
@@ -28,7 +24,7 @@ export default function ParkingRecord({ item, navigation }) {
 
 const styles = StyleSheet.create({
   parkingItem: {
-    height: 150,
+    height: 130,
     marginTop: 6,
     marginBottom: 6,
     padding: "4%",
