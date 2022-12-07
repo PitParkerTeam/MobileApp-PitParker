@@ -35,6 +35,8 @@ export default function MyPits() {
           pitName: snapDoc.data().name,
           area: snapDoc.data().area,
           distance: snapDoc.data().distance,
+          longitude: snapDoc.data().longitude,
+          latitude: snapDoc.data().latitude,
         }))
       );
     });
