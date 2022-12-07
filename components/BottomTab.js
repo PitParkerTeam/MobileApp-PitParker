@@ -1,7 +1,13 @@
-import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  SafeAreaView,
+  StyleSheet,
+} from "react-native";
 import React from "react";
 import PitButton from "./PitButton";
-import { COLORS } from "../common";
+import { COLORS, TEXT_STYLES } from "../common";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const icons = {
@@ -16,9 +22,10 @@ const AddTab = ({ navigation }) => {
   return (
     <PitButton
       onPress={() => navigation.navigate("AddNewParking")}
-      style={{ width: 50 }}
+      style={styles.button}
       type="primary"
       text="+"
+      textStyle={styles.buttonText}
     ></PitButton>
   );
 };
@@ -47,7 +54,7 @@ const Tab = (props) => {
     }
   };
 
-  const tabColor = isFocused ? COLORS.TINT[100] : COLORS.BASE[60]
+  const tabColor = isFocused ? COLORS.TINT[100] : COLORS.BASE[60];
   return (
     <TouchableOpacity
       accessibilityRole="button"
@@ -84,17 +91,7 @@ export default function BottomTab({ state, descriptors, navigation }) {
   const newRoutes = [home, saved, add, history, account];
   return (
     <SafeAreaView>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "center",
-          padding:10,
-          paddingTop:0,
-          borderTopColor:COLORS.BASE[40],
-          borderTopWidth:1,
-        }}
-      >
+      <View style={styles.container}>
         {newRoutes.map((route) => (
           <Tab
             descriptors={descriptors}
@@ -108,3 +105,30 @@ export default function BottomTab({ state, descriptors, navigation }) {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 10,
+    paddingBottom:15,
+    borderTopColor: COLORS.BASE[40],
+    borderTopWidth: 1,
+  },
+  button: {
+    width: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    alignContent: "center",
+    height: 50,
+    padding: 0,
+    margin: 0,
+  },
+  buttonText: {
+    fontSize: 45,
+    textAlign: "center",
+    fontWeight: TEXT_STYLES.title[600],
+    lineHeight:45,
+  },
+});

@@ -12,7 +12,7 @@ export default function MyPit({ id, pit }) {
   const latitude = pit.latitude
   return (
     <Pressable onPress={() => navigation.navigate("PitDetails", { pit })} style={styles.container}>
-      <SmallMap style={styles.map} location={{ longitude, latitude }} />
+      <SmallMap disabled={true} style={styles.map} location={{ longitude, latitude }} />
       <View style={styles.pitItem}>
         <View style={styles.row}>
           <Text style={styles.pitName}>{pit.pitName}</Text>
