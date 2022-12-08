@@ -15,6 +15,7 @@ export default function MyPit({ pit, navigation }) {
       style={styles.container}
     >
       <SmallMap
+        disabled={true}
         style={styles.map}
         location={{ longitude, latitude }}
       />

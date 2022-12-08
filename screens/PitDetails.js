@@ -15,7 +15,9 @@ export default function PitDetails( { route }) {
   const { longitude, latitude, name, distance, area } = pit;
   return (
     <View>
-      <SmallMap location={{ longitude, latitude }}/>
+      <SmallMap 
+        disabled={true}
+        location={{ longitude, latitude }}/>
     </View>
   )
 }
