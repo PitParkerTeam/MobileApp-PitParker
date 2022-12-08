@@ -1,9 +1,16 @@
 import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { SmallMap } from '../components';
+import { getPit } from '../api';
 
 export default function ParkingPitDetails( { route }) {
-  const { pit } = route.params;
+  useEffect(() => {
+    const { id } = route.params;
+    getPit(id).then((res) => setPit(res));
+    return () => {};
+  }, [route])
+  const [pit, setPit] = useState({});
+  
   const { longitude, latitude, name, distance, area } = pit;
   return (
     <View>

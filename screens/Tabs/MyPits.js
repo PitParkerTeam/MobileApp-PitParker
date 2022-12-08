@@ -17,13 +17,13 @@ import {
   onSnapshot,
   QuerySnapshot,
 } from "firebase/firestore";
-import { getPit } from "../../api";
+import { fetchPits } from "../../api/firestore/pit_store";
 
 export default function MyPits() {
   const [search, setSearch] = useState("");
   const [myPits, setMyPits] = useState([]);
   useEffect(() => {
-    const unsubscribe = getPit((querySnapshot) => {
+    const unsubscribe = fetchPits((querySnapshot) => {
       if (querySnapshot.empty) {
         setMyPits([]);
         return;
