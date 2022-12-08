@@ -13,19 +13,8 @@ export default function ParkingDetails({ route, navigation }) {
 
   const [item, setItem] = useState({});
   const { longitude, latitude } = item;
-  const { name, notes, pitID, cost, plate, duration } = item;
-  const parkAgain = () => {
-    const params = {
-      longitude,
-      latitude,
-      name,
-      cost,
-      plate,
-      notes,
-      duration,
-    };
-    navigation.navigate("AddNewParking", params);
-  };
+  const { name, notes, pitID } = item;
+  const parkAgain = () => navigation.navigate("AddNewParking", item);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -33,13 +22,11 @@ export default function ParkingDetails({ route, navigation }) {
         <SmallMap location={{ longitude, latitude }} />
         <Text style={styles.name}>{name}</Text>
         <ParkingDetailLines item={item} />
-        {notes ? (
+        {notes && (
           <View>
             <Text style={styles.line.title}>Notes</Text>
             <Text>{notes}</Text>
           </View>
-        ) : (
-          ""
         )}
       </ScrollView>
       <View style={styles.bottomTab}>
