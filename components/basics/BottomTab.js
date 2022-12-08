@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import React from "react";
 import PitButton from "./PitButton";
-import { COLORS, TEXT_STYLES } from "../common";
+import { COLORS, TEXT_STYLES } from "../../common";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const icons = {
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 10,
-    paddingBottom:15,
+    paddingBottom: 15,
     borderTopColor: COLORS.BASE[40],
     borderTopWidth: 1,
   },
@@ -129,6 +129,6 @@ const styles = StyleSheet.create({
     fontSize: 45,
     textAlign: "center",
     fontWeight: TEXT_STYLES.title[600],
-    lineHeight:45,
+    lineHeight: 45,
   },
 });

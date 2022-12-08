@@ -3,6 +3,31 @@ import React, { useEffect, useState } from "react";
 import { SmallMap, PitButton } from "../components";
 import { COLORS, formatTime, TEXT_STYLES } from "../common";
 import { getParking } from "../api/firestore/parking_store";
+const displayItems = [
+  { label: "Park Time", content: "parkTime" },
+  { label: "Duration", content: "duration" },
+  { label: "Cost", content: "cost" },
+  { label: "Plate", content: "plate" },
+  { label: "Slot", content: "slot" },
+];
+const LineDisplay = ({ label, content, item }) => {
+  if (!item[content]) return "";
+  const durationString = item?.duration + " " + item?.durationUnit;
+  const displayContent =
+    content == "cost"
+      ? `$${item[content]}`
+      : content == "duration"
+      ? durationString
+      : content == "parkTime"
+      ? formatTime(item[content])
+      : item[content];
+  return (
+    <View key={content} style={styles.line}>
+      <Text style={styles.line.title}>{label}</Text>
+      <Text style={styles.line.content}>{displayContent}</Text>
+    </View>
+  );
+};
 
 export default function ParkingDetails({ route, navigation }) {
   useEffect(() => {
@@ -14,35 +39,6 @@ export default function ParkingDetails({ route, navigation }) {
   const [item, setItem] = useState({});
   const { longitude, latitude, name, notes, pitID, cost, plate, duration } =
     item;
-  const displayItems = [
-    { label: "Park Time", content: "parkTime" },
-    { label: "Duration", content: "duration" },
-    { label: "Cost", content: "cost" },
-    { label: "Plate", content: "plate" },
-    { label: "Slot", content: "slot" },
-  ];
-
-  const lineDisplay = ({ label, content }) => {
-    if (!item[content]) return "";
-    const durationString = item?.duration + " " + item?.durationUnit;
-    const displayContent =
-      content == "cost"
-        ? `$${item[content]}`
-        : content == "duration"
-        ? durationString
-        : content == "parkTime"
-        ? formatTime(item[content])
-        : item[content];
-    return (
-      <View key={content} style={styles.line}>
-        <Text style={styles.line.title}>{label}</Text>
-        <Text style={styles.line.content}>{displayContent}</Text>
-      </View>
-    );
-  };
-  const viewPit = () => {
-    navigation.navigate("PitDetails", { id: pitID });
-  };
 
   const parkAgain = () => {
     const params = {
@@ -63,7 +59,9 @@ export default function ParkingDetails({ route, navigation }) {
         <SmallMap location={{ longitude, latitude }} />
         <Text style={styles.name}>{name}</Text>
         <View style={styles.attrs}>
-          {displayItems.map((d) => lineDisplay(d))}
+          {displayItems.map((d) => (
+            <LineDisplay item={item} label={d.label} content={d.content} />
+          ))}
         </View>
         {notes ? (
           <View>
@@ -75,7 +73,11 @@ export default function ParkingDetails({ route, navigation }) {
         )}
       </ScrollView>
       <View style={styles.bottomTab}>
-        <PitButton style={styles.button} text="View Pit" onPress={viewPit} />
+        <PitButton
+          style={styles.button}
+          text="View Pit"
+          onPress={() => navigation.navigate("PitDetails", { id: pitID })}
+        />
         <PitButton
           style={styles.button}
           text="Park Again"

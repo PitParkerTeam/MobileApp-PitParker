@@ -1,6 +1,6 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import React from "react";
-import { COLORS, TEXT_STYLES } from "../common";
+import { COLORS, TEXT_STYLES } from "../../common";
 export default function PitButton({
   text,
   onPress,
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginLeft: 14,
     marginRight: 14,
-    padding:12
+    padding: 12,
   },
   normal: {
     ...normalBtn,

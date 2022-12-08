@@ -1,6 +1,6 @@
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import { StyleSheet, View, Text, Dimensions, Button } from "react-native";
-import { COLORS, MAP_STYLE } from "../common";
+import { COLORS, MAP_STYLE } from "../../common";
 
 export default function SmallMap({ location, style, disabled }) {
   const coords = {
