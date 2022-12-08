@@ -6,7 +6,6 @@ import { COLORS, TEXT_STYLES } from "../../common";
 import { Entypo } from "@expo/vector-icons";
 
 export default function MyPit({ pit, navigation }) {
-  // const navigation = useNavigation();
   const dist = (pit.distance / 1000).toFixed(2);
   const longitude = pit.longitude;
   const latitude = pit.latitude;
@@ -16,7 +15,6 @@ export default function MyPit({ pit, navigation }) {
       style={styles.container}
     >
       <SmallMap
-        // disabled={true}
         style={styles.map}
         location={{ longitude, latitude }}
       />

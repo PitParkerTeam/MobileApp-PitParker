@@ -3,20 +3,12 @@ import {
   Text,
   FlatList,
   StyleSheet,
-  Image,
   SafeAreaView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SearchBar } from "@rneui/themed";
 import { MyPit } from "../../components";
 import { COLORS, TEXT_STYLES } from "../../common";
-import {
-  collection,
-  query,
-  where,
-  onSnapshot,
-  QuerySnapshot,
-} from "firebase/firestore";
 import { fetchPits } from "../../api/firestore/pit_store";
 
 export default function MyPits( { navigation }) {

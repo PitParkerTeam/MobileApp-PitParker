@@ -19,10 +19,6 @@ import {
       }
   }
   
-  // export function getPit(userPits) {
-  //     // return onSnapshot(collection(firestore, "users", auth.currentUser.uid, "pits"), userPits);
-  // }
-  
   export function fetchPits(userPits) {
       const uid = auth.currentUser.uid;
       return onSnapshot(collection(firestore, "users", uid, "pits"), userPits);
