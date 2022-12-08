@@ -1,33 +1,17 @@
-import { View, Text, SafeAreaView, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  Image,
+  Pressable,
+} from "react-native";
 import React, { useEffect, useState } from "react";
-import { SmallMap, PitButton } from "../components";
-import { COLORS, formatTime, TEXT_STYLES } from "../common";
+import { SmallMap, PitButton, ParkingDetailLines, BottomContainer } from "../components";
+import { COLORS, TEXT_STYLES } from "../common";
 import { getParking } from "../api/firestore/parking_store";
-const displayItems = [
-  { label: "Park Time", content: "parkTime" },
-  { label: "Duration", content: "duration" },
-  { label: "Cost", content: "cost" },
-  { label: "Plate", content: "plate" },
-  { label: "Slot", content: "slot" },
-];
-const LineDisplay = ({ label, content, item }) => {
-  if (!item[content]) return "";
-  const durationString = item?.duration + " " + item?.durationUnit;
-  const displayContent =
-    content == "cost"
-      ? `$${item[content]}`
-      : content == "duration"
-      ? durationString
-      : content == "parkTime"
-      ? formatTime(item[content])
-      : item[content];
-  return (
-    <View style={styles.line}>
-      <Text style={styles.line.title}>{label}</Text>
-      <Text style={styles.line.content}>{displayContent}</Text>
-    </View>
-  );
-};
+import ImageView from "react-native-image-viewing";
 
 export default function ParkingDetails({ route, navigation }) {
   useEffect(() => {
@@ -36,59 +20,48 @@ export default function ParkingDetails({ route, navigation }) {
     return () => {};
   }, [route]);
 
+  const [visible, setIsVisible] = useState(false);
   const [item, setItem] = useState({});
-  const { longitude, latitude, name, notes, pitID, cost, plate, duration } =
-    item;
+  const { longitude, latitude } = item;
+  const { name, notes, pitID, image } = item;
 
-  const parkAgain = () => {
-    const params = {
-      longitude,
-      latitude,
-      name,
-      cost,
-      plate,
-      notes,
-      duration,
-    };
-    navigation.navigate("AddNewParking", params);
-  };
+  const parkAgain = () => navigation.navigate("AddNewParking", item);
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
-        <SmallMap location={{ longitude, latitude }} />
-        <Text style={styles.name}>{name}</Text>
-        <View style={styles.attrs}>
-          {displayItems.map((d) => (
-            <LineDisplay
-              item={item}
-              label={d.label}
-              content={d.content}
-              key={d.content}
-            />
-          ))}
+        <View style={{ paddingHorizontal: 24 }}>
+          <SmallMap location={{ longitude, latitude }} />
+          <Text style={styles.name}>{name}</Text>
+          <ParkingDetailLines item={item} />
+          {image && (
+            <View style={styles.imageContainer}>
+              <Text style={styles.imageTitle}>Image</Text>
+              <Pressable onPress={() => setIsVisible(true)}>
+                <Image source={{ uri: image }} style={styles.image} />
+              </Pressable>
+              <ImageView
+                images={[{ uri: image }]}
+                imageIndex={0}
+                visible={visible}
+                onRequestClose={() => setIsVisible(false)}
+              />
+            </View>
+          )}
+          <View style={{ marginBottom: 100 }} />
         </View>
-        {notes ? (
-          <View>
-            <Text style={styles.line.title}>Notes</Text>
-            <Text>{notes}</Text>
-          </View>
-        ) : (
-          ""
-        )}
       </ScrollView>
-      <View style={styles.bottomTab}>
+      <BottomContainer>
         <PitButton
           style={styles.button}
           text="View Pit"
           onPress={() => navigation.navigate("PitDetails", { id: pitID })}
         />
         <PitButton
-          style={styles.button}
           text="Park Again"
           onPress={parkAgain}
         />
-      </View>
+      </BottomContainer>
     </SafeAreaView>
   );
 }
@@ -100,37 +73,26 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.BASE[0],
   },
   scrollView: {
-    marginHorizontal: 24,
-    marginVertical: 10,
-  },
-  bottomTab: {
-    height: 150,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.BASE[40],
-    paddingTop: 12,
-    paddingLeft: 4,
-    paddingRight: 4,
+    marginVertical: 4,
   },
   button: {
     marginBottom: 0,
   },
+  imageContainer: {
+    flexDirection: "row",
+    marginTop: 12,
+  },
+  image: {
+    width: 150,
+    height: 150,
+    marginTop: 6,
+  },
+  imageTitle: {
+    ...TEXT_STYLES.title[600],
+    width: "30%",
+  },
   name: {
     ...TEXT_STYLES.heading.h4,
     marginTop: 24,
-  },
-  attrs: {
-    marginTop: 20,
-  },
-  line: {
-    title: {
-      ...TEXT_STYLES.title[600],
-      width: "30%",
-    },
-    content: {
-      ...TEXT_STYLES.title[400],
-    },
-    marginTop: 8,
-    marginBottom: 8,
-    flexDirection: "row",
   },
 });

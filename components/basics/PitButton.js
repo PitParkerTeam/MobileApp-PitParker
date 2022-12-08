@@ -41,9 +41,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginLeft: 14,
-    marginRight: 14,
+    marginHorizontal:12,
     padding: 12,
+    width:"100%"
   },
   normal: {
     ...normalBtn,
