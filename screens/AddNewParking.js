@@ -3,12 +3,13 @@ import React, { useState, useEffect } from "react";
 import { SmallMap, PitInput } from "../components";
 import { COLORS } from "../common";
 import TakePhoto from "../components/TakePhoto";
-import {PitButton} from "../components";
+import { PitButton } from "../components";
 import { createParking } from "../api/firestore/parking_store";
 import * as Location from "expo-location";
-import DateTimePicker from "@react-native-community/datetimepicker";
+// import DateTimePicker from "@react-native-community/datetimepicker";
 import DatePicker from "react-native-datepicker";
 import moment from "moment";
+import DateTimePicker from "react-native-modal-datetime-picker";
 
 export default function AddNewParking({ navigation, route }) {
   const [plate, setPlate] = useState(null);
@@ -23,6 +24,7 @@ export default function AddNewParking({ navigation, route }) {
   //   setUri(uri);
   // };
   const [location, setLocation] = useState({});
+  const [isModalVisible, setIsModalVisible] = useState(true);
 
   const locateUser = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -69,7 +71,16 @@ export default function AddNewParking({ navigation, route }) {
   return (
     <View style={styles.container}>
       <SmallMap location={location} />
-      <PitInput label="Duration" value={duration} onChangeText={setDuration} />
+      <DateTimePicker
+        mode="time"
+        date={new Date(new Date().setHours(0, 0, 0, 0))}
+        locale="en_GB"
+        isVisible={isModalVisible}
+        textColor='#000000'
+        onConfirm={() => {setIsModalVisible(false)}}
+      />
+      {/* <PitInput label="Duration" value={duration} onChangeText={setIsModalVisible(true)} /> */}
+      {/* <Button title="Duration" onPress={setIsModalVisible(true)}/> */}
       <PitInput label="Plate" value={plate} onChangeText={setPlate} />
       <PitInput
         label="Cost"
