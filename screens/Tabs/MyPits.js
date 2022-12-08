@@ -3,27 +3,19 @@ import {
   Text,
   FlatList,
   StyleSheet,
-  Image,
   SafeAreaView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SearchBar } from "@rneui/themed";
 import { MyPit } from "../../components";
 import { COLORS, TEXT_STYLES } from "../../common";
-import {
-  collection,
-  query,
-  where,
-  onSnapshot,
-  QuerySnapshot,
-} from "firebase/firestore";
-import { getPit } from "../../api";
+import { fetchPits } from "../../api/firestore/pit_store";
 
-export default function MyPits() {
+export default function MyPits( { navigation }) {
   const [search, setSearch] = useState("");
   const [myPits, setMyPits] = useState([]);
   useEffect(() => {
-    const unsubscribe = getPit((querySnapshot) => {
+    const unsubscribe = fetchPits((querySnapshot) => {
       if (querySnapshot.empty) {
         setMyPits([]);
         return;
@@ -60,7 +52,7 @@ export default function MyPits() {
       <View style={styles.listContainer}>
         <FlatList
           data={myPits}
-          renderItem={({ item }) => <MyPit pit={item} />}
+          renderItem={({ item }) => <MyPit pit={item} navigation={navigation}/>}
         />
       </View>
     </SafeAreaView>
