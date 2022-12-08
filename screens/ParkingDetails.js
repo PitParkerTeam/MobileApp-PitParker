@@ -22,7 +22,7 @@ const LineDisplay = ({ label, content, item }) => {
       ? formatTime(item[content])
       : item[content];
   return (
-    <View key={content} style={styles.line}>
+    <View style={styles.line}>
       <Text style={styles.line.title}>{label}</Text>
       <Text style={styles.line.content}>{displayContent}</Text>
     </View>
@@ -60,7 +60,12 @@ export default function ParkingDetails({ route, navigation }) {
         <Text style={styles.name}>{name}</Text>
         <View style={styles.attrs}>
           {displayItems.map((d) => (
-            <LineDisplay item={item} label={d.label} content={d.content} />
+            <LineDisplay
+              item={item}
+              label={d.label}
+              content={d.content}
+              key={d.content}
+            />
           ))}
         </View>
         {notes ? (
