@@ -1,9 +1,9 @@
-import { View, Text, TextInput, StyleSheet, Button } from "react-native";
+import { View, StyleSheet, ScrollView, SafeAreaView } from "react-native";
 import React, { useState, useEffect } from "react";
-import { SmallMap, PitInput } from "../components";
+import { SmallMap, PitInput, BottomContainer } from "../components";
 import { COLORS } from "../common";
 import TakePhoto from "../components/TakePhoto";
-import {PitButton} from "../components";
+import { PitButton } from "../components";
 import { createParking } from "../api/firestore/parking_store";
 import * as Location from "expo-location";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -16,7 +16,7 @@ export default function AddNewParking({ navigation, route }) {
   const [slot, setSlot] = useState(null);
   const [notes, setNotes] = useState(null);
   // const [parkTime, setParkTime] = useState(new Date());
-  const [duration, setDuration] = useState(0);
+  const [duration, setDuration] = useState(null);
 
   // const imageHandler = (uri) => {
   //   console.log("imageHandler called", uri);
@@ -41,8 +41,13 @@ export default function AddNewParking({ navigation, route }) {
     if (!route.params) {
       locateUser();
     } else {
+      const { params } = route;
       const { latitude, longitude } = route.params;
       setLocation({ latitude, longitude });
+      setPlate(params.plate);
+      setCost(params.cost);
+      setDuration(params.duration);
+      setNotes(params.notes);
     }
   };
 
@@ -62,41 +67,48 @@ export default function AddNewParking({ navigation, route }) {
       plate,
       cost,
       slot,
-      note,
+      notes,
     });
   };
 
   return (
-    <View style={styles.container}>
-      <SmallMap location={location} />
-      <PitInput label="Duration" value={duration} onChangeText={setDuration} />
-      <PitInput label="Plate" value={plate} onChangeText={setPlate} />
-      <PitInput
-        label="Cost"
-        value={cost}
-        onChangeText={setCost}
-        inputOptions={{ keyboardType: "decimal-pad" }}
-      />
-      <PitInput label="Slot" value={slot} onChangeText={setSlot} />
-      <PitInput
-        label="Notes"
-        inputStyle={{ minHeight: 80 }}
-        value={notes}
-        onChangeText={setNotes}
-        inputOptions={{
-          numberOfLines: 6,
-          multiline: true,
-        }}
-      />
-
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+        <SmallMap location={location} />
+        <PitInput
+          label="Duration"
+          value={duration}
+          onChangeText={setDuration}
+        />
+        <PitInput label="Plate" value={plate} onChangeText={setPlate} />
+        <PitInput
+          label="Cost"
+          value={cost}
+          onChangeText={setCost}
+          inputOptions={{ keyboardType: "decimal-pad" }}
+        />
+        <PitInput label="Slot" value={slot} onChangeText={setSlot} />
+        <PitInput
+          label="Notes"
+          inputStyle={{ minHeight: 120 }}
+          value={notes}
+          onChangeText={setNotes}
+          inputOptions={{
+            numberOfLines: 10,
+            multiline: true,
+          }}
+        />
+      </ScrollView>
       {/* <TakePhoto imageHandler={imageHandler} /> */}
-      <PitButton
-        style={styles.button}
-        onPress={saveParking}
-        text="Confirm Add"
-        type="primary"
-      />
-    </View>
+      <BottomContainer>
+        <PitButton
+          style={styles.button}
+          onPress={saveParking}
+          text="Confirm Add"
+          type="primary"
+        />
+      </BottomContainer>
+    </SafeAreaView>
   );
 }
 
@@ -105,10 +117,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     backgroundColor: COLORS.BASE[0],
-    padding: 24,
   },
-  button: {
-    alignItems: "center",
-    marginTop: 140,
+  scrollView: {
+    marginVertical: 4,
+    paddingHorizontal:24,
   },
 });

@@ -6,7 +6,7 @@ export default function PitInput(props) {
   const {
     inputStyle,
     labelStyle,
-    val,
+    value,
     onChangeText,
     labelOptions,
     label,
@@ -19,7 +19,7 @@ export default function PitInput(props) {
       </Text>
       <TextInput
         style={[styles.input, inputStyle]}
-        value={val}
+        value={value}
         onChangeText={onChangeText}
         {...inputOptions}
       />
