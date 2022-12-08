@@ -157,6 +157,6 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: "center",
-    marginTop: 140,
+    marginTop: 80,
   },
 });
