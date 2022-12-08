@@ -10,21 +10,31 @@ import * as Location from "expo-location";
 import DatePicker from "react-native-datepicker";
 import moment from "moment";
 import DateTimePicker from "react-native-modal-datetime-picker";
+import TimePeriodPicker from "../components/basics/TimePeriodPicker";
 
 export default function AddNewParking({ navigation, route }) {
+  
   const [plate, setPlate] = useState(null);
   const [cost, setCost] = useState(null);
   const [slot, setSlot] = useState(null);
   const [notes, setNotes] = useState(null);
   // const [parkTime, setParkTime] = useState(new Date());
-  const [duration, setDuration] = useState(0);
+  // const [duration, setDuration] = useState(0);
+  // const [duration, setDuration] = useState(null);
+
+  // const handleDurationChange = (date) => {
+  //   // Set the duration to the selected date
+  //   // setDuration(date);
+  //   setDuration(moment(date).format("hh:mm"));
+  //   console.log(duration);
+  // };
 
   // const imageHandler = (uri) => {
   //   console.log("imageHandler called", uri);
   //   setUri(uri);
   // };
   const [location, setLocation] = useState({});
-  const [isModalVisible, setIsModalVisible] = useState(true);
+  // const [isModalVisible, setIsModalVisible] = useState(false);
 
   const locateUser = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -68,17 +78,44 @@ export default function AddNewParking({ navigation, route }) {
     });
   };
 
+  const now = new Date();
+
   return (
     <View style={styles.container}>
+      
       <SmallMap location={location} />
-      <DateTimePicker
+
+      {/* <View> */}
+      {/* Display the selected duration */}
+      {/* <Text>Selected duration: {duration}</Text> */}
+      {/* <Text>Selected duration: {moment(duration).format("hh:mm")}</Text> */}
+      <TimePeriodPicker initialStartTime={now} initialEndTime={now}/>
+
+      {/* Show the DateTimePicker when the button is pressed */}
+      {/* <Button
+        title="Select duration"
+        onPress={() => setIsModalVisible(true)}
+      /> */}
+      {/* <DateTimePicker
+        mode="time"
+        date={new Date(new Date().setHours(0, 0, 0, 0))}
+        isVisible={isModalVisible}
+        onConfirm={handleDurationChange}
+        textColor='#000000'
+        onCancel={() => setIsModalVisible(false)}
+      /> */}
+    {/* </View> */}
+
+      {/* <Button title="Duration" onPress={() => setIsModalVisible(true)}/> */}
+      {/* <DateTimePicker
         mode="time"
         date={new Date(new Date().setHours(0, 0, 0, 0))}
         locale="en_GB"
         isVisible={isModalVisible}
         textColor='#000000'
         onConfirm={() => {setIsModalVisible(false)}}
-      />
+        onCancel={() => {setIsModalVisible(false)}}
+      /> */}
       {/* <PitInput label="Duration" value={duration} onChangeText={setIsModalVisible(true)} /> */}
       {/* <Button title="Duration" onPress={setIsModalVisible(true)}/> */}
       <PitInput label="Plate" value={plate} onChangeText={setPlate} />
