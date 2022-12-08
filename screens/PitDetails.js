@@ -6,7 +6,6 @@ import { getPit } from '../api/firestore/pit_store';
 export default function PitDetails( { route }) {
   useEffect(() => {
     const { id } = route.params;
-    console.log(id);
     getPit(id).then((res) => setPit(res));
     return () => {};
   }, [route]);
