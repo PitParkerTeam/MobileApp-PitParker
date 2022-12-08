@@ -1,5 +1,5 @@
 // basics
-export {  BottomTab, PitInput , PitButton} from "./basics";
+export {  BottomTab, PitInput , PitButton, BottomContainer} from "./basics";
 
 // map related
 export { Map, SmallMap } from "./maps";

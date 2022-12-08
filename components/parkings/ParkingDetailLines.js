@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   notes: {
-    width:"70%"
-    
+    width:"70%",
+    ...TEXT_STYLES.title[400]
   }
 });

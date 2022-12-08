@@ -8,7 +8,7 @@ import {
   Pressable,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { SmallMap, PitButton, ParkingDetailLines } from "../components";
+import { SmallMap, PitButton, ParkingDetailLines, BottomContainer } from "../components";
 import { COLORS, TEXT_STYLES } from "../common";
 import { getParking } from "../api/firestore/parking_store";
 import ImageView from "react-native-image-viewing";
@@ -30,7 +30,7 @@ export default function ParkingDetails({ route, navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
-        <View style={{paddingHorizontal:24}}>
+        <View style={{ paddingHorizontal: 24 }}>
           <SmallMap location={{ longitude, latitude }} />
           <Text style={styles.name}>{name}</Text>
           <ParkingDetailLines item={item} />
@@ -51,18 +51,17 @@ export default function ParkingDetails({ route, navigation }) {
           <View style={{ marginBottom: 100 }} />
         </View>
       </ScrollView>
-      <View style={styles.bottomTab}>
+      <BottomContainer>
         <PitButton
           style={styles.button}
           text="View Pit"
           onPress={() => navigation.navigate("PitDetails", { id: pitID })}
         />
         <PitButton
-          style={styles.button}
           text="Park Again"
           onPress={parkAgain}
         />
-      </View>
+      </BottomContainer>
     </SafeAreaView>
   );
 }
@@ -75,14 +74,6 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     marginVertical: 4,
-  },
-  bottomTab: {
-    height: 150,
-    borderTopWidth: 1,
-    borderTopColor: COLORS.BASE[40],
-    paddingTop: 12,
-    paddingLeft: 4,
-    paddingRight: 4,
   },
   button: {
     marginBottom: 0,
