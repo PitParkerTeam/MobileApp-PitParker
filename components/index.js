@@ -1,6 +1,11 @@
-export { default as BottomTab } from "./BottomTab";
-export { default as ParkingRecord } from "./ParkingRecord";
-export { default as SmallMap } from "./SmallMap";
-export { default as PitInput } from "./PitInput";
-export { default as MyPit } from "./MyPit";
-export {default as PitButton} from './PitButton'
+// basics
+export {  BottomTab, PitInput , PitButton} from "./basics";
+
+// map related
+export { Map, SmallMap } from "./maps";
+
+// pit related
+export { default as MyPit } from "./pits/MyPit";
+
+// parking related
+export { default as ParkingRecord } from "./parkings/ParkingRecord";

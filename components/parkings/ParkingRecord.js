@@ -1,10 +1,10 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import React from "react";
-import { COLORS, TEXT_STYLES } from "../common";
-
+import { COLORS, TEXT_STYLES } from "../../common";
 
 export default function ParkingRecord({ item, navigation }) {
-  if (!item.parkTime || !item.longitude || !item.latitude || !item.duration ) return;
+  if (!item.parkTime || !item.longitude || !item.latitude || !item.duration)
+    return;
   return (
     <View style={styles.parkingItem}>
       <Text style={styles.parkingItem.title}>{item.name}</Text>

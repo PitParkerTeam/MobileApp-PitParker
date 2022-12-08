@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { StyleSheet, View, Dimensions } from "react-native";
 import * as Location from "expo-location";
-import { COLORS, MAP_STYLE } from "../common";
-import { PitButton } from "../components";
+import { COLORS, MAP_STYLE } from "../../common";
+import { PitButton } from "../basics";
 export default function Map() {
   const latitudeDelta = 0.01;
   const longitudeDelta = 0.01;

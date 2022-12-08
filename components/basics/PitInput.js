@@ -1,6 +1,6 @@
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import React from "react";
-import { COLORS, TEXT_STYLES } from "../common";
+import { COLORS, TEXT_STYLES } from "../../common";
 
 export default function PitInput(props) {
   const {

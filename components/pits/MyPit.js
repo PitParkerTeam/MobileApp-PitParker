@@ -1,18 +1,25 @@
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import SmallMap from "./SmallMap";
-import { COLORS, TEXT_STYLES } from "../common";
+import { SmallMap } from "../maps";
+import { COLORS, TEXT_STYLES } from "../../common";
 import { Entypo } from "@expo/vector-icons";
 
 export default function MyPit({ id, pit }) {
   const navigation = useNavigation();
   const dist = (pit.distance / 1000).toFixed(2);
-  const longitude = pit.longitude
-  const latitude = pit.latitude
+  const longitude = pit.longitude;
+  const latitude = pit.latitude;
   return (
-    <Pressable onPress={() => navigation.navigate("PitDetails", { pit })} style={styles.container}>
-      <SmallMap disabled={true} style={styles.map} location={{ longitude, latitude }} />
+    <Pressable
+      onPress={() => navigation.navigate("PitDetails", { pit })}
+      style={styles.container}
+    >
+      <SmallMap
+        disabled={true}
+        style={styles.map}
+        location={{ longitude, latitude }}
+      />
       <View style={styles.pitItem}>
         <View style={styles.row}>
           <Text style={styles.pitName}>{pit.pitName}</Text>

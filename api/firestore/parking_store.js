@@ -11,7 +11,7 @@ import {
 import { firestore, auth, myApp } from "./firebase_setup";
 
 export async function createNewParking(parking) {
-  const { parkTime, duration, durationUnit, longitude, latitude } = parking;
+  const { parkTime, duration, durationUnit, longitude, latitude, pitID } = parking;
   try {
     const docRef = await addDoc(collection(firestore, "parkings"), {
       ...parking,
@@ -22,6 +22,9 @@ export async function createNewParking(parking) {
           parkTime,
           duration,
           durationUnit,
+          longitude,
+          latitude,
+          pitID
         }
       )
     );
@@ -42,9 +45,7 @@ export const getParking = async (id) => {
     if (docSnap.exists()) {
       return docSnap.data();
     }
-  } catch {
-
-  }
+  } catch {}
 };
 
 export async function updateParking(pid, parking) {
