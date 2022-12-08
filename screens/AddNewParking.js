@@ -8,7 +8,8 @@ import { createParking } from "../api/firestore/parking_store";
 import * as Location from "expo-location";
 // import DateTimePicker from "@react-native-community/datetimepicker";
 import DatePicker from "react-native-datepicker";
-import moment from "moment";
+import moment from 'moment';
+import { addHours } from 'moment';
 import DateTimePicker from "react-native-modal-datetime-picker";
 import TimePeriodPicker from "../components/basics/TimePeriodPicker";
 
@@ -79,6 +80,9 @@ export default function AddNewParking({ navigation, route }) {
   };
 
   const now = new Date();
+  // Create a copy of the date
+  const endTime = new Date();
+  endTime.setHours(endTime.getHours() + 1);
 
   return (
     <View style={styles.container}>
@@ -89,7 +93,7 @@ export default function AddNewParking({ navigation, route }) {
       {/* Display the selected duration */}
       {/* <Text>Selected duration: {duration}</Text> */}
       {/* <Text>Selected duration: {moment(duration).format("hh:mm")}</Text> */}
-      <TimePeriodPicker initialStartTime={now} initialEndTime={now}/>
+      <TimePeriodPicker initialStartTime={now} initialEndTime={endTime}/>
 
       {/* Show the DateTimePicker when the button is pressed */}
       {/* <Button
