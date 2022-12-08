@@ -1,33 +1,8 @@
 import { View, Text, SafeAreaView, StyleSheet, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
-import { SmallMap, PitButton } from "../components";
-import { COLORS, formatTime, TEXT_STYLES } from "../common";
+import { SmallMap, PitButton, ParkingDetailLines } from "../components";
+import { COLORS, TEXT_STYLES } from "../common";
 import { getParking } from "../api/firestore/parking_store";
-const displayItems = [
-  { label: "Park Time", content: "parkTime" },
-  { label: "Duration", content: "duration" },
-  { label: "Cost", content: "cost" },
-  { label: "Plate", content: "plate" },
-  { label: "Slot", content: "slot" },
-];
-const LineDisplay = ({ label, content, item }) => {
-  if (!item[content]) return "";
-  const durationString = item?.duration + " " + item?.durationUnit;
-  const displayContent =
-    content == "cost"
-      ? `$${item[content]}`
-      : content == "duration"
-      ? durationString
-      : content == "parkTime"
-      ? formatTime(item[content])
-      : item[content];
-  return (
-    <View style={styles.line}>
-      <Text style={styles.line.title}>{label}</Text>
-      <Text style={styles.line.content}>{displayContent}</Text>
-    </View>
-  );
-};
 
 export default function ParkingDetails({ route, navigation }) {
   useEffect(() => {
@@ -37,9 +12,8 @@ export default function ParkingDetails({ route, navigation }) {
   }, [route]);
 
   const [item, setItem] = useState({});
-  const { longitude, latitude, name, notes, pitID, cost, plate, duration } =
-    item;
-
+  const { longitude, latitude } = item;
+  const { name, notes, pitID, cost, plate, duration } = item;
   const parkAgain = () => {
     const params = {
       longitude,
@@ -58,16 +32,7 @@ export default function ParkingDetails({ route, navigation }) {
       <ScrollView style={styles.scrollView}>
         <SmallMap location={{ longitude, latitude }} />
         <Text style={styles.name}>{name}</Text>
-        <View style={styles.attrs}>
-          {displayItems.map((d) => (
-            <LineDisplay
-              item={item}
-              label={d.label}
-              content={d.content}
-              key={d.content}
-            />
-          ))}
-        </View>
+        <ParkingDetailLines item={item} />
         {notes ? (
           <View>
             <Text style={styles.line.title}>Notes</Text>
@@ -117,20 +82,5 @@ const styles = StyleSheet.create({
   name: {
     ...TEXT_STYLES.heading.h4,
     marginTop: 24,
-  },
-  attrs: {
-    marginTop: 20,
-  },
-  line: {
-    title: {
-      ...TEXT_STYLES.title[600],
-      width: "30%",
-    },
-    content: {
-      ...TEXT_STYLES.title[400],
-    },
-    marginTop: 8,
-    marginBottom: 8,
-    flexDirection: "row",
   },
 });
