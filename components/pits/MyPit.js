@@ -17,6 +17,7 @@ export default function MyPit({ pit, navigation }) {
       <SmallMap
         style={styles.map}
         location={{ longitude, latitude }}
+        disabled
       />
       <View style={styles.pitItem}>
         <View style={styles.row}>

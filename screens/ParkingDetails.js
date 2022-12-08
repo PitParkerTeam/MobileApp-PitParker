@@ -1,8 +1,17 @@
-import { View, Text, SafeAreaView, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  Image,
+  Pressable,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { SmallMap, PitButton, ParkingDetailLines } from "../components";
 import { COLORS, TEXT_STYLES } from "../common";
 import { getParking } from "../api/firestore/parking_store";
+import ImageView from "react-native-image-viewing";
 
 export default function ParkingDetails({ route, navigation }) {
   useEffect(() => {
@@ -11,23 +20,36 @@ export default function ParkingDetails({ route, navigation }) {
     return () => {};
   }, [route]);
 
+  const [visible, setIsVisible] = useState(false);
   const [item, setItem] = useState({});
   const { longitude, latitude } = item;
-  const { name, notes, pitID } = item;
+  const { name, notes, pitID, image } = item;
+
   const parkAgain = () => navigation.navigate("AddNewParking", item);
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
-        <SmallMap location={{ longitude, latitude }} />
-        <Text style={styles.name}>{name}</Text>
-        <ParkingDetailLines item={item} />
-        {notes && (
-          <View>
-            <Text style={styles.line.title}>Notes</Text>
-            <Text>{notes}</Text>
-          </View>
-        )}
+        <View style={{paddingHorizontal:24}}>
+          <SmallMap location={{ longitude, latitude }} />
+          <Text style={styles.name}>{name}</Text>
+          <ParkingDetailLines item={item} />
+          {image && (
+            <View style={styles.imageContainer}>
+              <Text style={styles.imageTitle}>Image</Text>
+              <Pressable onPress={() => setIsVisible(true)}>
+                <Image source={{ uri: image }} style={styles.image} />
+              </Pressable>
+              <ImageView
+                images={[{ uri: image }]}
+                imageIndex={0}
+                visible={visible}
+                onRequestClose={() => setIsVisible(false)}
+              />
+            </View>
+          )}
+          <View style={{ marginBottom: 100 }} />
+        </View>
       </ScrollView>
       <View style={styles.bottomTab}>
         <PitButton
@@ -52,8 +74,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.BASE[0],
   },
   scrollView: {
-    marginHorizontal: 24,
-    marginVertical: 10,
+    marginVertical: 4,
   },
   bottomTab: {
     height: 150,
@@ -65,6 +86,19 @@ const styles = StyleSheet.create({
   },
   button: {
     marginBottom: 0,
+  },
+  imageContainer: {
+    flexDirection: "row",
+    marginTop: 12,
+  },
+  image: {
+    width: 150,
+    height: 150,
+    marginTop: 6,
+  },
+  imageTitle: {
+    ...TEXT_STYLES.title[600],
+    width: "30%",
   },
   name: {
     ...TEXT_STYLES.heading.h4,

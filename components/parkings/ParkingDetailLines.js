@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet } from "react-native";
+import React from "react";
 import { TEXT_STYLES, formatTime } from "../../common";
 
 const displayItems = [
@@ -8,6 +8,7 @@ const displayItems = [
   { label: "Cost", content: "cost" },
   { label: "Plate", content: "plate" },
   { label: "Slot", content: "slot" },
+  { label: "Notes", content: "notes" },
 ];
 
 const LineDisplay = ({ label, content, item }) => {
@@ -24,7 +25,9 @@ const LineDisplay = ({ label, content, item }) => {
   return (
     <View style={styles.line}>
       <Text style={styles.line.title}>{label}</Text>
-      <Text style={styles.line.content}>{displayContent}</Text>
+      <Text style={content == "notes" ? styles.notes : styles.line.content}>
+        {displayContent}
+      </Text>
     </View>
   );
 };
@@ -44,7 +47,6 @@ export default ParkingDetailLines = ({ item }) => {
   );
 };
 
-
 const styles = StyleSheet.create({
   attrs: {
     marginTop: 20,
@@ -61,4 +63,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     flexDirection: "row",
   },
+  notes: {
+    width:"70%"
+    
+  }
 });
