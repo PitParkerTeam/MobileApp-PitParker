@@ -19,7 +19,7 @@ import {
 } from "firebase/firestore";
 import { fetchPits } from "../../api/firestore/pit_store";
 
-export default function MyPits() {
+export default function MyPits( { navigation }) {
   const [search, setSearch] = useState("");
   const [myPits, setMyPits] = useState([]);
   useEffect(() => {
@@ -60,7 +60,7 @@ export default function MyPits() {
       <View style={styles.listContainer}>
         <FlatList
           data={myPits}
-          renderItem={({ item }) => <MyPit pit={item} />}
+          renderItem={({ item }) => <MyPit pit={item} navigation={navigation}/>}
         />
       </View>
     </SafeAreaView>

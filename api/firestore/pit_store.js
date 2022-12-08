@@ -3,6 +3,7 @@ import {
     addDoc,
     deleteDoc,
     doc,
+    getDoc,
     onSnapshot,
   } from "firebase/firestore";
   
@@ -35,7 +36,9 @@ import {
         if (docSnap.exists()) {
           return docSnap.data();
         }
-      } catch {}
+      } catch (err) {
+        console.log(err);
+      }
     };
   
   export async function deletePit(pid) {

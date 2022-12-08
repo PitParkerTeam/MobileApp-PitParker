@@ -5,18 +5,18 @@ import { SmallMap } from "../maps";
 import { COLORS, TEXT_STYLES } from "../../common";
 import { Entypo } from "@expo/vector-icons";
 
-export default function MyPit({ id, pit }) {
-  const navigation = useNavigation();
+export default function MyPit({ pit, navigation }) {
+  // const navigation = useNavigation();
   const dist = (pit.distance / 1000).toFixed(2);
   const longitude = pit.longitude;
   const latitude = pit.latitude;
   return (
     <Pressable
-      onPress={() => navigation.navigate("PitDetails", { pit })}
+      onPress={() => navigation.navigate("PitDetails", { id: pit.id })}
       style={styles.container}
     >
       <SmallMap
-        disabled={true}
+        // disabled={true}
         style={styles.map}
         location={{ longitude, latitude }}
       />
