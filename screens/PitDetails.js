@@ -3,7 +3,6 @@ import {
   Text,
   StyleSheet,
   Pressable,
-  FlatList,
   ScrollView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
@@ -13,12 +12,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS, TEXT_STYLES, formatTime } from "../common";
 import { Entypo } from "@expo/vector-icons";
 import { fetchParkings } from "../api/firestore/parking_store";
-import { ParkingRecord } from "../components";
 
 export default function PitDetails({ route, navigation }) {
   const { id } = route.params;
   useEffect(() => {
-    // const { id } = route.params;
     getPit(id).then((res) => setPit(res));
     return () => {};
   }, [route]);
@@ -49,25 +46,6 @@ export default function PitDetails({ route, navigation }) {
   const pitParkingHistory = parkingHistory.filter((obj) => obj.pitId == id);
   const [pit, setPit] = useState({});
 
-  // const Item = ({ item }) => {
-  //   <View style={styles.historyList}>
-  //     <Pressable
-  //       onPress={() => navigation.navigate("ParkingDetails", { id: item.id })}
-  //     >
-  //       <Text>
-  //         {item.parkTime} •
-  //         {`${item.duration} ${item.durationUnit}${
-  //           item.duration > 1 ? "s" : ""
-  //         }`}
-  //       </Text>
-  //     </Pressable>
-  //   </View>;
-  // };
-  // const onPressHandler = () => {
-  //   console.log(id);
-  //   console.log(pitParkingHistory);
-  // };
-  // const renderItem = ({ item }) => {}
   const { longitude, latitude, name, distance, area, address, rate } = pit;
   const dist = (distance / 1000).toFixed(2);
   return (
@@ -97,13 +75,6 @@ export default function PitDetails({ route, navigation }) {
           <Text style={styles.historyTitle}>Parking History</Text>
         </View>
         <View style={styles.historyContainer}>
-          {/* <Pressable onPress={onPressHandler}>
-            <Text>test</Text>
-          </Pressable> */}
-          {/* <FlatList
-            data={pitParkingHistory}
-            renderItem={({ item }) => <ParkingRecord item={item} />}
-          ></FlatList> */}
           <ScrollView>
             {pitParkingHistory.map((item) => {
               return (
@@ -140,7 +111,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.BASE[0],
   },
   row: {
-    // flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 2,
@@ -162,40 +132,15 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   historyList: {
-    // flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     padding: 10,
     marginTop: 8,
-    // marginBottom: 8,
     borderColor: COLORS.BASE[40],
     borderWidth: 1,
-    // borderLeftWidth: 0,
-    // borderRightWidth: 0,
-    // height: 30,
-    // ...COLORS.BASE[100],
   },
   historyContent: {
     fontSize: 14,
     fontWeight: "600",
   }
-  // parkingItem: {
-  //   height: 130,
-  //   marginTop: 6,
-  //   marginBottom: 6,
-  //   padding: "4%",
-  //   width: "100%",
-  //   backgroundColor: COLORS.BASE[0],
-  //   borderColor: COLORS.BASE[40],
-  //   borderWidth: 1,
-  //   borderLeftWidth: 0,
-  //   borderRightWidth: 0,
-  //   title: {
-  //     ...TEXT_STYLES.base[700],
-  //     marginBottom: 20,
-  //   },
-  //   text: {
-  //     marginBottom: 5,
-  //   },
-  // },
 });
