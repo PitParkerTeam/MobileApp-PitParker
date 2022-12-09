@@ -49,24 +49,24 @@ export default function PitDetails({ route, navigation }) {
   const pitParkingHistory = parkingHistory.filter((obj) => obj.pitId == id);
   const [pit, setPit] = useState({});
 
-  const Item = ({ item }) => {
-    <View style={styles.historyList}>
-      <Pressable
-        onPress={() => navigation.navigate("ParkingDetails", { id: item.id })}
-      >
-        <Text>
-          {item.parkTime} •
-          {`${item.duration} ${item.durationUnit}${
-            item.duration > 1 ? "s" : ""
-          }`}
-        </Text>
-      </Pressable>
-    </View>;
-  };
-  const onPressHandler = () => {
-    console.log(id);
-    console.log(pitParkingHistory);
-  };
+  // const Item = ({ item }) => {
+  //   <View style={styles.historyList}>
+  //     <Pressable
+  //       onPress={() => navigation.navigate("ParkingDetails", { id: item.id })}
+  //     >
+  //       <Text>
+  //         {item.parkTime} •
+  //         {`${item.duration} ${item.durationUnit}${
+  //           item.duration > 1 ? "s" : ""
+  //         }`}
+  //       </Text>
+  //     </Pressable>
+  //   </View>;
+  // };
+  // const onPressHandler = () => {
+  //   console.log(id);
+  //   console.log(pitParkingHistory);
+  // };
   // const renderItem = ({ item }) => {}
   const { longitude, latitude, name, distance, area, address, rate } = pit;
   const dist = (distance / 1000).toFixed(2);
@@ -96,7 +96,7 @@ export default function PitDetails({ route, navigation }) {
         <View>
           <Text style={styles.historyTitle}>Parking History</Text>
         </View>
-        <View style={styles.historyList}>
+        <View style={styles.historyContainer}>
           {/* <Pressable onPress={onPressHandler}>
             <Text>test</Text>
           </Pressable> */}
@@ -107,19 +107,21 @@ export default function PitDetails({ route, navigation }) {
           <ScrollView>
             {pitParkingHistory.map((item) => {
               return (
-                <View style={styles.historyList}>
+                <View>
                   <Pressable
                     onPress={() =>
                       navigation.navigate("ParkingDetails", { id: item.id })
                     }
                   >
-                    <Text>
-                      {item.parkTime} •
-                      {`${item.duration} ${item.durationUnit}${
-                        item.duration > 1 ? "s" : ""
-                      }`}
-                    </Text>
-                    <Entypo name="chevron-right" size={12} color="black" />
+                    <View style={styles.historyList}>
+                      <Text style={styles.historyContent}>
+                        {item.parkTime} •
+                        {`${item.duration} ${item.durationUnit}${
+                          item.duration > 1 ? "s" : ""
+                        }`}
+                      </Text>
+                      <Entypo name="chevron-right" size={16} color="black" />
+                    </View>
                   </Pressable>
                 </View>
               );
@@ -151,14 +153,32 @@ const styles = StyleSheet.create({
     marginTop: 2,
     ...TEXT_STYLES.title[300],
   },
+  historyContainer: {
+    height: 200,
+    backgroundColor: "aqua",
+  },
   historyTitle: {
     ...TEXT_STYLES.title[700],
     marginTop: 50,
   },
   historyList: {
-    height: 30,
-    ...COLORS.BASE[100],
+    // flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 10,
+    marginTop: 8,
+    // marginBottom: 8,
+    borderColor: COLORS.BASE[40],
+    borderWidth: 1,
+    // borderLeftWidth: 0,
+    // borderRightWidth: 0,
+    // height: 30,
+    // ...COLORS.BASE[100],
   },
+  historyContent: {
+    fontSize: 14,
+    fontWeight: "600",
+  }
   // parkingItem: {
   //   height: 130,
   //   marginTop: 6,
