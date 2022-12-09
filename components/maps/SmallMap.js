@@ -2,15 +2,20 @@ import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import { StyleSheet, View, Text, Dimensions, Button } from "react-native";
 import { COLORS, MAP_STYLE } from "../../common";
 
-export default function SmallMap({ location, style, disabled }) {
+export default function SmallMap({ location, style, disabled, delta }) {
   const coords = {
     latitude: location?.latitude || 37.78825,
     longitude: location?.longitude || -122.4324,
   };
+  const region = {
+    ...coords,
+    latitudeDelta: delta || 0.002,
+    longitudeDelta: delta || 0.002,
+  };
   return (
     <MapView
       style={[styles.map, style]}
-      region={{ ...coords, latitudeDelta: 0.02, longitudeDelta: 0.02 }}
+      region={region}
       provider={PROVIDER_GOOGLE}
       customMapStyle={MAP_STYLE}
       scrollEnabled={!disabled}

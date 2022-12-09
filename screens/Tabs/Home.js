@@ -2,19 +2,13 @@ import { View, Text, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Map, PitButton } from "../../components";
 import * as Location from "expo-location";
-import { COLORS } from "../../common";
+import { COLORS, DEFAULT_VARS } from "../../common";
 import { batchAddPits, getNearbyParking } from "../../api";
-import { useIsFocused } from "@react-navigation/core";
 
 export default function Home() {
-  const isFocused = useIsFocused();
   const [activeTab, setActiveTab] = useState("nearby");
   const [pits, setPits] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [userLocation, setUserLocation] = useState({
-    latitude: 37.78825,
-    longitude: -122.4324,
-  });
+  const [userLocation, setUserLocation] = useState(DEFAULT_VARS.coords);
 
   const locateUser = async () => {
     const { status } = await Location.requestForegroundPermissionsAsync();
@@ -43,34 +37,33 @@ export default function Home() {
       />
     </View>
   );
-  const setupPits = async () => {
-    setLoading(true);
+
+  const mapPits = (pit) => {
+    const { place_id, name, geometry, vicinity } = pit;
+    const latitude = geometry.location.lat;
+    const longitude = geometry.location.lng;
+    const compound_code = pit?.plus_code?.compound_code || "";
+    return { place_id, name, latitude, longitude, vicinity, compound_code };
+  };
+
+  const setupNearbyPits = async () => {
     const parking = await getNearbyParking(userLocation);
-    const pitsMapped = parking.results.map((pit) => {
-      const { place_id, name, geometry, vicinity } = pit;
-
-      const latitude = geometry.location.lat;
-      const longitude = geometry.location.lng;
-
-      const compound_code = pit?.plus_code?.compound_code || "";
-      return { place_id, name, latitude, longitude, vicinity, compound_code };
-    });
+    const pitsMapped = parking.results.map(mapPits);
     setPits(pitsMapped);
     batchAddPits(pitsMapped);
-    setLoading(false);
   };
 
   useEffect(() => {
     locateUser();
-  }, [isFocused]);
+  }, []);
 
   useEffect(() => {
-    setupPits();
+    setupNearbyPits();
   }, [userLocation]);
 
   useEffect(() => {
     if (activeTab == "nearby") {
-      setupPits();
+      setupNearbyPits();
     } else {
       setPits([]);
     }
@@ -80,7 +73,7 @@ export default function Home() {
   return (
     <View style={styles.container}>
       <TabSet />
-      <Map userLocation={userLocation} pits={pits} loading={loading} />
+      <Map userLocation={userLocation} pits={pits} />
     </View>
   );
 }

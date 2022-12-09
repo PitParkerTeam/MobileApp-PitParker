@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
-import { StyleSheet, Dimensions, ActivityIndicator } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 import { MAP_STYLE } from "../../common";
+import { useNavigation } from "@react-navigation/core";
 
-export default function Map({ pits, userLocation, loading = false }) {
+export default function Map({ pits, userLocation }) {
+  const navigation = useNavigation();
   const mapPressed = (event) => {};
   const PitMarker = ({pit}) => {
-    const {longitude, latitude} = pit
-    return <Marker coordinate={{longitude, latitude}} />;
+    const {longitude, latitude, place_id} = pit
+    const handlePress = () => {
+      navigation.navigate("PitDetails", { id: place_id });
+    }
+    return <Marker coordinate={{longitude, latitude}} onPress={handlePress} />;
   };
 
-  return !loading ? (
+  return (
     <MapView
       style={styles.map}
       onPress={mapPressed}
@@ -30,7 +35,7 @@ export default function Map({ pits, userLocation, loading = false }) {
       ))}
     </MapView>
     
-  ) : <ActivityIndicator size="large" />;
+  ) 
 }
 
 const styles = StyleSheet.create({
