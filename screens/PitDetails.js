@@ -78,7 +78,7 @@ export default function PitDetails({ route, navigation }) {
           <ScrollView>
             {pitParkingHistory.map((item) => {
               return (
-                <View>
+                <View key={item.id}>
                   <Pressable
                     onPress={() =>
                       navigation.navigate("ParkingDetails", { id: item.id })
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   name: {
-    ...TEXT_STYLES.heading.h3,
+    ...TEXT_STYLES.heading.h4,
     marginTop: 14,
   },
   content: {
