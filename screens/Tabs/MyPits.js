@@ -29,6 +29,8 @@ export default function MyPits( { navigation }) {
           distance: snapDoc.data().distance,
           longitude: snapDoc.data().longitude,
           latitude: snapDoc.data().latitude,
+          address: snapDoc.data().address,
+          rate: snapDoc.data().rate,
         }))
       );
     });

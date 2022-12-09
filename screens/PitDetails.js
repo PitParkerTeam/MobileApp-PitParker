@@ -15,28 +15,26 @@ export default function PitDetails({ route }) {
 
   const [pit, setPit] = useState({});
 
-  const { longitude, latitude, name, distance, area } = pit;
+  const { longitude, latitude, name, distance, area, address, rate } = pit;
   const dist = (distance / 1000).toFixed(2);
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={{ paddingHorizontal: 24 }}>
-        <View>
           <SmallMap disabled={true} location={{ longitude, latitude }} />
-        </View>
         <View style={styles.pitItem}>
           <View style={styles.row}>
             <Text style={styles.name}>{name}</Text>
             <Entypo name="star" size={24} color={COLORS.TINT[100]} style={ {marginTop: 24} }/>
           </View>
-          <View style={styles.row}>
-            <Text>{pit.area}</Text>
+          <View>
+            <Text>{address}, {area}</Text>
             <Text style={styles.distance}>
-              {dist < 1 ? `${distance} m` : `${dist} km`}
+              {dist < 1 ? `${distance} m` : `${dist} km`} • ${rate}/hour
             </Text>
           </View>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -45,7 +43,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     backgroundColor: COLORS.BASE[0],
-    marginVertical: 4
   },
   row: {
     // flex: 1,
