@@ -12,6 +12,7 @@ export const TEXT_STYLES = {
     600: { fontSize: 20, fontWeight: "600" },
     500: { fontSize: 20, fontWeight: "500" },
     400: { fontSize: 20, fontWeight: "400" },
+    300: { fontSize: 16, fontWeight: "400" },
   },
   base: {
     700: { fontSize: 14, fontWeight: "700" },
