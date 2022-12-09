@@ -20,18 +20,28 @@ export default function PitDetails({ route }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ paddingHorizontal: 24 }}>
-          <SmallMap disabled={true} location={{ longitude, latitude }} />
+        <SmallMap disabled={true} location={{ longitude, latitude }} />
         <View style={styles.pitItem}>
           <View style={styles.row}>
             <Text style={styles.name}>{name}</Text>
-            <Entypo name="star" size={24} color={COLORS.TINT[100]} style={ {marginTop: 24} }/>
+            <Entypo
+              name="star"
+              size={24}
+              color={COLORS.TINT[100]}
+              style={{ marginTop: 14 }}
+            />
           </View>
           <View>
-            <Text>{address}, {area}</Text>
-            <Text style={styles.distance}>
+            <Text style={styles.content}>
+              {address}, {area}
+            </Text>
+            <Text style={styles.content}>
               {dist < 1 ? `${distance} m` : `${dist} km`} • ${rate}/hour
             </Text>
           </View>
+        </View>
+        <View>
+          <Text style={styles.historyTitle}>Parking History</Text>
         </View>
       </View>
     </SafeAreaView>
@@ -51,8 +61,15 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   name: {
-    ...TEXT_STYLES.heading.h4,
-    marginTop: 24,
+    ...TEXT_STYLES.heading.h3,
+    marginTop: 14,
   },
-
+  content: {
+    marginTop: 2,
+    ...TEXT_STYLES.title[300],
+  },
+  historyTitle: {
+    ...TEXT_STYLES.title[700],
+    marginTop: 50,
+  },
 });
