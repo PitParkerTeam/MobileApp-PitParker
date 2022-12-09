@@ -75,9 +75,11 @@
   - getting names of different areas(?)
   - how to avoid duplicate pits & recognizations of same pits based on location details
 
-### Iteration 3 - 2022/12/07
+### Iteration 3 - 2022/12/09
 - Finished Map configuration & customization
 - Added Backend services for Google Map Places API for nearby parking information
+- Added markers for parking lots from Google Map
+- Added feature for auto imports from Google Map parking lots to our database based on user parking nearby
 - 
 
 ## Testing
