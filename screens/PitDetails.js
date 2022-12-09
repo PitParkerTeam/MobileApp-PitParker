@@ -1,19 +1,48 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SmallMap } from "../components";
 import { getPit } from "../api/firestore/pit_store";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { COLORS, TEXT_STYLES } from "../common";
+import { COLORS, TEXT_STYLES, formatTime } from "../common";
 import { Entypo } from "@expo/vector-icons";
+import { fetchParkings } from "../api/firestore/parking_store";
 
 export default function PitDetails({ route }) {
+  const { id } = route.params;
   useEffect(() => {
-    const { id } = route.params;
+    // const { id } = route.params;
     getPit(id).then((res) => setPit(res));
     return () => {};
   }, [route]);
 
+  const [parkingHistory, setParkingHistory] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = fetchParkings((querySnapshot) => {
+      if (querySnapshot.empty) {
+        setParkingHistory([]);
+        return;
+      }
+      setParkingHistory(
+        querySnapshot.docs.map((snapDoc) => ({
+          ...snapDoc.data(),
+          id: snapDoc.id,
+          parkTime: formatTime(snapDoc.parkTime),
+          pitId: snapDoc.data().pitId,
+        }))
+      );
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+  const pitParkingHistory = parkingHistory.filter(obj => obj.pitId == id)
   const [pit, setPit] = useState({});
+
+  // const onPressHandler = () => {
+  //   console.log(id);
+  //   console.log(pitParkingHistory);
+  // };
 
   const { longitude, latitude, name, distance, area, address, rate } = pit;
   const dist = (distance / 1000).toFixed(2);
@@ -43,6 +72,11 @@ export default function PitDetails({ route }) {
         <View>
           <Text style={styles.historyTitle}>Parking History</Text>
         </View>
+        <ScrollView>
+          <View>
+            
+          </View>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
