@@ -5,9 +5,8 @@ import { MAP_STYLE, COLORS, TEXT_STYLES } from "../../common";
 import { useNavigation } from "@react-navigation/core";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-export default function Map({ pits, userLocation }) {
+export default function Map({ pits, userLocation, iconColor, handleMapPress }) {
   const navigation = useNavigation();
-  const mapPressed = (event) => {};
   const PitMarker = ({ pit }) => {
     const { longitude, latitude, id, name } = pit;
     const handlePress = () => {
@@ -17,7 +16,7 @@ export default function Map({ pits, userLocation }) {
       <Marker
         coordinate={{ longitude, latitude }}
       >
-        <Icon name="map-marker" size={45} style={styles.icon} />
+        <Icon name="map-marker" size={45} style={[styles.icon, {color: iconColor}]} />
         <Callout onPress={handlePress} style={styles.callout}>
           <Text style={styles.markerName}>{name}</Text>
         </Callout>
@@ -28,7 +27,7 @@ export default function Map({ pits, userLocation }) {
   return (
     <MapView
       style={styles.map}
-      onPress={mapPressed}
+      onPress={handleMapPress}
       showsUserLocation
       region={{
         ...userLocation,
@@ -62,7 +61,6 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginBottom: 4,
-    color: COLORS.TINT[120],
     borderRadius:1,
   },
 });

@@ -1,8 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Map, PitButton } from "../../components";
-import * as Location from "expo-location";
-import { COLORS, DEFAULT_VARS } from "../../common";
+import { COLORS } from "../../common";
 import { mapAPI, pitAPI } from "../../api";
 import { userStore } from "../../stores";
 import { observer } from "mobx-react";
@@ -55,7 +54,7 @@ const Home = observer(() => {
     if (activeTab == "nearby") {
       setupNearbyPits();
     } else {
-      setPits(userStore.userPits)
+      setPits(userStore.userPits);
     }
     return () => setPits([]);
   }, [activeTab]);
@@ -63,7 +62,11 @@ const Home = observer(() => {
   return (
     <View style={styles.container}>
       <TabSet />
-      <Map userLocation={userStore.userLocation} pits={pits} />
+      <Map
+        userLocation={userStore.userLocation}
+        pits={pits}
+        iconColor={activeTab == "nearby" ? COLORS.TINT[120] : COLORS.TINT[100]}
+      />
     </View>
   );
 });
