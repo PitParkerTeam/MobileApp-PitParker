@@ -10,13 +10,13 @@ import {
 import React, { useEffect, useState } from "react";
 import { SmallMap, PitButton, ParkingDetailLines, BottomContainer } from "../components";
 import { COLORS, TEXT_STYLES } from "../common";
-import { getParking } from "../api/firestore/parking_store";
+import { parkingAPI } from "../api";
 import ImageView from "react-native-image-viewing";
 
 export default function ParkingDetails({ route, navigation }) {
   useEffect(() => {
     const { id } = route.params;
-    getParking(id).then((res) => setItem(res));
+    parkingAPI.getParking(id).then((res) => setItem(res));
     return () => {};
   }, [route]);
 

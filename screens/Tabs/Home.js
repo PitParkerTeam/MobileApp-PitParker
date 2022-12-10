@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Map, PitButton } from "../../components";
 import * as Location from "expo-location";
 import { COLORS, DEFAULT_VARS } from "../../common";
-import { batchAddPits, getNearbyParking } from "../../api";
+import { mapAPI, pitAPI } from "../../api";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("nearby");
@@ -47,10 +47,10 @@ export default function Home() {
   };
 
   const setupNearbyPits = async () => {
-    const parking = await getNearbyParking(userLocation);
+    const parking = await mapAPI.getNearbyParking(userLocation);
     const pitsMapped = parking.results.map(mapPits);
     setPits(pitsMapped);
-    batchAddPits(pitsMapped);
+    pitAPI.batchAddPits(pitsMapped);
   };
 
   useEffect(() => {
