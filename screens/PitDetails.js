@@ -1,12 +1,6 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  ScrollView,
-} from "react-native";
+import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
-import { SmallMap } from "../components";
+import { BottomContainer, PitButton, SmallMap } from "../components";
 import { getPit } from "../api/firestore/pit_store";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS, TEXT_STYLES, formatTime } from "../common";
@@ -72,33 +66,45 @@ export default function PitDetails({ route, navigation }) {
           </View>
         </View>
         <View>
-          <Text style={styles.historyTitle}>Parking History</Text>
+          <View>
+            <Text style={styles.historyTitle}>Parking History</Text>
+          </View>
+          <View style={styles.historyContainer}>
+            <ScrollView>
+              {pitParkingHistory.map((item) => {
+                return (
+                  <View key={item.id}>
+                    <Pressable
+                      onPress={() =>
+                        navigation.navigate("ParkingDetails", { id: item.id })
+                      }
+                    >
+                      <View style={styles.historyList}>
+                        <Text style={styles.historyContent}>
+                          {item.parkTime} •
+                          {`${item.duration} ${item.durationUnit}${
+                            item.duration > 1 ? "s" : ""
+                          }`}
+                        </Text>
+                        <Entypo name="chevron-right" size={16} color="black" />
+                      </View>
+                    </Pressable>
+                  </View>
+                );
+              })}
+            </ScrollView>
+          </View>
         </View>
-        <View style={styles.historyContainer}>
-          <ScrollView>
-            {pitParkingHistory.map((item) => {
-              return (
-                <View key={item.id}>
-                  <Pressable
-                    onPress={() =>
-                      navigation.navigate("ParkingDetails", { id: item.id })
-                    }
-                  >
-                    <View style={styles.historyList}>
-                      <Text style={styles.historyContent}>
-                        {item.parkTime} •
-                        {`${item.duration} ${item.durationUnit}${
-                          item.duration > 1 ? "s" : ""
-                        }`}
-                      </Text>
-                      <Entypo name="chevron-right" size={16} color="black" />
-                    </View>
-                  </Pressable>
-                </View>
-              );
-            })}
-          </ScrollView>
-        </View>
+        <BottomContainer>
+          <PitButton 
+            text="Get Directions"
+          />
+          <PitButton 
+            text="Park Here"
+            type="primary"
+            onPress={() => navigation.navigate("Home")}
+          />
+        </BottomContainer>
       </View>
     </SafeAreaView>
   );
@@ -142,5 +148,5 @@ const styles = StyleSheet.create({
   historyContent: {
     fontSize: 14,
     fontWeight: "600",
-  }
+  },
 });
