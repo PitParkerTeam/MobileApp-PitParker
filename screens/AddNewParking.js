@@ -12,58 +12,37 @@ import { SmallMap, PitInput, BottomContainer } from "../components";
 import { COLORS } from "../common";
 import { PitButton } from "../components";
 import { parkingAPI, pitAPI } from "../api";
-import * as Location from "expo-location";
-// import DateTimePicker from "@react-native-community/datetimepicker";
-import DatePicker from "react-native-datepicker";
 import ImageManager from "../components/basics/ImageManager";
 import moment from "moment";
-import { addHours } from "moment";
-import DateTimePicker from "react-native-modal-datetime-picker";
 import TimePeriodPicker from "../components/basics/TimePeriodPicker";
 import { Switch } from "react-native";
+import { userStore } from "../stores";
+import { observer } from "mobx-react-lite";
 
-export default function AddNewParking({ navigation, route }) {
+const AddNewParking = observer(({ navigation, route }) => {
   const [plate, setPlate] = useState(null);
   const [cost, setCost] = useState(null);
   const [slot, setSlot] = useState(null);
   const [notes, setNotes] = useState(null);
   const [pitID, setPitID] = useState(null);
-
-  // const imageHandler = (uri) => {
-  //   console.log("imageHandler called", uri);
-  //   setUri(uri);
-  // };
-
+  const [isSwitchOn, setIsSwitchOn] = useState(false);
   const [uri, setUri] = useState("");
+
   const imageHandler = (uri) => {
     console.log("imageHandler called", uri);
     setUri(uri);
   };
-
+  const [endTime, setEndTime] = useState(now);
   const [location, setLocation] = useState({});
-  // const [isModalVisible, setIsModalVisible] = useState(false);
   const [pitName, setPitName] = useState(null);
   const [startTime, setStartTime] = useState(new Date());
+  
   const now = new Date();
   now.setHours(now.getHours() + 1);
-  const [endTime, setEndTime] = useState(now);
-
-  const locateUser = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
-      return;
-    }
-    let location = await Location.getCurrentPositionAsync({
-      accuracy: Location.Accuracy.Balanced,
-      enableHighAccuracy: true,
-    });
-    const { latitude, longitude } = location.coords;
-    setLocation({ latitude, longitude });
-  };
 
   const getLocation = () => {
     if (!route.params) {
-      locateUser();
+      setLocation(userStore.userLocation);
     } else {
       const { params } = route;
       const { latitude, longitude } = route.params;
@@ -91,17 +70,13 @@ export default function AddNewParking({ navigation, route }) {
     return res;
   };
 
-
-
   const saveParking = async () => {
     const { latitude, longitude } = location;
-    var time = moment().format("YYYY-MM-DD hh:mm:ss");
-
     const duration = moment.duration(moment(endTime).diff(moment(startTime)));
     const durationInMinutes = duration.asMinutes();
     const hours = Math.floor(durationInMinutes / 60);
     const minutes = Math.floor(durationInMinutes % 60);
-    const formattedDuration = `${hours}hours ${minutes}minutes`;
+    const formattedDuration = `${hours}hours ${minutes} minutes`;
 
     if (startTime >= endTime) {
       Alert.alert("Action Failed", "Start Time must be earlier than End Time");
@@ -122,9 +97,9 @@ export default function AddNewParking({ navigation, route }) {
         await pitAPI.saveAsMyPit(myPit);
       }
 
-      
-      if(uri) {setUri(parkingAPI.uploadImage(uri))};
-      console.log(uri);
+      if (uri) {
+        setUri(parkingAPI.uploadImage(uri));
+      }
 
       await parkingAPI.createNewParking({
         latitude,
@@ -144,8 +119,6 @@ export default function AddNewParking({ navigation, route }) {
     }
   };
 
-
-  const [isSwitchOn, setIsSwitchOn] = useState(false);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -208,7 +181,7 @@ export default function AddNewParking({ navigation, route }) {
       </BottomContainer>
     </SafeAreaView>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -225,3 +198,5 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
 });
+
+export default AddNewParking;

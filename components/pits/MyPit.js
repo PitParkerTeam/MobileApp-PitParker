@@ -1,12 +1,15 @@
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SmallMap } from "../maps";
-import { COLORS, TEXT_STYLES } from "../../common";
+import { COLORS, TEXT_STYLES, calculateDistance } from "../../common";
 import { Entypo } from "@expo/vector-icons";
+import { observer } from "mobx-react-lite";
+import { userStore } from "../../stores";
 
-export default function MyPit({ pit, navigation }) {
+const MyPit = observer(({ pit, navigation }) => {
   const dist = (pit.distance / 1000).toFixed(2);
   const { longitude, latitude, name, vicinity } = pit;
+  
   return (
     <Pressable
       onPress={() => navigation.navigate("PitDetails", { id: pit.id })}
@@ -31,7 +34,7 @@ export default function MyPit({ pit, navigation }) {
       </View>
     </Pressable>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -54,3 +57,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
+
+export default MyPit;

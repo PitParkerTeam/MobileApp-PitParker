@@ -24,6 +24,10 @@ class UserStore {
     this.currentTime = val;
   }
 
+  setUserLocation(val) {
+    this.userLocation = val;
+  }
+
   isCurrent({ startTime, endTime }) {
     return (
       timeDiff(startTime.toDate(), this.currentTime) < 0 &&
@@ -47,14 +51,18 @@ class UserStore {
   locateUser = flow(function* () {
     const { status } = yield Location.requestForegroundPermissionsAsync();
     if (status !== "granted") return;
-    const location = yield Location.getCurrentPositionAsync({
-      accuracy: Location.Accuracy.Balanced,
-      enableHighAccuracy: true,
-    });
-    const { longitude, latitude } = location.coords;
-    if (longitude && latitude) {
-      this.userLocation = { longitude, latitude };
-    }
+    yield Location.watchPositionAsync(
+      {
+        accuracy: Location.Accuracy.Balanced,
+        timeInterval: 5000,
+      },
+      (location) => {
+        const { longitude, latitude } = location.coords;
+        if (longitude && latitude) {
+          this.setUserLocation({ longitude, latitude });
+        }
+      }
+    );
   });
 }
 

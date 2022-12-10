@@ -3,19 +3,18 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Home, MyPits, MyParkings, Account } from "./Tabs";
 import { BottomTab } from "../components";
 import { pitAPI, parkingAPI } from "../api";
-import { userStore } from "../stores";
+import { userStore, pitStore } from "../stores";
 import { observer } from "mobx-react";
-import { formatTime } from "../common";
 
 const Tab = createBottomTabNavigator();
 
 const Main = observer(() => {
   const handlePits = (querySnapshot) => {
     if (querySnapshot.empty) {
-      userStore.setUserPits([]);
+      pitStore.setUserPits([]);
       return;
     }
-    userStore.setUserPits(
+    pitStore.setUserPits(
       querySnapshot.docs.map((snapDoc) => ({
         ...snapDoc.data(),
         place_id: snapDoc.id,
@@ -35,6 +34,10 @@ const Main = observer(() => {
       }))
     );
   };
+  
+  useEffect(() => {
+    userStore.locateUser();
+  }, []);
 
   useEffect(() => {
     const unsubscribe = parkingAPI.fetchParkings(handleParking);
