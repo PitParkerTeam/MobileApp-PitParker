@@ -4,7 +4,7 @@ import { SmallMap, PitInput, BottomContainer } from "../components";
 import { COLORS } from "../common";
 import TakePhoto from "../components/TakePhoto";
 import { PitButton } from "../components";
-import { createParking } from "../api/firestore/parking_store";
+import { createNewParking } from "../api/firestore/parking_store";
 import * as Location from "expo-location";
 // import DateTimePicker from "@react-native-community/datetimepicker";
 import DatePicker from "react-native-datepicker";
@@ -64,7 +64,7 @@ export default function AddNewParking({ navigation, route }) {
     const { latitude, longitude } = location;
     var time = moment().format("YYYY-MM-DD hh:mm:ss");
 
-    createParking({
+    createNewParking({
       latitude,
       longitude,
       time,
