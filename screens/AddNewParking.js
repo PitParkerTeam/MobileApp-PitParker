@@ -11,7 +11,7 @@ import { SmallMap, PitInput, BottomContainer } from "../components";
 import { COLORS } from "../common";
 import TakePhoto from "../components/TakePhoto";
 import { PitButton } from "../components";
-import { createNewParking } from "../api/firestore/parking_store";
+import { parkingAPI } from "../api";
 import * as Location from "expo-location";
 // import DateTimePicker from "@react-native-community/datetimepicker";
 import DatePicker from "react-native-datepicker";
@@ -79,16 +79,18 @@ export default function AddNewParking({ navigation, route }) {
   const saveParking = () => {
     const { latitude, longitude } = location;
     var time = moment().format("YYYY-MM-DD hh:mm:ss");
+    const duration = 0;
 
     if (startTime >= endTime) {
       Alert.alert("Action Failed", "Start Time must be earlier than End Time");
     } else {
       handlePit();
-      createNewParking({
+      parkingAPI.createNewParking({
         latitude,
         longitude,
         startTime,
         endTime,
+        duration,
         plate,
         cost,
         slot,
