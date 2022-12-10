@@ -1,24 +1,18 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import React from "react";
-import { COLORS, TEXT_STYLES } from "../common";
+import { COLORS, formatTimestamp, TEXT_STYLES } from "../../common";
 
-export default function HistoryParking({ item, navigation }) {
-  if (!item.dateString || !item.location || !item.duration) return;
+export default function ParkingRecord({ item, navigation }) {
+  if (!item.startTime || !item.longitude || !item.latitude || !item.duration)
+    return;
   return (
     <View style={styles.parkingItem}>
-      <Text style={styles.parkingItem.title}>{item.location}</Text>
+      <Text style={styles.parkingItem.title}>{item.name}</Text>
       <Pressable
-        onPress={() => navigation.navigate("ParkingDetails", { item })}
+        onPress={() => navigation.navigate("ParkingDetails", { id: item.id })}
       >
         <Text style={styles.parkingItem.text}>
-          {item.dateString} •
-          {`${item.duration} ${item.durationUnit}${
-            item.duration > 1 ? "s" : ""
-          }`}
-        </Text>
-        <Text>
-          {item.plate && `plate#: ${item.plate}`}
-          {item.cost && ` • cost: $${item.cost}`}
+          {formatTimestamp(item.startTime)} • {item.duration}
         </Text>
       </Pressable>
     </View>
@@ -27,7 +21,7 @@ export default function HistoryParking({ item, navigation }) {
 
 const styles = StyleSheet.create({
   parkingItem: {
-    height: 150,
+    height: 130,
     marginTop: 6,
     marginBottom: 6,
     padding: "4%",

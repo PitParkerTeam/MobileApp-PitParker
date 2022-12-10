@@ -1,85 +1,52 @@
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  Image,
-  SafeAreaView,
-} from "react-native";
-import React from "react";
+import { View, Text, FlatList, StyleSheet, SafeAreaView } from "react-native";
+import React, { useEffect, useState } from "react";
 import { SearchBar } from "@rneui/themed";
-import { useState } from "react";
 import { MyPit } from "../../components";
+import { COLORS, TEXT_STYLES } from "../../common";
+import { userStore } from "../../stores";
+import { observer } from "mobx-react";
 
-const dummy_pits = [
-  {
-    id: "p1",
-    pitName: "Parking Pit #100",
-    area: "Vancouver, BC",
-    fav: "yes",
-    distance: "500m",
-  },
-  {
-    id: "p2",
-    pitName: "Parking Pit #200",
-    area: "Vancouver, BC",
-    fav: "yes",
-    distance: "500m",
-  },
-  {
-    id: "p3",
-    pitName: "Parking Pit #300",
-    area: "Vancouver, BC",
-    fav: "yes",
-    distance: "500m",
-  },
-  {
-    id: "p4",
-    pitName: "Parking Pit #400",
-    area: "Vancouver, BC",
-    fav: "yes",
-    distance: "500m",
-  },
-  {
-    id: "p5",
-    pitName: "Parking Pit #500",
-    area: "Vancouver, BC",
-    fav: "yes",
-    distance: "500m",
-  },
-];
-
-export default function MyPits() {
+const MyPits = observer(({ navigation }) => {
   const [search, setSearch] = useState("");
   const updateSearch = (search) => {
     setSearch(search);
   };
+
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={styles.header}>My Pits</Text>
       <SearchBar
-        placeholder="Type Here..."
+        placeholder="Search"
         onChangeText={updateSearch}
         value={search}
         lightTheme={true}
         round={true}
       />
-      <FlatList
-        data={dummy_pits}
-        renderItem={({ item }) => <MyPit pit={item} />}
-     />
+      <View style={styles.listContainer}>
+        <FlatList
+          data={userStore.userPits}
+          renderItem={({ item }) => (
+            <MyPit pit={item} navigation={navigation} />
+          )}
+        />
+      </View>
     </SafeAreaView>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {
-    // alignItems: "center",
-    // justifyContent: "center",
+    flex: 1,
+    backgroundColor: COLORS.BASE[0],
   },
-  topContainer: {
-    // flex: 1,
-    // justifyContent: "center",
-    // alignItems: "center",
+  header: {
+    ...TEXT_STYLES.heading.h2,
+    marginLeft: "4%",
+    marginBottom: "3%",
   },
-  bottomContainer: {},
+  listContainer: {
+    flex: 1,
+    backgroundColor: COLORS.BASE[20],
+  },
 });
+export default MyPits;

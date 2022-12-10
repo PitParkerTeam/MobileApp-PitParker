@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, StatusBar } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
@@ -8,13 +8,16 @@ import {
   Signup,
   Main,
   AddNewParking,
+  ManageAccount,
+  Notifications,
 } from "./screens";
 import React, { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase/firebase-setup";
+import { auth } from "./api";
 
 const Stack = createNativeStackNavigator();
-const options = { headerShown: false };
+const hideHeader = { headerShown: false };
+const hideBackTitle = { headerBackTitleVisible: false };
 
 export default function App() {
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
@@ -35,43 +38,63 @@ export default function App() {
         }}
       >
         <Stack.Screen name="Login" component={Login} />
-
         <Stack.Screen name="Signup" component={Signup} />
       </Stack.Navigator>
     );
   };
   const AppStack = () => (
     <Stack.Navigator>
-      <Stack.Screen name="Main" component={Main} options={options} />
+      <Stack.Screen name="Main" component={Main} options={hideHeader} />
       <Stack.Screen
         name="ParkingDetails"
         component={ParkingDetails}
-        options={options}
+        options={{
+          headerTitle: "Parking Details",
+          ...hideBackTitle,
+        }}
       />
       <Stack.Screen
         name="PitDetails"
         component={PitDetails}
-        options={options}
+        options={{
+          headerTitle: "Pit Details",
+          ...hideBackTitle,
+        }}
       />
       <Stack.Screen
         name="AddNewParking"
         component={AddNewParking}
-        options={{ headerTitle: "Add New Parking" }}
+        options={{
+          headerTitle: "Add New Parking",
+          ...hideBackTitle,
+        }}
+      />
+      <Stack.Screen 
+        name="ManageAccount"
+        component={ManageAccount}
+        options={{
+          headerTitle: "Manage Account",
+          ...hideBackTitle,
+        }}
+      />
+      <Stack.Screen 
+        name="Notifications"
+        component={Notifications}
+        options={{
+          headerTitle: "Notification Setting",
+          ...hideBackTitle,
+        }}
       />
     </Stack.Navigator>
   );
   return (
     <NavigationContainer>
+      <StatusBar barStyle="dark-content" />
       {isUserAuthenticated ? AppStack() : AuthStack()}
     </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+  header: {},
 });

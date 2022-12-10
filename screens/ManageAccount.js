@@ -1,11 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function CurrPitCard() {
+export default function ManageAccount({ navigation }) {
   return (
     <View>
-      <Image />
-      <Text>Location Info</Text>
+      <Text>ManageAccount</Text>
     </View>
   )
 }

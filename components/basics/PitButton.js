@@ -1,11 +1,12 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import React from "react";
-import { COLORS } from "../common";
+import { COLORS, TEXT_STYLES } from "../../common";
 export default function PitButton({
   text,
   onPress,
   type = "normal",
   style,
+  textStyle,
   ...others
 }) {
   return (
@@ -13,14 +14,14 @@ export default function PitButton({
       style={({ pressed }) => [
         styles.basic,
         styles[type],
-        pressed && { opacity: 0.5 },
+        pressed && { opacity: 0.8 },
         style,
       ]}
       android_ripple={{ color: COLORS.LIGHT, foreground: true }}
       onPress={onPress}
       {...others}
     >
-      <Text style={[styles[type].text]}>{text}</Text>
+      <Text style={[styles[type].text, textStyle]}>{text}</Text>
     </Pressable>
   );
 }
@@ -31,29 +32,42 @@ const normalBtn = {
   borderWidth: 2,
   borderColor: COLORS.TINT[100],
 };
+const textBasic = {
+  ...TEXT_STYLES.title[700],
+};
+
 const styles = StyleSheet.create({
   basic: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginLeft: 14,
-    marginRight: 14,
+    marginHorizontal:12,
+    padding: 12,
+    width:"100%"
   },
   normal: {
     ...normalBtn,
-    padding: 12,
     backgroundColor: COLORS.BASE[0],
-    text: { fontSize: 18, color: COLORS.TINT[100] },
+    text: {
+      ...textBasic,
+      fontSize: 18,
+      color: COLORS.TINT[100],
+    },
   },
   primary: {
     ...normalBtn,
     backgroundColor: COLORS.TINT[100],
-    text: { fontSize: 18, color: COLORS.BASE[0] },
+    text: {
+      ...textBasic,
+      fontSize: 18,
+      color: COLORS.BASE[0],
+    },
   },
   text: {
     text: {
       fontSize: 32,
       color: COLORS.BASE[0],
+      ...textBasic,
     },
   },
 });

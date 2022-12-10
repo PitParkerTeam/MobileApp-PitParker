@@ -1,5 +1,6 @@
 export const COLORS = {
   TINT: {
+    120: "#17775C",
     100: "#5FB49C",
     80: "#98DFAF",
     60: "#DEEFB7",
@@ -13,5 +14,16 @@ export const COLORS = {
     40: "#DFDFDF",
     20: "#F4F4F4",
     0: "#FFFFFF",
+  },
+  DARK: {
+    100: "#0002A9",
+    80: "#934F8D",
+  },
+};
+
+export const DEFAULT_VARS = {
+  coords: {
+    latitude: 37.78825,
+    longitude: -122.4324,
   },
 };
