@@ -1,11 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Home, MyPits, MyParkings, Account } from "./Tabs";
 import { BottomTab } from "../components";
+import { pitAPI } from "../api";
+import { userStore } from "../stores";
+import { observer } from "mobx-react";
+
 const Tab = createBottomTabNavigator();
 
-export default function Main() {
-
+const Main = observer(()=> {
+   useEffect(() => {
+     const unsubscribe = pitAPI.fetchPits((querySnapshot) => {
+       if (querySnapshot.empty) {
+          userStore.setUserPits([])
+         return;
+       }
+       userStore.setUserPits(
+         querySnapshot.docs.map((snapDoc) => ({
+           ...snapDoc.data(),
+           place_id: snapDoc.id,
+           id: snapDoc.id,
+         }))
+       );
+     });
+     return () => {
+       unsubscribe();
+     };
+   }, []);
   return (
     <Tab.Navigator
       screenOptions={{ headerShown: false }}
@@ -25,4 +46,6 @@ export default function Main() {
       <Tab.Screen name="Account" component={Account} />
     </Tab.Navigator>
   );
-}
+})
+
+export default Main

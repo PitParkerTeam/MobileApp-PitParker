@@ -1,14 +1,26 @@
 import { makeAutoObservable, flow } from "mobx";
-import { userAPI } from "../api";
+import { userAPI, pitAPI } from "../api";
 import * as Location from "expo-location";
 import { DEFAULT_VARS } from "../common";
 
 class UserStore {
   userInfo = {};
   userLocation = { ...DEFAULT_VARS.coords };
+  userPits = [];
+  parkings = [];
+
   constructor() {
     makeAutoObservable(this);
   }
+
+  setParkings(val) {
+    this.parkings = val;
+  }
+
+  setUserPits(val) {
+    this.userPits = val;
+  }
+
   getUser = flow(function* (id) {
     try {
       const data = yield userAPI.getUser(id);
@@ -33,4 +45,4 @@ class UserStore {
 }
 
 const userStore = new UserStore();
-export default userStore
+export default userStore;

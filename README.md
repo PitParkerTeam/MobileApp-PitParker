@@ -79,8 +79,8 @@
 - Finished Map configuration & customization
 - Added Backend services for Google Map Places API for nearby parking information
 - Added markers for parking lots from Google Map
-- Added feature for auto imports from Google Map parking lots to our database based on user parking nearby
-- 
+- Added auto imports from Google Map nearby parking lots to our database based on user location
+- Integrated MobX as state management tool
 
 ## Testing
 Test User with some data:
