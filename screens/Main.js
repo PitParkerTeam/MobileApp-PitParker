@@ -73,7 +73,7 @@ const Main = observer(() => {
         component={MyParkings}
         options={{ title: "My Parking" }}
       />
-      <Tab.Screen name="Account" component={Account} />
+      <Tab.Screen name="Account" component={Account} options={{title: "Account"}}/>
     </Tab.Navigator>
   );
 });
