@@ -1,4 +1,11 @@
-import { View, StyleSheet, ScrollView, SafeAreaView, Alert } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  SafeAreaView,
+  Alert,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import { SmallMap, PitInput, BottomContainer } from "../components";
 import { COLORS } from "../common";
@@ -12,6 +19,7 @@ import moment from "moment";
 import { addHours } from "moment";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import TimePeriodPicker from "../components/basics/TimePeriodPicker";
+import { Switch } from "react-native";
 
 export default function AddNewParking({ navigation, route }) {
   const [plate, setPlate] = useState(null);
@@ -64,16 +72,18 @@ export default function AddNewParking({ navigation, route }) {
     getLocation();
   }, [route]);
 
+  const handlePit = () => {
+    
+  }
+
   const saveParking = () => {
     const { latitude, longitude } = location;
     var time = moment().format("YYYY-MM-DD hh:mm:ss");
 
-    if(startTime >= endTime) {
-      Alert.alert(
-        'Action Failed',
-        'Start Time must be earlier than End Time'
-        )
+    if (startTime >= endTime) {
+      Alert.alert("Action Failed", "Start Time must be earlier than End Time");
     } else {
+      handlePit();
       createNewParking({
         latitude,
         longitude,
@@ -93,6 +103,7 @@ export default function AddNewParking({ navigation, route }) {
   // var endTime = new Date();
   // endTime.setHours(endTime.getHours() + 1);
 
+  const [isSwitchOn, setIsSwitchOn] = useState(false);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -122,6 +133,21 @@ export default function AddNewParking({ navigation, route }) {
             multiline: true,
           }}
         />
+        <View style = {{marginVertical: 50, paddingVertical: 50}}>
+        <Text style = {{fontSize: "20", fontWeight: "bold"}}>Save As My Pit</Text>
+        <Switch
+          value={isSwitchOn}
+          onValueChange={(value) => setIsSwitchOn(value)}
+        />
+        {/* <Switch
+          value={isSwitchOn}
+          onValueChange={(value) => setIsSwitchOn(value)}
+          trackColor={{ true: "#00FF00", false: "#FF0000" }}
+          thumbColor="#FFFFFF"
+          ios_backgroundColor="#000000"
+        /> */}
+        </View>
+       
       </ScrollView>
       {/* <TakePhoto imageHandler={imageHandler} /> */}
       <BottomContainer>
