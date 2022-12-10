@@ -14,12 +14,13 @@ import { COLORS, TEXT_STYLES } from "../../common";
 import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 
-export default function ProfileSettings() {
+export default function ProfileSettings({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>Account</Text>
-      <View style={{paddingHorizontal: 24}}>
-        <Pressable>
+      <View style={{ paddingHorizontal: 24 }}>
+        <Pressable 
+          onPress={() => navigation.navigate("ManageAccount")}>
           <View style={styles.tabs}>
             <View style={styles.account}>
               <Ionicons
@@ -58,7 +59,6 @@ const styles = StyleSheet.create({
     borderRightWidth: 0,
     borderLeftWidth: 0,
     marginBottom: 50,
-    
   },
   listContainer: {
     flex: 1,

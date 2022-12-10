@@ -8,6 +8,8 @@ import {
   Signup,
   Main,
   AddNewParking,
+  ManageAccount,
+  Notifications,
 } from "./screens";
 import React, { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
@@ -64,6 +66,22 @@ export default function App() {
         component={AddNewParking}
         options={{
           headerTitle: "Add New Parking",
+          ...hideBackTitle,
+        }}
+      />
+      <Stack.Screen 
+        name="ManageAccount"
+        component={ManageAccount}
+        options={{
+          headerTitle: "Manage Account",
+          ...hideBackTitle,
+        }}
+      />
+      <Stack.Screen 
+        name="Notifications"
+        component={Notifications}
+        options={{
+          headerTitle: "Notification Setting",
           ...hideBackTitle,
         }}
       />
