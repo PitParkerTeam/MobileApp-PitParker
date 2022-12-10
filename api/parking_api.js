@@ -12,23 +12,11 @@ import { firestore, auth } from "./firestore/firebase_setup";
 
 const parkingAPI = {
   async createNewParking(parking) {
-    const { parkTime, duration, durationUnit, longitude, latitude, pitID } =
-      parking;
+    const uid = auth.currentUser.uid;
     try {
-      const docRef = await addDoc(collection(firestore, "parkings"), {
-        ...parking,
-      }).then(() =>
-        setDoc(
-          doc(firestore, "users", auth.currentUser.uid, "parkings", docRef.id),
-          {
-            parkTime,
-            duration,
-            durationUnit,
-            longitude,
-            latitude,
-            pitID,
-          }
-        )
+      const docRef = await addDoc(
+        collection(firestore, "users", uid, "parkings"),
+        parking
       );
     } catch (err) {
       console.log(err);
@@ -41,8 +29,9 @@ const parkingAPI = {
   },
 
   async getParking(id) {
+    const uid = auth.currentUser.uid;
     try {
-      const docRef = doc(firestore, "parkings", id);
+      const docRef = doc(firestore, "users", uid, "parkings", id);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         return docSnap.data();
@@ -51,15 +40,18 @@ const parkingAPI = {
   },
 
   async updateParking(pid, parking) {
+    const uid = auth.currentUser.uid;
     try {
-      await setDoc(doc(firestore, "parkings", pid), parking);
+      await setDoc(doc(firestore, "users", uid, "parkings", pid), parking);
     } catch (err) {
       console.log("update parking: ", err);
     }
   },
   async deleteParking(pid) {
+    const uid = auth.currentUser.uid;
+
     try {
-      await deleteDoc(doc(firestore, auth.currentUser.uid, "parkings", pid));
+      await deleteDoc(doc(firestore, uid, "parkings", pid));
     } catch (err) {
       console.log(err);
     }

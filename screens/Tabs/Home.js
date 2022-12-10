@@ -4,13 +4,13 @@ import { Map, PitButton } from "../../components";
 import * as Location from "expo-location";
 import { COLORS, DEFAULT_VARS } from "../../common";
 import { mapAPI, pitAPI } from "../../api";
-import {userStore} from '../../stores'
+import { userStore } from "../../stores";
 import { observer } from "mobx-react";
 
 const Home = observer(() => {
   const [activeTab, setActiveTab] = useState("nearby");
   const [pits, setPits] = useState([]);
-  
+
   const TabSet = () => (
     <View style={styles.buttons}>
       <PitButton
@@ -33,7 +33,7 @@ const Home = observer(() => {
     const latitude = geometry.location.lat;
     const longitude = geometry.location.lng;
     const compound_code = pit?.plus_code?.compound_code || "";
-    return { place_id, name, latitude, longitude, vicinity, compound_code };
+    return { id: place_id, name, latitude, longitude, vicinity, compound_code };
   };
 
   const setupNearbyPits = async () => {
@@ -55,7 +55,7 @@ const Home = observer(() => {
     if (activeTab == "nearby") {
       setupNearbyPits();
     } else {
-      setPits([]);
+      setPits(userStore.userPits)
     }
     return () => setPits([]);
   }, [activeTab]);
@@ -104,4 +104,4 @@ const styles = StyleSheet.create({
     width: 150,
   },
 });
-export default Home
+export default Home;

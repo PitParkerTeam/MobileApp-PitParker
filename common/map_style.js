@@ -32,7 +32,7 @@ export const MAP_STYLE =
         "elementType": "labels",
         "stylers": [
             {
-                "visibility": "off"
+                "visibility": "on"
             }
         ]
     },
@@ -41,7 +41,7 @@ export const MAP_STYLE =
         "elementType": "all",
         "stylers": [
             {
-                "visibility": "on"
+                "visibility": "off"
             }
         ]
     },

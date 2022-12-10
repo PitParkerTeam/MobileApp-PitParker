@@ -14,8 +14,8 @@ const pitAPI = {
   async batchAddPits(pits) {
     const batch = writeBatch(firestore);
     pits.forEach((pit) => {
-      const { place_id, ...others } = pit;
-      const pitRef = doc(firestore, "pits", place_id);
+      const { id, ...others } = pit;
+      const pitRef = doc(firestore, "pits", id);
       batch.set(pitRef, others, { merge: true });
     });
     await batch.commit();
@@ -34,9 +34,9 @@ const pitAPI = {
     }
   },
 
-  fetchPits(userPits) {
+  fetchPits(cb) {
     const uid = auth.currentUser.uid;
-    return onSnapshot(collection(firestore, "users", uid, "pits"), userPits);
+    return onSnapshot(collection(firestore, "users", uid, "pits"), cb);
   },
 
   async getPit(id) {

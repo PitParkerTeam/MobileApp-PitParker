@@ -1,14 +1,12 @@
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import React, { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
 import { SmallMap } from "../maps";
 import { COLORS, TEXT_STYLES } from "../../common";
 import { Entypo } from "@expo/vector-icons";
 
 export default function MyPit({ pit, navigation }) {
   const dist = (pit.distance / 1000).toFixed(2);
-  const longitude = pit.longitude;
-  const latitude = pit.latitude;
+  const { longitude, latitude, name, vicinity } = pit;
   return (
     <Pressable
       onPress={() => navigation.navigate("PitDetails", { id: pit.id })}
@@ -21,11 +19,11 @@ export default function MyPit({ pit, navigation }) {
       />
       <View style={styles.pitItem}>
         <View style={styles.row}>
-          <Text style={styles.pitName}>{pit.pitName}</Text>
+          <Text style={styles.pitName}>{name}</Text>
           <Entypo name="star" size={24} color={COLORS.TINT[100]} />
         </View>
         <View style={styles.row}>
-          <Text>{pit.area}</Text>
+          <Text>{vicinity || ""}</Text>
           <Text style={styles.distance}>
             {dist < 1 ? `${pit.distance} m` : `${dist} km`}
           </Text>

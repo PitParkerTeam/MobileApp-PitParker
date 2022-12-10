@@ -5,8 +5,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS, TEXT_STYLES, formatTime } from "../common";
 import { Entypo } from "@expo/vector-icons";
 import { pitAPI, parkingAPI } from "../api";
+import { observer } from "mobx-react";
 
-export default function PitDetails({ route, navigation }) {
+const PitDetails = observer( ({ route, navigation }) => {
   const { id } = route.params;
   useEffect(() => {
     pitAPI.getPit(id).then((res) => setPit(res));
@@ -44,7 +45,7 @@ export default function PitDetails({ route, navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ paddingHorizontal: 24 }}>
-        <SmallMap disabled={true} location={{ longitude, latitude }} />
+        <SmallMap location={{ longitude, latitude }} />
         <View style={styles.pitItem}>
           <View style={styles.row}>
             <Text style={styles.name}>{name}</Text>
@@ -107,7 +108,7 @@ export default function PitDetails({ route, navigation }) {
       </View>
     </SafeAreaView>
   );
-}
+})
 
 const styles = StyleSheet.create({
   container: {
@@ -148,3 +149,4 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
 });
+export default PitDetails
