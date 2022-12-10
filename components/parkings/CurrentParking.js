@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import React, { useState, useEffect } from "react";
 import moment from "moment";
-import { TEXT_STYLES, COLORS, formatTime } from "../../common";
+import { TEXT_STYLES, COLORS, formatTimestamp } from "../../common";
 import { SmallMap } from "../maps";
 import { useNavigation } from "@react-navigation/core";
 
@@ -53,7 +53,7 @@ export default function CurrentParking({ parking, showMap }) {
           <View>
             <Text style={styles.parkAt}>
               Parked at {"\n"}
-              {formatTime(startTime.toDate())}
+              {formatTimestamp(startTime)}
             </Text>
             <Text style={styles.click}>{"Click to View Details >>"}</Text>
           </View>

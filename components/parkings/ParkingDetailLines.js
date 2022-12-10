@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
-import { TEXT_STYLES, formatTime } from "../../common";
+import { TEXT_STYLES, formatTimestamp } from "../../common";
 
 const displayItems = [
   { label: "Start Time", content: "startTime" },
@@ -18,7 +18,7 @@ const LineDisplay = ({ label, content, item }) => {
     content == "cost"
       ? `$${item[content]}`
       : content == "startTime" || content == "endTime"
-      ? formatTime(item[content].toDate())
+      ? formatTimestamp(item[content])
       : item[content];
   return (
     <View style={styles.line}>

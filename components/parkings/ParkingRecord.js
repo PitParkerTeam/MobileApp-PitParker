@@ -1,6 +1,6 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import React from "react";
-import { COLORS, formatTime, TEXT_STYLES } from "../../common";
+import { COLORS, formatTimestamp, TEXT_STYLES } from "../../common";
 
 export default function ParkingRecord({ item, navigation }) {
   if (!item.startTime || !item.longitude || !item.latitude || !item.duration)
@@ -12,7 +12,7 @@ export default function ParkingRecord({ item, navigation }) {
         onPress={() => navigation.navigate("ParkingDetails", { id: item.id })}
       >
         <Text style={styles.parkingItem.text}>
-          {formatTime(item.startTime.toDate())} • {item.duration}
+          {formatTimestamp(startTime)} • {item.duration}
         </Text>
       </Pressable>
     </View>
