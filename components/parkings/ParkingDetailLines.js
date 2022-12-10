@@ -3,7 +3,8 @@ import React from "react";
 import { TEXT_STYLES, formatTime } from "../../common";
 
 const displayItems = [
-  { label: "Park Time", content: "parkTime" },
+  { label: "Start Time", content: "startTime" },
+  { label: "End Time", content: "endTime" },
   { label: "Duration", content: "duration" },
   { label: "Cost", content: "cost" },
   { label: "Plate", content: "plate" },
@@ -13,14 +14,11 @@ const displayItems = [
 
 const LineDisplay = ({ label, content, item }) => {
   if (!item[content]) return "";
-  const durationString = item?.duration + " " + item?.durationUnit;
   const displayContent =
     content == "cost"
       ? `$${item[content]}`
-      : content == "duration"
-      ? durationString
-      : content == "parkTime"
-      ? formatTime(item[content])
+      : content == "startTime" || content == "endTime"
+      ? formatTime(item[content].toDate())
       : item[content];
   return (
     <View style={styles.line}>
@@ -64,7 +62,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   notes: {
-    width:"70%",
-    ...TEXT_STYLES.title[400]
-  }
+    width: "70%",
+    ...TEXT_STYLES.title[400],
+  },
 });
