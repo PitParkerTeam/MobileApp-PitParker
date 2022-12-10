@@ -5,13 +5,14 @@ import {
   ScrollView,
   SafeAreaView,
   Alert,
+  TextInput,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { SmallMap, PitInput, BottomContainer } from "../components";
 import { COLORS } from "../common";
 import TakePhoto from "../components/TakePhoto";
 import { PitButton } from "../components";
-import { parkingAPI } from "../api";
+import { parkingAPI, pitAPI } from "../api";
 import * as Location from "expo-location";
 // import DateTimePicker from "@react-native-community/datetimepicker";
 import DatePicker from "react-native-datepicker";
@@ -27,7 +28,7 @@ export default function AddNewParking({ navigation, route }) {
   const [slot, setSlot] = useState(null);
   const [notes, setNotes] = useState(null);
   // const [parkTime, setParkTime] = useState(new Date());
-  const [duration, setDuration] = useState(null);
+  const [pitID, setPitID] = useState(null);
 
   // const imageHandler = (uri) => {
   //   console.log("imageHandler called", uri);
@@ -35,7 +36,7 @@ export default function AddNewParking({ navigation, route }) {
   // };
   const [location, setLocation] = useState({});
   // const [isModalVisible, setIsModalVisible] = useState(false);
-
+  const [pitName, setPitName] = useState(null);
   const [startTime, setStartTime] = useState(new Date());
   const now = new Date();
   now.setHours(now.getHours() + 1);
@@ -63,8 +64,8 @@ export default function AddNewParking({ navigation, route }) {
       setLocation({ latitude, longitude });
       setPlate(params.plate);
       setCost(params.cost);
-      setDuration(params.duration);
       setNotes(params.notes);
+      setPitID(params.pitID);
     }
   };
 
@@ -72,29 +73,59 @@ export default function AddNewParking({ navigation, route }) {
     getLocation();
   }, [route]);
 
-  const handlePit = () => {
-    
-  }
+  const handlePit = async () => {
+    const { latitude, longitude } = location;
+    const res = await pitAPI.createNewPit({
+      latitude,
+      longitude,
+      name: pitName,
+    });
 
-  const saveParking = () => {
+    setPitID(res);
+    return res;
+  };
+
+
+
+  const saveParking = async () => {
     const { latitude, longitude } = location;
     var time = moment().format("YYYY-MM-DD hh:mm:ss");
-    const duration = 0;
+
+    const duration = moment.duration(moment(endTime).diff(moment(startTime)));
+    const durationInMinutes = duration.asMinutes();
+    const hours = Math.floor(durationInMinutes / 60);
+    const minutes = Math.floor(durationInMinutes % 60);
+    const formattedDuration = `${hours}hours ${minutes}minutes`;
 
     if (startTime >= endTime) {
       Alert.alert("Action Failed", "Start Time must be earlier than End Time");
+    } else if (isSwitchOn && !pitName) {
+      Alert.alert("Action Failed", "Your Pit must have a name");
     } else {
-      handlePit();
-      parkingAPI.createNewParking({
+      let id = pitID;
+      if (!id) {
+        id = await handlePit();
+      }
+      if (isSwitchOn) {
+        const myPit = {
+          latitude: location.latitude,
+          longitude: location.longitude,
+          name: pitName,
+          pitID: id,
+        };
+        await pitAPI.saveAsMyPit(myPit);
+      }
+      await parkingAPI.createNewParking({
         latitude,
         longitude,
         startTime,
         endTime,
-        duration,
+        duration: formattedDuration,
         plate,
         cost,
         slot,
         notes,
+        pitID,
       });
       alert("Successfully Created Your Parking!");
       navigation.navigate("Home");
@@ -135,21 +166,26 @@ export default function AddNewParking({ navigation, route }) {
             multiline: true,
           }}
         />
-        <View style = {{marginVertical: 50, paddingVertical: 50}}>
-        <Text style = {{fontSize: "20", fontWeight: "bold"}}>Save As My Pit</Text>
-        <Switch
-          value={isSwitchOn}
-          onValueChange={(value) => setIsSwitchOn(value)}
-        />
-        {/* <Switch
-          value={isSwitchOn}
-          onValueChange={(value) => setIsSwitchOn(value)}
-          trackColor={{ true: "#00FF00", false: "#FF0000" }}
-          thumbColor="#FFFFFF"
-          ios_backgroundColor="#000000"
-        /> */}
+        <View style={{ marginVertical: 50, paddingVertical: 50 }}>
+          <Text style={{ fontSize: "20", fontWeight: "bold" }}>
+            Save As My Pit
+          </Text>
+          <View>
+            <Switch
+              value={isSwitchOn}
+              onValueChange={(value) => setIsSwitchOn(value)}
+              style={styles.switch}
+            />
+            {/* Show the input field only when the switch is turned on */}
+            {isSwitchOn && (
+              <PitInput
+                label="Pit Name"
+                value={pitName}
+                onChangeText={setPitName}
+              />
+            )}
+          </View>
         </View>
-       
       </ScrollView>
       {/* <TakePhoto imageHandler={imageHandler} /> */}
       <BottomContainer>
@@ -173,5 +209,9 @@ const styles = StyleSheet.create({
   scrollView: {
     marginVertical: 4,
     paddingHorizontal: 24,
+  },
+  switch: {
+    paddingVertical: 5,
+    marginVertical: 5,
   },
 });
