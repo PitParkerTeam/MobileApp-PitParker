@@ -131,7 +131,6 @@ const styles = StyleSheet.create({
   },
   historyContainer: {
     height: 200,
-    backgroundColor: "aqua",
   },
   historyTitle: {
     ...TEXT_STYLES.title[700],
