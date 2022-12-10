@@ -7,8 +7,8 @@ import {
   onSnapshot,
   getDoc,
 } from "firebase/firestore";
-
-import { firestore, auth } from "./firestore/firebase_setup";
+import { ref, uploadBytes } from "firebase/storage";
+import { firestore, auth, storage } from "./firestore/firebase_setup";
 
 const parkingAPI = {
   async createNewParking(parking) {
@@ -54,6 +54,32 @@ const parkingAPI = {
       await deleteDoc(doc(firestore, uid, "parkings", pid));
     } catch (err) {
       console.log(err);
+    }
+  },
+
+  async uploadImage (uri) {
+
+    const getImage = async (uri) => {
+      try {
+        const response = await fetch(uri);
+        const blob = await response.blob();
+        return blob;
+      } catch (err) {
+        console.log("fetch image ", err);
+      }
+    };
+
+    try {
+      if (uri) {
+        const imageBlob = await getImage(uri);
+        const imageName = uri.substring(uri.lastIndexOf("/") + 1);
+        const imageRef = await ref(storage, `images/${imageName}`);
+        const uploadResult = await uploadBytes(imageRef, imageBlob);
+        uri = uploadResult.metadata.fullPath; //replaced the uri with reference to the storage location
+      }
+      return uri;
+    } catch (err) {
+      console.log("image upload ", err);
     }
   },
 };

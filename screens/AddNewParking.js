@@ -10,12 +10,12 @@ import {
 import React, { useState, useEffect } from "react";
 import { SmallMap, PitInput, BottomContainer } from "../components";
 import { COLORS } from "../common";
-import TakePhoto from "../components/TakePhoto";
 import { PitButton } from "../components";
 import { parkingAPI, pitAPI } from "../api";
 import * as Location from "expo-location";
 // import DateTimePicker from "@react-native-community/datetimepicker";
 import DatePicker from "react-native-datepicker";
+import ImageManager from "../components/basics/ImageManager";
 import moment from "moment";
 import { addHours } from "moment";
 import DateTimePicker from "react-native-modal-datetime-picker";
@@ -27,13 +27,19 @@ export default function AddNewParking({ navigation, route }) {
   const [cost, setCost] = useState(null);
   const [slot, setSlot] = useState(null);
   const [notes, setNotes] = useState(null);
-  // const [parkTime, setParkTime] = useState(new Date());
   const [pitID, setPitID] = useState(null);
 
   // const imageHandler = (uri) => {
   //   console.log("imageHandler called", uri);
   //   setUri(uri);
   // };
+
+  const [uri, setUri] = useState("");
+  const imageHandler = (uri) => {
+    console.log("imageHandler called", uri);
+    setUri(uri);
+  };
+
   const [location, setLocation] = useState({});
   // const [isModalVisible, setIsModalVisible] = useState(false);
   const [pitName, setPitName] = useState(null);
@@ -115,6 +121,11 @@ export default function AddNewParking({ navigation, route }) {
         };
         await pitAPI.saveAsMyPit(myPit);
       }
+
+      
+      if(uri) {setUri(parkingAPI.uploadImage(uri))};
+      console.log(uri);
+
       await parkingAPI.createNewParking({
         latitude,
         longitude,
@@ -126,15 +137,13 @@ export default function AddNewParking({ navigation, route }) {
         slot,
         notes,
         pitID,
+        image: uri,
       });
       alert("Successfully Created Your Parking!");
       navigation.navigate("Home");
     }
   };
 
-  // var startTime = new Date();
-  // var endTime = new Date();
-  // endTime.setHours(endTime.getHours() + 1);
 
   const [isSwitchOn, setIsSwitchOn] = useState(false);
 
@@ -185,6 +194,7 @@ export default function AddNewParking({ navigation, route }) {
               />
             )}
           </View>
+          <ImageManager imageHandler={imageHandler} />
         </View>
       </ScrollView>
       {/* <TakePhoto imageHandler={imageHandler} /> */}

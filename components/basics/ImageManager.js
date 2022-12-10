@@ -1,8 +1,8 @@
 import { View, Image, Button, Text } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 
-export default function TakePhoto({ imageHandler }) {
+export default function ImageManager({ imageHandler }) {
   const [permissionInfo, requestPermisson] = ImagePicker.useCameraPermissions();
   const [imageUri, setImageUri] = useState("");
   const verifyPermission = async () => {
@@ -20,13 +20,12 @@ export default function TakePhoto({ imageHandler }) {
       }
       const result = await ImagePicker.launchCameraAsync();
       // if (!result.canceled) {setImageUri(result.assets[0].uri)}
-      setImageUri(result.uri);
-      imageHandler(result.uri);
+      setImageUri(result.assets[0].uri);
+      imageHandler(result.assets[0].uri);
     } catch (err) {
       console.log("Image taking error ", err);
     }
   };
-
   return (
     <View>
       <Button title="Take an Image" onPress={takeImageHandler} />
