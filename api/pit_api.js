@@ -10,6 +10,7 @@ import {
 
 import { firestore, auth } from "./firestore/firebase_setup";
 
+
 const pitAPI = {
   async batchAddPits(pits) {
     const batch = writeBatch(firestore);
@@ -24,7 +25,7 @@ const pitAPI = {
   async createNewPit(pit) {
     try {
       const docRef = await addDoc(
-        collection(firestore, auth.currentUser.uid, "pits"),
+        collection(firestore, "pits"),
         {
           ...pit,
         }
