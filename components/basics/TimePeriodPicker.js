@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import DatePicker from "@react-native-community/datetimepicker";
 
-export default function TimePeriodPicker({ initialStartTime, initialEndTime }) {
+export default function TimePeriodPicker({ initialStartTime, initialEndTime, onStartTimeChange, onEndTimeChange }) {
   // Declare a state variable to store the selected time period
   const [timePeriod, setTimePeriod] = useState({
     startTime: initialStartTime,
@@ -24,6 +24,7 @@ export default function TimePeriodPicker({ initialStartTime, initialEndTime }) {
                 ...prevTimePeriod,
                 startTime,
               }));
+              onStartTimeChange(startTime);
             }
           }}
         />
@@ -38,6 +39,7 @@ export default function TimePeriodPicker({ initialStartTime, initialEndTime }) {
                 ...prevTimePeriod,
                 startTime,
               }));
+              onStartTimeChange(startTime);
             }
           }}
         />
@@ -56,6 +58,7 @@ export default function TimePeriodPicker({ initialStartTime, initialEndTime }) {
                 ...prevTimePeriod,
                 endTime,
               }));
+              onEndTimeChange(endTime);
             }
           }}
         />
@@ -70,6 +73,7 @@ export default function TimePeriodPicker({ initialStartTime, initialEndTime }) {
                 ...prevTimePeriod,
                 endTime,
               }));
+              onEndTimeChange(endTime)
             }
           }}
         />

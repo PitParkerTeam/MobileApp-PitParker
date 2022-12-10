@@ -11,22 +11,26 @@ import {
 import { firestore, auth, myApp } from "./firebase_setup";
 
 export async function createNewParking(parking) {
-  const { parkTime, duration, durationUnit, longitude, latitude, pitID } = parking;
+  // const { parkTime, duration, durationUnit, longitude, latitude, pitID } = parking;
+  const { latitude, longitude, startTime, endTime, plate, cost, slot, notes } =
+    parking;
   try {
     const docRef = await addDoc(collection(firestore, "parkings"), {
       ...parking,
-    }).then(() =>
-      setDoc(
-        doc(firestore, "users", auth.currentUser.uid, "parkings", docRef.id),
-        {
-          parkTime,
-          duration,
-          durationUnit,
-          longitude,
-          latitude,
-          pitID
-        }
-      )
+    });
+    await setDoc(
+      doc(firestore, "users", auth.currentUser.uid, "parkings", docRef.id),
+      {
+        latitude,
+        longitude,
+        startTime,
+        endTime,
+        plate,
+        cost,
+        slot,
+        notes,
+        // pitID,
+      }
     );
   } catch (err) {
     console.log(err);

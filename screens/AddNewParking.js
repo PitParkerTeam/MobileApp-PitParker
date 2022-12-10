@@ -8,13 +8,12 @@ import { createNewParking } from "../api/firestore/parking_store";
 import * as Location from "expo-location";
 // import DateTimePicker from "@react-native-community/datetimepicker";
 import DatePicker from "react-native-datepicker";
-import moment from 'moment';
-import { addHours } from 'moment';
+import moment from "moment";
+import { addHours } from "moment";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import TimePeriodPicker from "../components/basics/TimePeriodPicker";
 
 export default function AddNewParking({ navigation, route }) {
-  
   const [plate, setPlate] = useState(null);
   const [cost, setCost] = useState(null);
   const [slot, setSlot] = useState(null);
@@ -28,6 +27,9 @@ export default function AddNewParking({ navigation, route }) {
   // };
   const [location, setLocation] = useState({});
   // const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const [startTime, setStartTime] = useState(new Date());
+  const [endTime, setEndTime] = useState(new Date());
 
   const locateUser = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -63,30 +65,43 @@ export default function AddNewParking({ navigation, route }) {
   const saveParking = () => {
     const { latitude, longitude } = location;
     var time = moment().format("YYYY-MM-DD hh:mm:ss");
+    // console.log(latitude);
+    // console.log(longitude);
+    // console.log(startTime);
+    // console.log(endTime);
+    // // console.log(plate);
+    // // console.log(cost);
+    // // console.log(slot);
 
     createNewParking({
       latitude,
       longitude,
-      time,
-      duration,
+      startTime,
+      endTime,
       plate,
       cost,
       slot,
       notes,
     });
+    alert("Successfully Created Your Parking!");
+    navigation.navigate("Home");
   };
 
-  const now = new Date();
-  // Create a copy of the date
-  const endTime = new Date();
-  endTime.setHours(endTime.getHours() + 1);
+  // var startTime = new Date();
+  // var endTime = new Date();
+  // endTime.setHours(endTime.getHours() + 1);
+
 
   return (
-
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
         <SmallMap location={location} />
-        <TimePeriodPicker initialStartTime={now} initialEndTime={endTime}/>
+        <TimePeriodPicker
+          initialStartTime={startTime}
+          initialEndTime={endTime}
+          onStartTimeChange={(time) => setStartTime(time)}
+          onEndTimeChange={(time) => setEndTime(time)}
+        />
         <PitInput label="Plate" value={plate} onChangeText={setPlate} />
         <PitInput
           label="Cost"
@@ -127,6 +142,6 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     marginVertical: 4,
-    paddingHorizontal:24,
+    paddingHorizontal: 24,
   },
 });
