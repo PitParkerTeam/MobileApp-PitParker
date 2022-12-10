@@ -7,7 +7,7 @@ const mapAPI = {
 
 async  getNearbyParking({ latitude, longitude, radius }) {
   const url = `${baseUrl}/json?location=${latitude},${longitude}&radius=${
-    radius || 350
+    radius || 300
   }&type=parking&key=${mapApiKey}`;
 
   const res = await axios.get(url);

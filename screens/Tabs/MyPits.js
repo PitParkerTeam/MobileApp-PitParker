@@ -1,46 +1,17 @@
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  SafeAreaView,
-} from "react-native";
+import { View, Text, FlatList, StyleSheet, SafeAreaView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SearchBar } from "@rneui/themed";
 import { MyPit } from "../../components";
 import { COLORS, TEXT_STYLES } from "../../common";
-import { pitAPI } from "../../api";
+import { userStore } from "../../stores";
+import { observer } from "mobx-react";
 
-export default function MyPits( { navigation }) {
+const MyPits = observer(({ navigation }) => {
   const [search, setSearch] = useState("");
-  const [myPits, setMyPits] = useState([]);
-  useEffect(() => {
-    const unsubscribe = pitAPI.fetchPits((querySnapshot) => {
-      if (querySnapshot.empty) {
-        setMyPits([]);
-        return;
-      }
-      setMyPits(
-        querySnapshot.docs.map((snapDoc) => ({
-          ...snapDoc.data(),
-          id: snapDoc.id,
-          pitName: snapDoc.data().name,
-          area: snapDoc.data().area,
-          distance: snapDoc.data().distance,
-          longitude: snapDoc.data().longitude,
-          latitude: snapDoc.data().latitude,
-          address: snapDoc.data().address,
-          rate: snapDoc.data().rate,
-        }))
-      );
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
   const updateSearch = (search) => {
     setSearch(search);
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>My Pits</Text>
@@ -53,13 +24,15 @@ export default function MyPits( { navigation }) {
       />
       <View style={styles.listContainer}>
         <FlatList
-          data={myPits}
-          renderItem={({ item }) => <MyPit pit={item} navigation={navigation}/>}
+          data={userStore.userPits}
+          renderItem={({ item }) => (
+            <MyPit pit={item} navigation={navigation} />
+          )}
         />
       </View>
     </SafeAreaView>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -76,3 +49,4 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.BASE[20],
   },
 });
+export default MyPits;
