@@ -1,8 +1,7 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Map, PitButton } from "../../components";
-import * as Location from "expo-location";
-import { COLORS, DEFAULT_VARS } from "../../common";
+import { Map, PitButton, CurrentParking } from "../../components";
+import { COLORS } from "../../common";
 import { mapAPI, pitAPI } from "../../api";
 import { userStore } from "../../stores";
 import { observer } from "mobx-react";
@@ -42,7 +41,7 @@ const Home = observer(() => {
     setPits(pitsMapped);
     pitAPI.batchAddPits(pitsMapped);
   };
-
+  
   useEffect(() => {
     userStore.locateUser();
   }, []);
@@ -55,7 +54,7 @@ const Home = observer(() => {
     if (activeTab == "nearby") {
       setupNearbyPits();
     } else {
-      setPits(userStore.userPits)
+      setPits(userStore.userPits);
     }
     return () => setPits([]);
   }, [activeTab]);
@@ -63,7 +62,20 @@ const Home = observer(() => {
   return (
     <View style={styles.container}>
       <TabSet />
-      <Map userLocation={userStore.userLocation} pits={pits} />
+      <ScrollView style={styles.currentParkings}>
+        {userStore.currentParkings.map((parking) => (
+          <CurrentParking
+            parking={parking}
+            key={parking.id}
+          />
+        ))}
+        <View style={{marginBottom:40}} />
+      </ScrollView>
+      <Map
+        userLocation={userStore.userLocation}
+        pits={pits}
+        iconColor={activeTab == "nearby" ? COLORS.TINT[120] : COLORS.TINT[100]}
+      />
     </View>
   );
 });
@@ -73,6 +85,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  currentParkings: {
+    zIndex: 3000,
+    position: "absolute",
+    bottom: 10,
+    width: "100%",
+    padding: 24,
+    height: 220,
   },
   buttons: {
     position: "absolute",

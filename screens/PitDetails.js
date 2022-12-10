@@ -7,7 +7,7 @@ import { Entypo } from "@expo/vector-icons";
 import { pitAPI, parkingAPI } from "../api";
 import { observer } from "mobx-react";
 
-const PitDetails = observer( ({ route, navigation }) => {
+const PitDetails = observer(({ route, navigation }) => {
   const { id } = route.params;
   useEffect(() => {
     pitAPI.getPit(id).then((res) => setPit(res));
@@ -26,10 +26,9 @@ const PitDetails = observer( ({ route, navigation }) => {
         querySnapshot.docs.map((snapDoc) => ({
           ...snapDoc.data(),
           id: snapDoc.id,
-          parkTime: formatTime(snapDoc.parkTime),
+          startTime: formatTime(snapDoc.startTime),
           pitId: snapDoc.data().pitId,
           duration: snapDoc.data().duration,
-          durationUnit: snapDoc.data().durationUnit,
         }))
       );
     });
@@ -81,10 +80,7 @@ const PitDetails = observer( ({ route, navigation }) => {
                     >
                       <View style={styles.historyList}>
                         <Text style={styles.historyContent}>
-                          {item.parkTime} •
-                          {`${item.duration} ${item.durationUnit}${
-                            item.duration > 1 ? "s" : ""
-                          }`}
+                          {item.startTime} • {item.duration}
                         </Text>
                         <Entypo name="chevron-right" size={16} color="black" />
                       </View>
@@ -96,10 +92,8 @@ const PitDetails = observer( ({ route, navigation }) => {
           </View>
         </View>
         <BottomContainer>
-          <PitButton 
-            text="Get Directions"
-          />
-          <PitButton 
+          <PitButton text="Get Directions" />
+          <PitButton
             text="Park Here"
             type="primary"
             onPress={() => navigation.navigate("Home")}
@@ -108,7 +102,7 @@ const PitDetails = observer( ({ route, navigation }) => {
       </View>
     </SafeAreaView>
   );
-})
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -149,4 +143,4 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
 });
-export default PitDetails
+export default PitDetails;

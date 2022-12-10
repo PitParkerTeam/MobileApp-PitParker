@@ -5,58 +5,41 @@ import {
   SafeAreaView,
   StyleSheet,
   Pressable,
+  ScrollView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import {parkingAPI} from "../../api";
 import { COLORS, formatTime, TEXT_STYLES } from "../../common";
-import { ParkingRecord } from "../../components";
+import { ParkingRecord, CurrentParking } from "../../components";
+import { observer } from "mobx-react-lite";
+import { userStore } from "../../stores";
 
-// import SmallMap from '../../components/SmallMap'
-
-export default function MyParkings({ navigation }) {
-  const [parkingHistory, setParkingHistory] = useState([]);
-
-  useEffect(() => {
-    const unsubscribe = parkingAPI.fetchParkings((querySnapshot) => {
-      if (querySnapshot.empty) {
-        setParkingHistory([]);
-        return;
-      }
-      setParkingHistory(
-        querySnapshot.docs.map((snapDoc) => ({
-          ...snapDoc.data(),
-          id: snapDoc.id,
-          parkTime: formatTime(snapDoc.parkTime),
-        }))
-      );
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-
+const MyParkings = observer(({ navigation }) => {
+  const listItemRender = ({item}) => {
+    if(userStore.isCurrent(item)) return <CurrentParking key={item.id} parking={item} showMap />
+    else return <ParkingRecord item={item} navigation={navigation} />;
+  }
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>My parking</Text>
-      <View style={styles.currentParking}></View>
       <View style={styles.listContainer}>
-        <FlatList
-          data={parkingHistory}
-          renderItem={({ item }) => (
-            <ParkingRecord item={item} navigation={navigation} />
-          )}
-        />
+        <FlatList data={userStore.parkings} renderItem={listItemRender} />
       </View>
     </SafeAreaView>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: { backgroundColor: COLORS.BASE[0] },
-  listContainer: { backgroundColor: COLORS.BASE[20] },
+  listContainer: {
+    backgroundColor: COLORS.BASE[20],
+    height:"100%"
+  },
   currentParking: { padding: 10 },
   header: {
     ...TEXT_STYLES.heading.h2,
     marginLeft: "4%",
+    marginBottom: 5,
   },
 });
+
+export default MyParkings;
