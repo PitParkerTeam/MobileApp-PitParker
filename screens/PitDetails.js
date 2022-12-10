@@ -1,6 +1,5 @@
 import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
-import { SmallMap } from "../components";
 import { BottomContainer, PitButton, SmallMap } from "../components";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS, TEXT_STYLES, formatTime } from "../common";
