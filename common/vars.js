@@ -15,3 +15,10 @@ export const COLORS = {
     0: "#FFFFFF",
   },
 };
+
+export const DEFAULT_VARS = {
+  coords: {
+    latitude: 37.78825,
+    longitude: -122.4324,
+  },
+};
