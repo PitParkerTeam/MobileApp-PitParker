@@ -1,87 +1,8 @@
-// import React, { useState } from 'react';
-// import { View, Text } from 'react-native';
-// import DatePicker from '@react-native-community/datetimepicker';
-
-// export default function TimePeriodPicker({ initialStartTime, initialEndTime })  {
-//   // Declare a state variable to store the selected time period
-//   const [timePeriod, setTimePeriod] = useState({
-//     startTime: initialStartTime,
-//     endTime: initialEndTime,
-//   });
-
-//   return (
-//     <View>
-//       <Text>Select time period:</Text>
-
-//       {/* Use DatePicker to allow the user to select the start date */}
-//       <DatePicker
-//         mode="date"
-//         value={timePeriod.startTime}
-//         onChange={(event, startTime) => {
-//           if (startTime) {
-//             setTimePeriod((prevTimePeriod) => ({
-//               ...prevTimePeriod,
-//               startTime,
-//             }));
-//           }
-//         }}
-//       />
-
-//       {/* Use DatePicker to allow the user to select the start time */}
-//       <DatePicker
-//         mode="time"
-//         value={timePeriod.startTime}
-//         onChange={(event, startTime) => {
-//           if (startTime) {
-//             setTimePeriod((prevTimePeriod) => ({
-//               ...prevTimePeriod,
-//               startTime,
-//             }));
-//           }
-//         }}
-//       />
-
-//       {/* Use DatePicker to allow the user to select the end date */}
-//       <DatePicker
-//         mode="date"
-//         value={timePeriod.endTime}
-//         onChange={(event, endTime) => {
-//           if (endTime) {
-//             setTimePeriod((prevTimePeriod) => ({
-//               ...prevTimePeriod,
-//               endTime,
-//             }));
-//           }
-//         }}
-//       />
-
-//       {/* Use DatePicker to allow the user to select the end time */}
-//       <DatePicker
-//         mode="time"
-//         value={timePeriod.endTime}
-//         onChange={(event, endTime) => {
-//           if (endTime) {
-//             setTimePeriod((prevTimePeriod) => ({
-//               ...prevTimePeriod,
-//               endTime,
-//             }));
-//           }
-//         }}
-//       />
-
-//       {/* Display the selected time period */}
-//       <Text>
-//         Selected time period: {timePeriod.startTime.toString()} - {timePeriod.endTime.toString()}
-//       </Text>
-//     </View>
-//   );
-// };
-
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import DatePicker from "@react-native-community/datetimepicker";
 
-export default function TimePeriodPicker({ initialStartTime, initialEndTime }) {
+export default function TimePeriodPicker({ initialStartTime, initialEndTime, onStartTimeChange, onEndTimeChange }) {
   // Declare a state variable to store the selected time period
   const [timePeriod, setTimePeriod] = useState({
     startTime: initialStartTime,
@@ -90,11 +11,10 @@ export default function TimePeriodPicker({ initialStartTime, initialEndTime }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Select parking period:</Text>
-
+      <Text style={styles.subTitle}>Start Time </Text>
       {/* Use DatePicker to allow the user to select the start date */}
-      <View style={{ flexDirection: "row" }}>
-        <Text>Start Time: </Text>
+      <View style={styles.datePicker}>
+        
         <DatePicker
           mode="date"
           value={timePeriod.startTime}
@@ -104,6 +24,7 @@ export default function TimePeriodPicker({ initialStartTime, initialEndTime }) {
                 ...prevTimePeriod,
                 startTime,
               }));
+              onStartTimeChange(startTime);
             }
           }}
         />
@@ -118,14 +39,16 @@ export default function TimePeriodPicker({ initialStartTime, initialEndTime }) {
                 ...prevTimePeriod,
                 startTime,
               }));
+              onStartTimeChange(startTime);
             }
           }}
         />
       </View>
 
+      <Text style={styles.subTitle}>End Time </Text>
       {/* Use DatePicker to allow the user to select the end date */}
-      <View style={{ flexDirection: "row" }}>
-        <Text>End Time: </Text>
+      <View style={styles.datePicker}>
+        
         <DatePicker
           mode="date"
           value={timePeriod.endTime}
@@ -135,6 +58,7 @@ export default function TimePeriodPicker({ initialStartTime, initialEndTime }) {
                 ...prevTimePeriod,
                 endTime,
               }));
+              onEndTimeChange(endTime);
             }
           }}
         />
@@ -149,22 +73,19 @@ export default function TimePeriodPicker({ initialStartTime, initialEndTime }) {
                 ...prevTimePeriod,
                 endTime,
               }));
+              onEndTimeChange(endTime)
             }
           }}
         />
       </View>
-
-      {/* Display the selected time period */}
-      {/* <Text style={styles.selectedPeriod}>
-        Selected time period: {timePeriod.startTime.toString()} - {timePeriod.endTime.toString()}
-      </Text> */}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    marginVertical: 5,
+    paddingVertical: 5,
   },
   title: {
     fontSize: 20,
@@ -180,4 +101,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 20,
   },
+  subTitle: {
+    fontSize: 20,
+    fontWeight: "500",
+  },
+  datePicker: {
+    flexDirection: "row", 
+    alignItems: "center",
+    marginVertical: 3,
+    paddingVertical: 2,
+  }
 });
+
+
