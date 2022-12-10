@@ -8,7 +8,7 @@ import {
   getDoc,
 } from "firebase/firestore";
 
-import { firestore, auth } from "./firebase_setup";
+import { firestore, auth } from "./firestore/firebase_setup";
 
 const parkingAPI = {
   async createNewParking(parking) {
@@ -66,4 +66,4 @@ const parkingAPI = {
   },
 };
 
-export default parkingAPI
+export default parkingAPI;

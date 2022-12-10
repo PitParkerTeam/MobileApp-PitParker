@@ -8,7 +8,7 @@ import {
   writeBatch,
 } from "firebase/firestore";
 
-import { firestore, auth } from "./firebase_setup";
+import { firestore, auth } from "./firestore/firebase_setup";
 
 const pitAPI = {
   async batchAddPits(pits) {

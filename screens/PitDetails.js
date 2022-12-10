@@ -1,16 +1,15 @@
 import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SmallMap } from "../components";
-import { getPit } from "../api/firestore/pit_api";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { COLORS, TEXT_STYLES, formatTime } from "../common";
 import { Entypo } from "@expo/vector-icons";
-import { parkingAPI } from "../api";
+import { pitAPI, parkingAPI } from "../api";
 
 export default function PitDetails({ route, navigation }) {
   const { id } = route.params;
   useEffect(() => {
-    getPit(id).then((res) => setPit(res));
+    pitAPI.getPit(id).then((res) => setPit(res));
     return () => {};
   }, [route]);
 

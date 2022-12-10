@@ -1,6 +1,5 @@
 import { collection, setDoc, doc, getDoc } from "firebase/firestore";
-import { firestore, auth } from "./firebase_setup";
-
+import { firestore, auth } from "./firestore/firebase_setup";
 
 const userAPI = {
   async addUser(user) {
@@ -18,8 +17,6 @@ const userAPI = {
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-
       return docSnap.data();
     } else {
       // doc.data() will be undefined in this case
