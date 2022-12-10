@@ -9,13 +9,13 @@ import React, { useEffect, useState } from "react";
 import { SearchBar } from "@rneui/themed";
 import { MyPit } from "../../components";
 import { COLORS, TEXT_STYLES } from "../../common";
-import { fetchPits } from "../../api/firestore/pit_store";
+import { pitAPI } from "../../api";
 
 export default function MyPits( { navigation }) {
   const [search, setSearch] = useState("");
   const [myPits, setMyPits] = useState([]);
   useEffect(() => {
-    const unsubscribe = fetchPits((querySnapshot) => {
+    const unsubscribe = pitAPI.fetchPits((querySnapshot) => {
       if (querySnapshot.empty) {
         setMyPits([]);
         return;

@@ -3,24 +3,14 @@ import React, { useEffect, useState } from "react";
 import { Map, PitButton } from "../../components";
 import * as Location from "expo-location";
 import { COLORS, DEFAULT_VARS } from "../../common";
-import { batchAddPits, getNearbyParking } from "../../api";
+import { mapAPI, pitAPI } from "../../api";
+import {userStore} from '../../stores'
+import { observer } from "mobx-react";
 
-export default function Home() {
+const Home = observer(() => {
   const [activeTab, setActiveTab] = useState("nearby");
   const [pits, setPits] = useState([]);
-  const [userLocation, setUserLocation] = useState(DEFAULT_VARS.coords);
-
-  const locateUser = async () => {
-    const { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") return;
-    const location = await Location.getCurrentPositionAsync({
-      accuracy: Location.Accuracy.Balanced,
-      enableHighAccuracy: true,
-    });
-    const { longitude, latitude } = location.coords;
-    setUserLocation({ longitude, latitude });
-  };
-
+  
   const TabSet = () => (
     <View style={styles.buttons}>
       <PitButton
@@ -47,19 +37,19 @@ export default function Home() {
   };
 
   const setupNearbyPits = async () => {
-    const parking = await getNearbyParking(userLocation);
+    const parking = await mapAPI.getNearbyParking(userStore.userLocation);
     const pitsMapped = parking.results.map(mapPits);
     setPits(pitsMapped);
-    batchAddPits(pitsMapped);
+    pitAPI.batchAddPits(pitsMapped);
   };
 
   useEffect(() => {
-    locateUser();
+    userStore.locateUser();
   }, []);
 
   useEffect(() => {
     setupNearbyPits();
-  }, [userLocation]);
+  }, [userStore.userLocation]);
 
   useEffect(() => {
     if (activeTab == "nearby") {
@@ -73,10 +63,10 @@ export default function Home() {
   return (
     <View style={styles.container}>
       <TabSet />
-      <Map userLocation={userLocation} pits={pits} />
+      <Map userLocation={userStore.userLocation} pits={pits} />
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -114,3 +104,4 @@ const styles = StyleSheet.create({
     width: 150,
   },
 });
+export default Home

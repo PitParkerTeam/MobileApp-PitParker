@@ -4,17 +4,16 @@ import { SmallMap, PitInput, BottomContainer } from "../components";
 import { COLORS } from "../common";
 import TakePhoto from "../components/TakePhoto";
 import { PitButton } from "../components";
-import { createParking } from "../api/firestore/parking_store";
+import { parkingAPI } from "../api";
 import * as Location from "expo-location";
 // import DateTimePicker from "@react-native-community/datetimepicker";
 import DatePicker from "react-native-datepicker";
-import moment from 'moment';
-import { addHours } from 'moment';
+import moment from "moment";
+import { addHours } from "moment";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import TimePeriodPicker from "../components/basics/TimePeriodPicker";
 
 export default function AddNewParking({ navigation, route }) {
-  
   const [plate, setPlate] = useState(null);
   const [cost, setCost] = useState(null);
   const [slot, setSlot] = useState(null);
@@ -64,7 +63,7 @@ export default function AddNewParking({ navigation, route }) {
     const { latitude, longitude } = location;
     var time = moment().format("YYYY-MM-DD hh:mm:ss");
 
-    createParking({
+    parkingAPI.createNewParking({
       latitude,
       longitude,
       time,
@@ -82,11 +81,10 @@ export default function AddNewParking({ navigation, route }) {
   endTime.setHours(endTime.getHours() + 1);
 
   return (
-
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
         <SmallMap location={location} />
-        <TimePeriodPicker initialStartTime={now} initialEndTime={endTime}/>
+        <TimePeriodPicker initialStartTime={now} initialEndTime={endTime} />
         <PitInput label="Plate" value={plate} onChangeText={setPlate} />
         <PitInput
           label="Cost"
@@ -127,6 +125,6 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     marginVertical: 4,
-    paddingHorizontal:24,
+    paddingHorizontal: 24,
   },
 });
