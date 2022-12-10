@@ -12,7 +12,7 @@ export default function ParkingRecord({ item, navigation }) {
         onPress={() => navigation.navigate("ParkingDetails", { id: item.id })}
       >
         <Text style={styles.parkingItem.text}>
-          {formatTimestamp(startTime)} • {item.duration}
+          {formatTimestamp(item.startTime)} • {item.duration}
         </Text>
       </Pressable>
     </View>
