@@ -26,7 +26,7 @@ export default function AddNewParking({ navigation, route }) {
   const [cost, setCost] = useState(null);
   const [slot, setSlot] = useState(null);
   const [notes, setNotes] = useState(null);
-  // const [parkTime, setParkTime] = useState(new Date());
+  // const [startTime, setstartTime] = useState(new Date());
   const [duration, setDuration] = useState(null);
 
   // const imageHandler = (uri) => {
@@ -72,9 +72,7 @@ export default function AddNewParking({ navigation, route }) {
     getLocation();
   }, [route]);
 
-  const handlePit = () => {
-    
-  }
+  const handlePit = () => {};
 
   const saveParking = () => {
     const { latitude, longitude } = location;
@@ -135,13 +133,15 @@ export default function AddNewParking({ navigation, route }) {
             multiline: true,
           }}
         />
-        <View style = {{marginVertical: 50, paddingVertical: 50}}>
-        <Text style = {{fontSize: "20", fontWeight: "bold"}}>Save As My Pit</Text>
-        <Switch
-          value={isSwitchOn}
-          onValueChange={(value) => setIsSwitchOn(value)}
-        />
-        {/* <Switch
+        <View style={{ marginVertical: 50, paddingVertical: 50 }}>
+          <Text style={{ fontSize: "20", fontWeight: "bold" }}>
+            Save As My Pit
+          </Text>
+          <Switch
+            value={isSwitchOn}
+            onValueChange={(value) => setIsSwitchOn(value)}
+          />
+          {/* <Switch
           value={isSwitchOn}
           onValueChange={(value) => setIsSwitchOn(value)}
           trackColor={{ true: "#00FF00", false: "#FF0000" }}
@@ -149,7 +149,6 @@ export default function AddNewParking({ navigation, route }) {
           ios_backgroundColor="#000000"
         /> */}
         </View>
-       
       </ScrollView>
       {/* <TakePhoto imageHandler={imageHandler} /> */}
       <BottomContainer>

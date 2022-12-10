@@ -1,14 +1,14 @@
-import { makeAutoObservable, flow } from "mobx";
+import { makeAutoObservable, flow, autorun } from "mobx";
 import { userAPI, pitAPI } from "../api";
 import * as Location from "expo-location";
-import { DEFAULT_VARS } from "../common";
+import { DEFAULT_VARS, timeDiff } from "../common";
 
 class UserStore {
   userInfo = {};
   userLocation = { ...DEFAULT_VARS.coords };
   userPits = [];
   parkings = [];
-
+  currentTime = Date.now()
   constructor() {
     makeAutoObservable(this);
   }
@@ -19,6 +19,17 @@ class UserStore {
 
   setUserPits(val) {
     this.userPits = val;
+  }
+  setCurrentTime(val) {
+    this.currentTime = val
+  }
+  get currentParkings() {
+    return this.parkings.filter(({ startTime, endTime }) => {
+      return (
+        timeDiff(startTime.toDate(), this.currentTime) < 0 &&
+        timeDiff(endTime.toDate(), this.currentTime) > 0
+      );
+    });
   }
 
   getUser = flow(function* (id) {
@@ -45,4 +56,5 @@ class UserStore {
 }
 
 const userStore = new UserStore();
+
 export default userStore;

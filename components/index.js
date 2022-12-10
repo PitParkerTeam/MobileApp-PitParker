@@ -8,4 +8,4 @@ export { Map, SmallMap } from "./maps";
 export { default as MyPit } from "./pits/MyPit";
 
 // parking related
-export { ParkingRecord, ParkingDetailLines } from "./parkings";
+export { ParkingRecord, ParkingDetailLines, CurrentParking } from "./parkings";

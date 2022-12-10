@@ -7,41 +7,23 @@ import {
   Pressable,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import {parkingAPI} from "../../api";
 import { COLORS, formatTime, TEXT_STYLES } from "../../common";
-import { ParkingRecord } from "../../components";
+import { ParkingRecord, CurrentParking } from "../../components";
+import { observer } from "mobx-react-lite";
+import { userStore } from "../../stores";
 
-// import SmallMap from '../../components/SmallMap'
-
-export default function MyParkings({ navigation }) {
-  const [parkingHistory, setParkingHistory] = useState([]);
-
-  useEffect(() => {
-    const unsubscribe = parkingAPI.fetchParkings((querySnapshot) => {
-      if (querySnapshot.empty) {
-        setParkingHistory([]);
-        return;
-      }
-      setParkingHistory(
-        querySnapshot.docs.map((snapDoc) => ({
-          ...snapDoc.data(),
-          id: snapDoc.id,
-          parkTime: formatTime(snapDoc.parkTime),
-        }))
-      );
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-
+const MyParkings = observer(({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>My parking</Text>
-      <View style={styles.currentParking}></View>
+      <View style={styles.currentParking}>
+        {userStore.currentParkings.map((parking) => (
+          <CurrentParking parking={parking} key={parking.id} showMap/>
+        ))}
+      </View>
       <View style={styles.listContainer}>
         <FlatList
-          data={parkingHistory}
+          data={userStore.parkings}
           renderItem={({ item }) => (
             <ParkingRecord item={item} navigation={navigation} />
           )}
@@ -49,7 +31,7 @@ export default function MyParkings({ navigation }) {
       </View>
     </SafeAreaView>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: { backgroundColor: COLORS.BASE[0] },
@@ -60,3 +42,5 @@ const styles = StyleSheet.create({
     marginLeft: "4%",
   },
 });
+
+export default MyParkings;
