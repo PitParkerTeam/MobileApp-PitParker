@@ -18,7 +18,7 @@ const LineDisplay = ({ label, content, item }) => {
     content == "cost"
       ? `$${item[content]}`
       : content == "startTime" || content == "endTime"
-      ? formatTime(item[content].toDate())
+      ? formatTime(new Date(item[content].seconds * 1000))
       : item[content];
   return (
     <View style={styles.line}>

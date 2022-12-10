@@ -53,7 +53,7 @@ export default function CurrentParking({ parking, showMap }) {
           <View>
             <Text style={styles.parkAt}>
               Parked at {"\n"}
-              {formatTime(startTime.toDate())}
+              {formatTime(new Date(startTime.seconds* 1000))}
             </Text>
             <Text style={styles.click}>{"Click to View Details >>"}</Text>
           </View>
