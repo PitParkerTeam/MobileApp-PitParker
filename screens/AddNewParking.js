@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView, SafeAreaView } from "react-native";
+import { View, StyleSheet, ScrollView, SafeAreaView, Alert } from "react-native";
 import React, { useState, useEffect } from "react";
 import { SmallMap, PitInput, BottomContainer } from "../components";
 import { COLORS } from "../common";
@@ -29,7 +29,9 @@ export default function AddNewParking({ navigation, route }) {
   // const [isModalVisible, setIsModalVisible] = useState(false);
 
   const [startTime, setStartTime] = useState(new Date());
-  const [endTime, setEndTime] = useState(new Date());
+  const now = new Date();
+  now.setHours(now.getHours() + 1);
+  const [endTime, setEndTime] = useState(now);
 
   const locateUser = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -65,26 +67,26 @@ export default function AddNewParking({ navigation, route }) {
   const saveParking = () => {
     const { latitude, longitude } = location;
     var time = moment().format("YYYY-MM-DD hh:mm:ss");
-    // console.log(latitude);
-    // console.log(longitude);
-    // console.log(startTime);
-    // console.log(endTime);
-    // // console.log(plate);
-    // // console.log(cost);
-    // // console.log(slot);
 
-    createNewParking({
-      latitude,
-      longitude,
-      startTime,
-      endTime,
-      plate,
-      cost,
-      slot,
-      notes,
-    });
-    alert("Successfully Created Your Parking!");
-    navigation.navigate("Home");
+    if(startTime >= endTime) {
+      Alert.alert(
+        'Action Failed',
+        'Start Time must be earlier than End Time'
+        )
+    } else {
+      createNewParking({
+        latitude,
+        longitude,
+        startTime,
+        endTime,
+        plate,
+        cost,
+        slot,
+        notes,
+      });
+      alert("Successfully Created Your Parking!");
+      navigation.navigate("Home");
+    }
   };
 
   // var startTime = new Date();
