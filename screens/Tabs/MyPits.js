@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { SearchBar } from "@rneui/themed";
 import { MyPit } from "../../components";
 import { COLORS, TEXT_STYLES } from "../../common";
-import { userStore } from "../../stores";
+import { pitStore, userStore } from "../../stores";
 import { observer } from "mobx-react";
 
 const MyPits = observer(({ navigation }) => {
@@ -24,7 +24,7 @@ const MyPits = observer(({ navigation }) => {
       />
       <View style={styles.listContainer}>
         <FlatList
-          data={userStore.userPits}
+          data={pitStore.userPits}
           renderItem={({ item }) => (
             <MyPit pit={item} navigation={navigation} />
           )}
