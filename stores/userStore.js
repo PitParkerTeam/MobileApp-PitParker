@@ -8,7 +8,7 @@ class UserStore {
   userLocation = { ...DEFAULT_VARS.coords };
   userPits = [];
   parkings = [];
-  currentTime = Date.now()
+  currentTime = Date.now();
   constructor() {
     makeAutoObservable(this);
   }
@@ -21,15 +21,18 @@ class UserStore {
     this.userPits = val;
   }
   setCurrentTime(val) {
-    this.currentTime = val
+    this.currentTime = val;
   }
+
+  isCurrent({ startTime, endTime }) {
+    return (
+      timeDiff(startTime.toDate(), this.currentTime) < 0 &&
+      timeDiff(endTime.toDate(), this.currentTime) > 0
+    );
+  }
+
   get currentParkings() {
-    return this.parkings.filter(({ startTime, endTime }) => {
-      return (
-        timeDiff(startTime.toDate(), this.currentTime) < 0 &&
-        timeDiff(endTime.toDate(), this.currentTime) > 0
-      );
-    });
+    return this.parkings.filter(this.isCurrent);
   }
 
   getUser = flow(function* (id) {

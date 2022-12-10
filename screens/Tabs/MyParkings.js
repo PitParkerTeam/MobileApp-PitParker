@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   StyleSheet,
   Pressable,
+  ScrollView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { COLORS, formatTime, TEXT_STYLES } from "../../common";
@@ -13,21 +14,15 @@ import { observer } from "mobx-react-lite";
 import { userStore } from "../../stores";
 
 const MyParkings = observer(({ navigation }) => {
+  const listItemRender = ({item}) => {
+    if(userStore.isCurrent(item)) return <CurrentParking key={item.id} parking={item} showMap />
+    else return <ParkingRecord item={item} navigation={navigation} />;
+  }
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>My parking</Text>
-      <View style={styles.currentParking}>
-        {userStore.currentParkings.map((parking) => (
-          <CurrentParking parking={parking} key={parking.id} showMap/>
-        ))}
-      </View>
       <View style={styles.listContainer}>
-        <FlatList
-          data={userStore.parkings}
-          renderItem={({ item }) => (
-            <ParkingRecord item={item} navigation={navigation} />
-          )}
-        />
+        <FlatList data={userStore.parkings} renderItem={listItemRender} />
       </View>
     </SafeAreaView>
   );
@@ -35,11 +30,15 @@ const MyParkings = observer(({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: { backgroundColor: COLORS.BASE[0] },
-  listContainer: { backgroundColor: COLORS.BASE[20] },
+  listContainer: {
+    backgroundColor: COLORS.BASE[20],
+    height:"100%"
+  },
   currentParking: { padding: 10 },
   header: {
     ...TEXT_STYLES.heading.h2,
     marginLeft: "4%",
+    marginBottom: 5,
   },
 });
 
