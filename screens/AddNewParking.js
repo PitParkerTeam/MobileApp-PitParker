@@ -29,7 +29,6 @@ export default function AddNewParking({ navigation, route }) {
   const [notes, setNotes] = useState(null);
   // const [parkTime, setParkTime] = useState(new Date());
   const [pitID, setPitID] = useState(null);
-  const [duration, setDuration] = useState(null);
 
   // const imageHandler = (uri) => {
   //   console.log("imageHandler called", uri);
@@ -65,7 +64,6 @@ export default function AddNewParking({ navigation, route }) {
       setLocation({ latitude, longitude });
       setPlate(params.plate);
       setCost(params.cost);
-      setDuration(params.duration);
       setNotes(params.notes);
       setPitID(params.pitID);
     }
@@ -87,10 +85,17 @@ export default function AddNewParking({ navigation, route }) {
     return res;
   };
 
+
+
   const saveParking = async () => {
     const { latitude, longitude } = location;
     var time = moment().format("YYYY-MM-DD hh:mm:ss");
-    const duration = 0;
+
+    const duration = moment.duration(moment(endTime).diff(moment(startTime)));
+    const durationInMinutes = duration.asMinutes();
+    const hours = Math.floor(durationInMinutes / 60);
+    const minutes = Math.floor(durationInMinutes % 60);
+    const formattedDuration = `${hours}hours ${minutes}minutes`;
 
     if (startTime >= endTime) {
       Alert.alert("Action Failed", "Start Time must be earlier than End Time");
@@ -115,7 +120,7 @@ export default function AddNewParking({ navigation, route }) {
         longitude,
         startTime,
         endTime,
-        duration,
+        duration: formattedDuration,
         plate,
         cost,
         slot,
