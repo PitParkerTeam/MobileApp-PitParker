@@ -6,6 +6,7 @@ import {
   getDoc,
   onSnapshot,
   writeBatch,
+  setDoc,
 } from "firebase/firestore";
 
 import { firestore, auth } from "./firestore/firebase_setup";
@@ -29,6 +30,19 @@ const pitAPI = {
         {
           ...pit,
         }
+      );
+      return docRef.id;
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  async saveAsMyPit(pit) {
+    const uid = auth.currentUser.uid;
+    try {
+      const docRef = await setDoc(
+        doc(firestore, "users", uid, "pits", pit.pitID),
+        pit
       );
     } catch (err) {
       console.log(err);

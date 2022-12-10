@@ -75,23 +75,42 @@ export default function AddNewParking({ navigation, route }) {
     getLocation();
   }, [route]);
 
-  const handlePit = () => {
-    if (pitID) {
-    } else {
-      pitAPI.createNewPit({});
-    }
+  const handlePit = async () => {
+    const { latitude, longitude } = location;
+    const res = await pitAPI.createNewPit({
+      latitude,
+      longitude,
+      name: pitName,
+    });
+
+    setPitID(res);
+    return res;
   };
 
-  const saveParking = () => {
+  const saveParking = async () => {
     const { latitude, longitude } = location;
     var time = moment().format("YYYY-MM-DD hh:mm:ss");
     const duration = 0;
 
     if (startTime >= endTime) {
       Alert.alert("Action Failed", "Start Time must be earlier than End Time");
+    } else if (isSwitchOn && !pitName) {
+      Alert.alert("Action Failed", "Your Pit must have a name");
     } else {
-      handlePit();
-      parkingAPI.createNewParking({
+      let id = pitID;
+      if (!id) {
+        id = await handlePit();
+      }
+      if (isSwitchOn) {
+        const myPit = {
+          latitude: location.latitude,
+          longitude: location.longitude,
+          name: pitName,
+          pitID: id,
+        };
+        await pitAPI.saveAsMyPit(myPit);
+      }
+      await parkingAPI.createNewParking({
         latitude,
         longitude,
         startTime,
@@ -101,6 +120,7 @@ export default function AddNewParking({ navigation, route }) {
         cost,
         slot,
         notes,
+        pitID,
       });
       alert("Successfully Created Your Parking!");
       navigation.navigate("Home");
