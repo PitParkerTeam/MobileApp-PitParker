@@ -1,15 +1,14 @@
 import {
   SafeAreaView,
   Text,
-  Button,
   StyleSheet,
   View,
   Pressable,
 } from "react-native";
 import React from "react";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { auth } from "../../api";
-import { BottomContainer, PitButton, SmallMap } from "../../components";
+import { BottomContainer, PitButton } from "../../components";
 import { COLORS, TEXT_STYLES } from "../../common";
 import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
@@ -19,8 +18,7 @@ export default function ProfileSettings({ navigation }) {
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>Account</Text>
       <View style={{ paddingHorizontal: 24 }}>
-        <Pressable 
-          onPress={() => navigation.navigate("ManageAccount")}>
+        <Pressable onPress={() => navigation.navigate("ManageAccount")}>
           <View style={styles.tabs}>
             <View style={styles.account}>
               <Ionicons
@@ -34,8 +32,22 @@ export default function ProfileSettings({ navigation }) {
             </View>
           </View>
         </Pressable>
+        <Pressable onPress={() => navigation.navigate("Notifications")}>
+          <View style={styles.tabs}>
+            <View style={styles.notification}>
+              <Ionicons
+                name="notifications-outline"
+                size={24}
+                color="black"
+                style={styles.icon}
+              />
+              <Text style={styles.tabText}>Notifications</Text>
+              <Entypo name="chevron-right" size={24} color="black" style={{marginLeft: 38}} />
+            </View>
+          </View>
+        </Pressable>
       </View>
-      <BottomContainer>
+      <BottomContainer style={styles.bottom}>
         <PitButton text="Sign Out" onPress={() => signOut(auth)} />
       </BottomContainer>
     </SafeAreaView>
@@ -58,7 +70,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     borderRightWidth: 0,
     borderLeftWidth: 0,
-    marginBottom: 50,
+    marginBottom:25,
   },
   listContainer: {
     flex: 1,
@@ -68,7 +80,10 @@ const styles = StyleSheet.create({
     marginTop: 40,
     flexDirection: "row",
     marginBottom: 20,
-    // justifyContent: "space-between",
+  },
+  notification: {
+    flexDirection: "row",
+    marginBottom: 20,
   },
   tabText: {
     fontSize: 20,
@@ -77,4 +92,12 @@ const styles = StyleSheet.create({
   icon: {
     marginHorizontal: 28,
   },
+  bottom: {
+    marginTop: 330,
+    borderTopColor: COLORS.BASE[40],
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    alignItems: "center",
+    flexDirection: "column",
+  }
 });
