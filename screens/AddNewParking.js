@@ -150,6 +150,7 @@ const AddNewParking = observer(({ navigation, route }) => {
           }}
         />
         <View style={{ marginVertical: 50, paddingVertical: 50 }}>
+          <ImageManager imageHandler={imageHandler} />
           <Text style={{ fontSize: "20", fontWeight: "bold" }}>
             Save As My Pit
           </Text>
@@ -168,10 +169,8 @@ const AddNewParking = observer(({ navigation, route }) => {
               />
             )}
           </View>
-          <ImageManager imageHandler={imageHandler} />
         </View>
       </ScrollView>
-      {/* <TakePhoto imageHandler={imageHandler} /> */}
       <BottomContainer>
         <PitButton
           style={styles.button}
