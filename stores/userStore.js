@@ -1,7 +1,7 @@
 import { makeAutoObservable, flow, autorun } from "mobx";
 import { userAPI, pitAPI } from "../api";
 import * as Location from "expo-location";
-import { DEFAULT_VARS, timeDiff } from "../common";
+import { DEFAULT_VARS, timeDiff, getDistanceString } from "../common";
 
 class UserStore {
   userInfo = {};
@@ -26,6 +26,10 @@ class UserStore {
 
   setUserLocation(val) {
     this.userLocation = val;
+  }
+
+  getCurrentDistance(coords) {
+    return getDistanceString(coords, this.userLocation);
   }
 
   isCurrent({ startTime, endTime }) {

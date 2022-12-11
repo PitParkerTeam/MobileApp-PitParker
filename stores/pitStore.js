@@ -18,6 +18,10 @@ class PitStore {
     this.userPits = val;
   }
 
+  isUserPit(pitID) {
+    return this.userPits.some((item) => item.id == pitID);
+  }
+
   mapPits(pit) {
     const { place_id, name, geometry, vicinity } = pit;
     const latitude = geometry.location.lat;
@@ -32,9 +36,18 @@ class PitStore {
       const pitsMapped = parking.results.map(this.mapPits);
       this.setNearbyPits(pitsMapped);
       pitAPI.batchAddPits(pitsMapped);
-    } catch {}
+    } catch (e) {}
   });
 
+  toggleSavePit = flow(function* (pit) {
+    try {
+      if (this.isUserPit(pit.id)) {
+        const removePit = yield pitAPI.removeFromMyPit(pit.id)
+      } else {
+        const savePit = yield pitAPI.saveAsMyPit(pit);
+      }
+    } catch (e) {}
+  });
 }
 
 const pitStore = new PitStore();
