@@ -51,6 +51,7 @@ export default function ImageManager({ imageHandler }) {
               alignItems: "center",
               justifyContent: "center",
               borderRadius: 4,
+              marginVertical: 4,
             }}
           >
             <Text
