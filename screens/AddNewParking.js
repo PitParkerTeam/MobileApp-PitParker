@@ -78,7 +78,7 @@ const AddNewParking = observer(({ navigation, route }) => {
     const durationInMinutes = duration.asMinutes();
     const hours = Math.floor(durationInMinutes / 60);
     const minutes = Math.floor(durationInMinutes % 60);
-    const formattedDuration = `${hours}hours ${minutes} minutes`;
+    const formattedDuration = `${hours} hours ${minutes} minutes`;
 
     if (startTime >= endTime) {
       Alert.alert("Action Failed", "Start Time must be earlier than End Time");
