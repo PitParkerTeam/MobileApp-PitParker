@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { SmallMap, PitInput, BottomContainer } from "../components";
-import { COLORS } from "../common";
+import { COLORS, TEXT_STYLES } from "../common";
 import { PitButton } from "../components";
 import { parkingAPI, pitAPI } from "../api";
 import ImageManager from "../components/basics/ImageManager";
@@ -29,7 +29,6 @@ const AddNewParking = observer(({ navigation, route }) => {
   const [uri, setUri] = useState("");
 
   const imageHandler = (uri) => {
-    console.log("imageHandler called", uri);
     setUri(uri);
   };
 
@@ -47,10 +46,10 @@ const AddNewParking = observer(({ navigation, route }) => {
       const { params } = route;
       const { latitude, longitude } = route.params;
       setLocation({ latitude, longitude });
-      (params.plate) && setPlate(params.plate);
-      (params.cost) && setCost(params.cost);
-      (params.notes) && setNotes(params.notes);
-      (params.slot) && setSlot(params.slot);
+      params.plate && setPlate(params.plate);
+      params.cost && setCost(params.cost);
+      params.notes && setNotes(params.notes);
+      params.slot && setSlot(params.slot);
       setPitID(params.pitID);
     }
   };
@@ -77,7 +76,7 @@ const AddNewParking = observer(({ navigation, route }) => {
     const durationInMinutes = duration.asMinutes();
     const hours = Math.floor(durationInMinutes / 60);
     const minutes = Math.floor(durationInMinutes % 60);
-    const formattedDuration = `${hours}hours ${minutes} minutes`;
+    const formattedDuration = `${hours} hours ${minutes} minutes`;
 
     if (startTime >= endTime) {
       Alert.alert("Action Failed", "Start Time must be earlier than End Time");
@@ -97,9 +96,9 @@ const AddNewParking = observer(({ navigation, route }) => {
         };
         await pitAPI.saveAsMyPit(myPit);
       }
-
+      let image = "";
       if (uri) {
-        setUri(parkingAPI.uploadImage(uri));
+        image = await parkingAPI.uploadImage(uri);
       }
 
       await parkingAPI.createNewParking({
@@ -113,7 +112,7 @@ const AddNewParking = observer(({ navigation, route }) => {
         slot,
         notes,
         pitID: id,
-        image: uri,
+        image,
       });
       alert("Successfully Created Your Parking!");
       navigation.navigate("Home");
@@ -123,7 +122,7 @@ const AddNewParking = observer(({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
-        <SmallMap location={route.params? location : userStore.userLocation} />
+        <SmallMap location={route.params || userStore.userLocation} />
         <TimePeriodPicker
           initialStartTime={startTime}
           initialEndTime={endTime}
@@ -140,6 +139,7 @@ const AddNewParking = observer(({ navigation, route }) => {
         <PitInput label="Slot" value={slot} onChangeText={setSlot} />
         <PitInput
           label="Notes"
+          style={{ minHeight: 180 }}
           inputStyle={{ minHeight: 120 }}
           value={notes}
           onChangeText={setNotes}
@@ -148,30 +148,31 @@ const AddNewParking = observer(({ navigation, route }) => {
             multiline: true,
           }}
         />
-        <View style={{ marginVertical: 50, paddingVertical: 50 }}>
-          <ImageManager imageHandler={imageHandler} />
-        </View>
 
-        <View style={{ marginVertical: 1, paddingVertical: 1 }}>
-          <Text style={{ fontSize: "20", fontWeight: "bold" }}>
+        <View style={styles.savePit}>
+          <Text style={TEXT_STYLES.title[500]}>
             Save As My Pit
           </Text>
-          <View>
-            <Switch
-              value={isSwitchOn}
-              onValueChange={(value) => setIsSwitchOn(value)}
-              style={styles.switch}
-            />
-            {/* Show the input field only when the switch is turned on */}
-            {isSwitchOn && (
-              <PitInput
-                label="Pit Name"
-                value={pitName}
-                onChangeText={setPitName}
-              />
-            )}
-          </View>
+          <Switch
+            value={isSwitchOn}
+            onValueChange={(value) => setIsSwitchOn(value)}
+            style={styles.switch}
+          />
         </View>
+
+        {isSwitchOn && (
+          <View style={styles.pitName}>
+            <PitInput
+              label="Pit Name"
+              value={pitName}
+              onChangeText={setPitName}
+            />
+          </View>
+        )}
+        <View style={styles.imgManager}>
+          <ImageManager imageHandler={imageHandler} />
+        </View>
+        <View style={{marginTop:150}} />
       </ScrollView>
       <BottomContainer>
         <PitButton
@@ -195,9 +196,16 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     paddingHorizontal: 24,
   },
-  switch: {
-    paddingVertical: 5,
-    marginVertical: 5,
+  savePit: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  pitName: {
+    marginTop: 12,
+  },
+  imgManager: {
+    marginTop: 12,
   },
 });
 

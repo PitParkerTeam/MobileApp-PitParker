@@ -6,26 +6,49 @@ import {
   ScrollView,
   Image,
   Pressable,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SmallMap, PitButton, ParkingDetailLines, BottomContainer } from "../components";
 import { COLORS, TEXT_STYLES } from "../common";
 import { parkingAPI } from "../api";
 import ImageView from "react-native-image-viewing";
+import { storage } from "../api/firestore/firebase_setup";
+import { getDownloadURL, ref } from "firebase/storage";
+
 
 export default function ParkingDetails({ route, navigation }) {
+  const [visible, setIsVisible] = useState(false);
+  const [item, setItem] = useState({});
+  const [imageURL, setImageURL] = useState("");
+  const [imgLoading, setImgLoading] = useState(false)
+  const { longitude, latitude } = item;
+  const { name, pitID, image } = item;
+
+  const parkAgain = () => navigation.navigate("AddNewParking", item);
+
   useEffect(() => {
     const { id } = route.params;
     parkingAPI.getParking(id).then((res) => setItem(res));
     return () => {};
   }, [route]);
 
-  const [visible, setIsVisible] = useState(false);
-  const [item, setItem] = useState({});
-  const { longitude, latitude } = item;
-  const { name, notes, pitID, image } = item;
-
-  const parkAgain = () => navigation.navigate("AddNewParking", item);
+  useEffect(() => {
+    const getImageURL = async () => {
+      try {
+        if (image) {
+          setImgLoading(true)
+          const reference = ref(storage, image);
+          const downloadImageURL = await getDownloadURL(reference);
+          setImageURL(downloadImageURL);
+          setImgLoading(false)
+        }
+      } catch (err) {
+        console.log("download image ", err);
+      }
+    };
+    getImageURL();
+  }, [image]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -37,11 +60,18 @@ export default function ParkingDetails({ route, navigation }) {
           {image && (
             <View style={styles.imageContainer}>
               <Text style={styles.imageTitle}>Image</Text>
-              <Pressable onPress={() => setIsVisible(true)}>
-                <Image source={{ uri: image }} style={styles.image} />
-              </Pressable>
+              {imgLoading && (
+                <View style={styles.loadingContainer}>
+                  <ActivityIndicator size="large" color={COLORS.TINT[100]} />
+                </View>
+              )}
+              {imageURL && !imgLoading && (
+                <Pressable onPress={() => setIsVisible(true)}>
+                  <Image source={{ uri: imageURL }} style={styles.image} />
+                </Pressable>
+              )}
               <ImageView
-                images={[{ uri: image }]}
+                images={[{ uri: imageURL }]}
                 imageIndex={0}
                 visible={visible}
                 onRequestClose={() => setIsVisible(false)}
@@ -57,10 +87,7 @@ export default function ParkingDetails({ route, navigation }) {
           text="View Pit"
           onPress={() => navigation.navigate("PitDetails", { id: pitID })}
         />
-        <PitButton
-          text="Park Again"
-          onPress={parkAgain}
-        />
+        <PitButton text="Park Again" onPress={parkAgain} type="primary" />
       </BottomContainer>
     </SafeAreaView>
   );
@@ -77,6 +104,12 @@ const styles = StyleSheet.create({
   },
   button: {
     marginBottom: 0,
+  },
+  loadingContainer:{
+    justifyContent:"center",
+    alignContent:"center",
+    width:150,
+    height:150
   },
   imageContainer: {
     flexDirection: "row",

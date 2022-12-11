@@ -58,7 +58,7 @@ class UserStore {
     yield Location.watchPositionAsync(
       {
         accuracy: Location.Accuracy.Balanced,
-        timeInterval: 5000,
+        timeInterval: 2000,
       },
       (location) => {
         const { longitude, latitude } = location.coords;
