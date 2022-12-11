@@ -75,10 +75,11 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.BASE[0],
   },
   name: {
-    marginTop: 20,
+    // marginTop: 5,
     marginBottom: 40,
   },
   img: {
+    top: -20,
     alignItems: "center",
   },
   title: {
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   bottomContainer: {
-    marginTop: 20,
+    marginTop: 70,
     paddingVertical: 12,
     alignItems: "center",
     flexDirection: "column",

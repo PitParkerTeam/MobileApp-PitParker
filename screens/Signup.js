@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   authContent: {
     padding: 16,
     flex: 1,
-    justifyContent: "center",
+    // justifyContent: "center",
   },
   inputContainer: {
     marginVertical: 8,
