@@ -3,6 +3,22 @@ import { pitAPI, mapAPI } from "../api";
 import userStore from "./userStore";
 import { Alert } from "react-native";
 
+const pitNamePrompt = (pit)=> Alert.prompt("Pit Name", "Please give your pit a name", [
+  {
+    text: "Cancel",
+    onPress: () => {},
+    style: "cancel",
+  },
+  {
+    text: "OK",
+    onPress: (name) => {
+      const updatedPit = { ...pit, name };
+      pitAPI.updatePit(updatedPit).then(() => pitAPI.saveAsMyPit(updatedPit));
+    },
+  },
+]);
+
+
 class PitStore {
   nearbyPits = [];
   userPits = [];
@@ -42,20 +58,12 @@ class PitStore {
   toggleSavePit = flow(function* (pit) {
     try {
       if (this.isUserPit(pit.id)) {
-        const removePit = yield pitAPI.removeFromMyPit(pit.id);
+        const removePit = yield pitAPI
+          .updatePit({ ...pit, name: null })
+          .then(() => pitAPI.removeFromMyPit(pit.id));
       } else {
         if (!pit.name) {
-          Alert.prompt("Pit Name", "Please give your pit a name", [
-            {
-              text: "Cancel",
-              onPress: () => {},
-              style: "cancel",
-            },
-            {
-              text: "OK",
-              onPress: (name) => pitAPI.saveAsMyPit({ ...pit, name }),
-            },
-          ]);
+         pitNamePrompt(pit);
         } else {
           const savePit = yield pitAPI.saveAsMyPit(pit);
         }

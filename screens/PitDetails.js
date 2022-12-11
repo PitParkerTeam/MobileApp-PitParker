@@ -21,7 +21,7 @@ import { pitStore, userStore } from "../stores";
 import { showLocation } from "react-native-map-link";
 
 
-const HistoryItem = ({ item }) => {
+const HistoryItem = ({ item, navigation }) => {
   return (
     <Pressable
       onPress={() => navigation.navigate("ParkingDetails", { id: item.id })}
@@ -87,7 +87,7 @@ const PitDetails = observer(({ route, navigation }) => {
           <Text style={styles.historyTitle}>Parking History</Text>
         )}
         {pitParkingHistory.map((item) => (
-          <HistoryItem item={item} key={item.id} />
+          <HistoryItem navigation={navigation} item={item} key={item.id} />
         ))}
       </ScrollView>
       <BottomContainer>
