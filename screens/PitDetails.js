@@ -8,11 +8,18 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { BottomContainer, PitButton, SmallMap } from "../components";
-import { COLORS, TEXT_STYLES, formatTimestamp } from "../common";
+import {
+  COLORS,
+  TEXT_STYLES,
+  formatTimestamp,
+  locationLinkConfigs,
+} from "../common";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { pitAPI } from "../api";
 import { observer } from "mobx-react";
 import { pitStore, userStore } from "../stores";
+import { showLocation } from "react-native-map-link";
+
 
 const HistoryItem = ({ item }) => {
   return (
@@ -35,7 +42,7 @@ const HistoryItem = ({ item }) => {
 const PitDetails = observer(({ route, navigation }) => {
   const { id } = route.params;
   useEffect(() => {
-    pitAPI.getPit(id).then((res) => setPit({...res, id}));
+    pitAPI.getPit(id).then((res) => setPit({ ...res, id }));
     return () => {};
   }, [route]);
 
@@ -49,7 +56,16 @@ const PitDetails = observer(({ route, navigation }) => {
       }`
     : name;
 
-
+  const getDirections = () => {
+    showLocation({
+      longitude,
+      latitude,
+      sourceLatitude: userStore.userLocation.latitude,
+      sourceLongitude: userStore.userLocation.longitude,
+      title: name,
+      ...locationLinkConfigs,
+    });
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
@@ -75,7 +91,11 @@ const PitDetails = observer(({ route, navigation }) => {
         ))}
       </ScrollView>
       <BottomContainer>
-        <PitButton text="Get Directions" style={styles.button} />
+        <PitButton
+          text="Get Directions"
+          style={styles.button}
+          onPress={getDirections}
+        />
         <PitButton
           text="Park Here"
           type="primary"
@@ -105,7 +125,7 @@ const styles = StyleSheet.create({
   },
   name: {
     ...TEXT_STYLES.heading.h4,
-    width:"80%"
+    width: "80%",
   },
   content: {
     ...TEXT_STYLES.title[300],
