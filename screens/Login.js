@@ -118,9 +118,13 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   bottomContainer: {
-    marginTop: 85,
-    paddingVertical: 12,
     alignItems: "center",
     flexDirection: "column",
+    position: "absolute",
+    bottom:50,
+    width:"100%",
+    justifyContent:"center",
+    left:24,
+    right:24
   },
 });

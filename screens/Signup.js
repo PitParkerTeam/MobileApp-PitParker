@@ -145,10 +145,14 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   bottomContainer: {
-    top: 10,
-    paddingVertical: 12,
     alignItems: "center",
     flexDirection: "column",
+    position: "absolute",
+    bottom: 50,
+    width: "100%",
+    justifyContent: "center",
+    left: 24,
+    right: 24,
   },
   label: {
     marginBottom: 2,
