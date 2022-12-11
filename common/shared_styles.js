@@ -6,6 +6,7 @@ export const TEXT_STYLES = {
     h2: { fontSize: 36, fontWeight: "700" },
     h3: { fontSize: 32, fontWeight: "700" },
     h4: { fontSize: 24, fontWeight: "700" },
+    h5: { fontSize: 18, fontWeight: "600" }
   },
   title: {
     700: { fontSize: 20, fontWeight: "700" },
