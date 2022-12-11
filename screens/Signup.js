@@ -43,7 +43,7 @@ export default function Signup({ navigation }) {
     <SafeAreaView style={styles.container}>
       <View style={styles.authContent}>
         <View style={styles.img}>
-          <Image source={require("./My_Location.png")} />
+          <Image source={require("../assets/My_Location.png")} />
         </View>
         <View style={styles.name}>
           <View style={styles.title}>
@@ -82,13 +82,9 @@ export default function Signup({ navigation }) {
           value={confirmpassword}
         />
         <BottomContainer style={styles.bottomContainer}>
-          <PitButton 
-            text="Sign Up" 
-            type="primary"
-            onPress={handleSignup}
-            />
-          <PitButton 
-            text="Log In" 
+          <PitButton text="Sign Up" type="primary" onPress={handleSignup} />
+          <PitButton
+            text="Log In"
             onPress={() => navigation.replace("Login")}
           />
         </BottomContainer>
@@ -124,7 +120,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   authContent: {
-    padding: 16,
+    padding: 24,
+    paddingTop: 70,
     flex: 1,
     // justifyContent: "center",
   },
@@ -148,7 +145,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   bottomContainer: {
-    top: -15,
+    top: 10,
     paddingVertical: 12,
     alignItems: "center",
     flexDirection: "column",
