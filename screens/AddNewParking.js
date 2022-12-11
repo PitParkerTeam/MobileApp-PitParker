@@ -32,14 +32,13 @@ const AddNewParking = observer(({ navigation, route }) => {
     console.log("imageHandler called", uri);
     setUri(uri);
   };
-    
+
   const now = new Date();
   now.setHours(now.getHours() + 1);
   const [endTime, setEndTime] = useState(now);
   const [location, setLocation] = useState({});
   const [pitName, setPitName] = useState(null);
   const [startTime, setStartTime] = useState(new Date());
-
 
   const getLocation = () => {
     if (!route.params) {
@@ -120,7 +119,6 @@ const AddNewParking = observer(({ navigation, route }) => {
     }
   };
 
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
@@ -151,6 +149,9 @@ const AddNewParking = observer(({ navigation, route }) => {
         />
         <View style={{ marginVertical: 50, paddingVertical: 50 }}>
           <ImageManager imageHandler={imageHandler} />
+        </View>
+
+        <View style={{ marginVertical: 1, paddingVertical: 1 }}>
           <Text style={{ fontSize: "20", fontWeight: "bold" }}>
             Save As My Pit
           </Text>
