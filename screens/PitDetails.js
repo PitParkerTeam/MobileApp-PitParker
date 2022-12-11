@@ -8,12 +8,18 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { BottomContainer, PitButton, SmallMap } from "../components";
-import { COLORS, TEXT_STYLES, formatTimestamp } from "../common";
+import {
+  COLORS,
+  TEXT_STYLES,
+  formatTimestamp,
+  locationLinkConfigs,
+} from "../common";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { pitAPI } from "../api";
 import { observer } from "mobx-react";
 import { pitStore, userStore } from "../stores";
 import { showLocation } from "react-native-map-link";
+
 
 const HistoryItem = ({ item }) => {
   return (
@@ -56,14 +62,8 @@ const PitDetails = observer(({ route, navigation }) => {
       latitude,
       sourceLatitude: userStore.userLocation.latitude,
       sourceLongitude: userStore.userLocation.longitude,
-      googleForceLatLon: false,
-      alwaysIncludeGoogle: true,
       title: name,
-      dialogTitle: "Get Directions",
-      appsWhiteList: ["google-maps", "apple-maps"],
-      dialogMessage: "",
-      naverCallerName: "com.example.myapp",
-      directionsMode: "drive",
+      ...locationLinkConfigs,
     });
   };
   return (

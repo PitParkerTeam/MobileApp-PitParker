@@ -27,3 +27,13 @@ export const DEFAULT_VARS = {
     longitude: -122.4324,
   },
 };
+
+export const locationLinkConfigs = {
+  googleForceLatLon: false,
+  alwaysIncludeGoogle: true,
+  dialogTitle: "Get Directions",
+  appsWhiteList: ["google-maps", "apple-maps"],
+  dialogMessage: "",
+  naverCallerName: "com.example.myapp",
+  directionsMode: "drive",
+};
