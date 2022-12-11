@@ -1,34 +1,38 @@
-import { View, Text, FlatList, StyleSheet, SafeAreaView } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  SafeAreaView,
+  TextInput,
+} from "react-native";
 import React, { useEffect, useState } from "react";
-import { SearchBar } from "@rneui/themed";
-import { MyPit } from "../../components";
+import { MyPit, SearchBar } from "../../components";
 import { COLORS, TEXT_STYLES } from "../../common";
 import { pitStore } from "../../stores";
 import { observer } from "mobx-react";
 
 const MyPits = observer(({ navigation }) => {
   const [search, setSearch] = useState("");
-  const updateSearch = (search) => {
-    setSearch(search);
-  };
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>My Pits</Text>
       <SearchBar
-        placeholder="Search"
-        onChangeText={updateSearch}
         value={search}
-        lightTheme={true}
-        round={true}
+        onChangeText={(val) => setSearch(val)}
+        onClear={() => setSearch("")}
       />
-        <FlatList
-          style={styles.listContainer}
-          data={pitStore.userPits}
-          renderItem={({ item }) => (
-            <MyPit pit={item} navigation={navigation} />
-          )}
-        />
+      <FlatList
+        style={styles.listContainer}
+        data={pitStore.userPits.filter((item) =>
+          item.name
+            .concat(item?.vicinity)
+            .toLowerCase()
+            .includes(search.toLowerCase())
+        )}
+        renderItem={({ item }) => <MyPit pit={item} navigation={navigation} />}
+      />
     </SafeAreaView>
   );
 });
@@ -36,6 +40,7 @@ const MyPits = observer(({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: COLORS.BASE[0],
   },
   header: {
     ...TEXT_STYLES.heading.h2,
