@@ -13,8 +13,6 @@ import { auth } from "../api";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { COLORS, TEXT_STYLES } from "../common";
 
-
-
 export default function Login({ navigation }) {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -29,10 +27,20 @@ export default function Login({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.authContent}>
-        <View>
+        <View style={styles.img}>
           <Image source={require("./My_Location.png")} />
         </View>
-        <Text style={styles.label}>Email Address</Text>
+        <View style={styles.name}>
+          <View style={styles.title}>
+            <Text style={styles.title}>PitParker</Text>
+          </View>
+          <View style={styles.intro}>
+            <Text style={styles.intro}>Park in your own pit</Text>
+          </View>
+        </View>
+        <View style={styles.label}>
+          <Text style={styles.label}>Email</Text>
+        </View>
         <TextInput
           placeholder="Email"
           style={styles.input}
@@ -66,18 +74,35 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.BASE[0],
-
+  },
+  name: {
+    marginTop: 20,
+    marginBottom: 40,
+  },
+  img: {
+    // justifyContent: "center",
+    alignItems: "center",
+    // alignContent: "center",
+  },
+  title: {
+    ...TEXT_STYLES.heading.h1,
+    alignItems: "center",
+  },
+  intro: {
+    ...TEXT_STYLES.base[400],
+    alignItems: "center",
   },
   authContent: {
     padding: 16,
     flex: 1,
-    justifyContent: "center",
+    // justifyContent: "center",
   },
   inputContainer: {
     marginVertical: 8,
   },
   label: {
     marginBottom: 4,
+    ...TEXT_STYLES.heading.h5,
   },
 
   input: {

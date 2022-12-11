@@ -13,8 +13,6 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, userAPI } from "../api";
 import { COLORS, TEXT_STYLES } from "../common";
 
-
-
 export default function Signup({ navigation }) {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -43,7 +41,9 @@ export default function Signup({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.authContent}>
-        <Image source={require("./My_Location.png")} />
+        <View style={styles.img}>
+          <Image source={require("./My_Location.png")} />
+        </View>
         <Text style={styles.label}>Email</Text>
         <TextInput
           placeholder="Email"
@@ -82,6 +82,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.BASE[0],
+  },
+  img: {
+
   },
   authContent: {
     padding: 16,
