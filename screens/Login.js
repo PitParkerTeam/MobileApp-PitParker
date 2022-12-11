@@ -64,15 +64,6 @@ export default function Login({ navigation }) {
             onPress={() => navigation.replace("Signup")}
           />
         </BottomContainer>
-        {/* <View style={styles.button}>
-          <Button title="Log In" onPress={handleLogin} />
-        </View>
-        <View style={styles.button}>
-          <Button
-            title="New User? Create an account"
-            onPress={() => navigation.replace("Signup")}
-          />
-        </View> */}
       </View>
     </SafeAreaView>
   );
@@ -88,9 +79,7 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   img: {
-    // justifyContent: "center",
     alignItems: "center",
-    // alignContent: "center",
   },
   title: {
     ...TEXT_STYLES.heading.h1,
@@ -103,7 +92,6 @@ const styles = StyleSheet.create({
   authContent: {
     padding: 16,
     flex: 1,
-    // justifyContent: "center",
   },
   inputContainer: {
     marginVertical: 8,
