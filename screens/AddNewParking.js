@@ -18,6 +18,7 @@ import TimePeriodPicker from "../components/basics/TimePeriodPicker";
 import { Switch } from "react-native";
 import { userStore } from "../stores";
 import { observer } from "mobx-react-lite";
+import NotificationManager from "../components/basics/NotificationManager";
 
 const AddNewParking = observer(({ navigation, route }) => {
   const [plate, setPlate] = useState(null);
@@ -33,8 +34,9 @@ const AddNewParking = observer(({ navigation, route }) => {
   };
 
   const now = new Date();
-  now.setHours(now.getHours() + 1);
-  const [endTime, setEndTime] = useState(now);
+  const anHourAfterNow = new Date();
+  anHourAfterNow.setHours(now.getHours() + 1);
+  const [endTime, setEndTime] = useState(anHourAfterNow);
   const [location, setLocation] = useState({});
   const [pitName, setPitName] = useState(null);
   const [startTime, setStartTime] = useState(new Date());
@@ -100,6 +102,12 @@ const AddNewParking = observer(({ navigation, route }) => {
       if (uri) {
         image = await parkingAPI.uploadImage(uri);
       }
+
+
+      const timeDifference = moment.duration(moment(endTime).diff(moment(now)));
+      const timeDifferenceInSeconds = timeDifference.asSeconds();
+
+      if(timeDifferenceInSeconds > 900) <NotificationManager timeInSeconds={timeDifferenceInSeconds}/>;
 
       await parkingAPI.createNewParking({
         latitude,
