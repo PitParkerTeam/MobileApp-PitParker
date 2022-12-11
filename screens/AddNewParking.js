@@ -32,13 +32,14 @@ const AddNewParking = observer(({ navigation, route }) => {
     console.log("imageHandler called", uri);
     setUri(uri);
   };
+    
+  const now = new Date();
+  now.setHours(now.getHours() + 1);
   const [endTime, setEndTime] = useState(now);
   const [location, setLocation] = useState({});
   const [pitName, setPitName] = useState(null);
   const [startTime, setStartTime] = useState(new Date());
-  
-  const now = new Date();
-  now.setHours(now.getHours() + 1);
+
 
   const getLocation = () => {
     if (!route.params) {

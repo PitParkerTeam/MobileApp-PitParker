@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   container: { backgroundColor: COLORS.BASE[0] },
   listContainer: {
     backgroundColor: COLORS.BASE[20],
-    height:"100%"
+    height:"93%"
   },
   currentParking: { padding: 10 },
   header: {
