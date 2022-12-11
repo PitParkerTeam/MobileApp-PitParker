@@ -32,7 +32,7 @@ export default function ParkingDetails({ route, navigation }) {
       <ScrollView style={styles.scrollView}>
         <View style={{ paddingHorizontal: 24 }}>
           <SmallMap location={{ longitude, latitude }} />
-          <Text style={styles.name}>{name}</Text>
+          {name && <Text style={styles.name}>{name}</Text>}
           <ParkingDetailLines item={item} />
           {image && (
             <View style={styles.imageContainer}>
