@@ -3,7 +3,6 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  Button,
   Alert,
   Image,
   SafeAreaView,
@@ -80,7 +79,6 @@ const styles = StyleSheet.create({
     top: -25,
   },
   name: {
-    // marginTop: 5,
     marginBottom: 40,
   },
   img: {
@@ -120,9 +118,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.BASE[20],
     borderRadius: 4,
   },
-  // button: {
-  //   marginTop: 5,
-  // },
   bottomContainer: {
     alignItems: "center",
     flexDirection: "column",

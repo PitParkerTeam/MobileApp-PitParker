@@ -3,7 +3,6 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  Button,
   Alert,
   Image,
   SafeAreaView,
@@ -76,7 +75,6 @@ export default function Signup({ navigation }) {
           <View style={styles.label}>
             <Text style={styles.label}>Confirm Password</Text>
           </View>
-          {/* <Text style={styles.label}>Confirm password</Text> */}
           <TextInput
             style={styles.input}
             secureTextEntry={true}
@@ -91,11 +89,6 @@ export default function Signup({ navigation }) {
             onPress={() => navigation.replace("Login")}
           />
         </BottomContainer>
-        {/* <Button title="Register" onPress={handleSignup} />
-        <Button
-          title="Already Registered? Login"
-          onPress={() => navigation.replace("Login")}
-        /> */}
       </View>
     </SafeAreaView>
   );
@@ -110,7 +103,6 @@ const styles = StyleSheet.create({
     top: -25,
   },
   name: {
-    // marginTop: 5,
     marginBottom: 40,
   },
   img: {
@@ -129,7 +121,6 @@ const styles = StyleSheet.create({
     padding: 24,
     paddingTop: 70,
     flex: 1,
-    // justifyContent: "center",
   },
   inputContainer: {
     marginVertical: 8,
