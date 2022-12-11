@@ -43,45 +43,47 @@ export default function Signup({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.authContent}>
-        <View style={styles.img}>
-          <Image source={require("../assets/My_Location.png")} />
-        </View>
-        <View style={styles.name}>
-          <View style={styles.title}>
-            <Text style={styles.title}>PitParker</Text>
+        <View style={styles.topContainer}>
+          <View style={styles.img}>
+            <Image source={require("../assets/My_Location.png")} />
           </View>
-          <View style={styles.intro}>
-            <Text style={styles.intro}>Park in your own pit</Text>
+          <View style={styles.name}>
+            <View style={styles.title}>
+              <Text style={styles.title}>PitParker</Text>
+            </View>
+            <View style={styles.intro}>
+              <Text style={styles.intro}>Park in your own pit</Text>
+            </View>
           </View>
+          <View style={styles.label}>
+            <Text style={styles.label}>Email</Text>
+          </View>
+          <TextInput
+            style={styles.input}
+            onChangeText={(newEmail) => setEmail(newEmail)}
+            value={email}
+            keyboardType="email-address"
+          />
+          <View style={styles.label}>
+            <Text style={styles.label}>Password</Text>
+          </View>
+          <TextInput
+            style={styles.input}
+            secureTextEntry={true}
+            onChangeText={(newPass) => setPassword(newPass)}
+            value={password}
+          />
+          <View style={styles.label}>
+            <Text style={styles.label}>Confirm Password</Text>
+          </View>
+          {/* <Text style={styles.label}>Confirm password</Text> */}
+          <TextInput
+            style={styles.input}
+            secureTextEntry={true}
+            onChangeText={(newPass) => setConfirmPassword(newPass)}
+            value={confirmpassword}
+          />
         </View>
-        <View style={styles.label}>
-          <Text style={styles.label}>Email</Text>
-        </View>
-        <TextInput
-          style={styles.input}
-          onChangeText={(newEmail) => setEmail(newEmail)}
-          value={email}
-          keyboardType="email-address"
-        />
-        <View style={styles.label}>
-          <Text style={styles.label}>Password</Text>
-        </View>
-        <TextInput
-          style={styles.input}
-          secureTextEntry={true}
-          onChangeText={(newPass) => setPassword(newPass)}
-          value={password}
-        />
-        <View style={styles.label}>
-          <Text style={styles.label}>Confirm Password</Text>
-        </View>
-        {/* <Text style={styles.label}>Confirm password</Text> */}
-        <TextInput
-          style={styles.input}
-          secureTextEntry={true}
-          onChangeText={(newPass) => setConfirmPassword(newPass)}
-          value={confirmpassword}
-        />
         <BottomContainer style={styles.bottomContainer}>
           <PitButton text="Sign Up" type="primary" onPress={handleSignup} />
           <PitButton
@@ -103,6 +105,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.BASE[0],
+  },
+  topContainer: {
+    top: -25,
   },
   name: {
     // marginTop: 5,
