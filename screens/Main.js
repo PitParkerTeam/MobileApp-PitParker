@@ -39,6 +39,10 @@ const Main = observer(() => {
     userStore.locateUser();
   }, []);
 
+  useEffect(()=> {
+    pitStore.getNearbyPits();
+  }, [userStore.userLocation])
+
   useEffect(() => {
     const unsubscribe = parkingAPI.fetchParkings(handleParking);
     return () => {

@@ -51,14 +51,5 @@ class PitStore {
 }
 
 const pitStore = new PitStore();
-autorun(
-  () => {
-    if (userStore.userLocation) {
-      pitStore.getNearbyPits();
-    }
-  },
-  {
-    delay: 1000,
-  }
-);
+
 export default pitStore;
