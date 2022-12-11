@@ -36,6 +36,7 @@ export default function Signup({ navigation }) {
       ).then((cred) => userAPI.addUser(cred.user));
     } catch (err) {
       console.log(err);
+      Alert.alert(err.message);
     }
   };
 
