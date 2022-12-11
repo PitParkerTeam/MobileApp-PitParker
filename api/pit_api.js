@@ -17,7 +17,7 @@ const pitAPI = {
     pits.forEach((pit) => {
       const { id, ...others } = pit;
       const pitRef = doc(firestore, "pits", id);
-      batch.set(pitRef, others, { merge: true });
+      if(!pitRef.exists) batch.set(pitRef, others);
     });
     await batch.commit();
   },

@@ -29,7 +29,7 @@ export default function Login({ navigation }) {
     <SafeAreaView style={styles.container}>
       <View style={styles.authContent}>
         <View style={styles.img}>
-          <Image source={require("./My_Location.png")} />
+          <Image source={require("../assets/My_Location.png")} />
         </View>
         <View style={styles.name}>
           <View style={styles.title}>
@@ -79,7 +79,6 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   img: {
-    top: -20,
     alignItems: "center",
   },
   title: {
@@ -91,8 +90,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   authContent: {
-    padding: 16,
+    padding: 24,
     flex: 1,
+    paddingTop:70,
   },
   inputContainer: {
     marginVertical: 8,
@@ -118,9 +118,13 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   bottomContainer: {
-    marginTop: 70,
-    paddingVertical: 12,
     alignItems: "center",
     flexDirection: "column",
+    position: "absolute",
+    bottom:50,
+    width:"100%",
+    justifyContent:"center",
+    left:24,
+    right:24
   },
 });
