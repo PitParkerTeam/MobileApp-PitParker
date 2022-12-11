@@ -10,8 +10,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../api";
 import { BottomContainer, PitButton } from "../../components";
 import { COLORS, TEXT_STYLES } from "../../common";
-import { Ionicons } from "@expo/vector-icons";
-import { Entypo } from "@expo/vector-icons";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function ProfileSettings({ navigation }) {
   return (
@@ -21,28 +20,33 @@ export default function ProfileSettings({ navigation }) {
         <Pressable onPress={() => navigation.navigate("ManageAccount")}>
           <View style={styles.tabs}>
             <View style={styles.account}>
-              <Ionicons
-                name="settings-outline"
+              <Icon
+                name="cog-outline"
                 size={24}
                 color="black"
                 style={styles.icon}
               />
               <Text style={styles.tabText}>Manage Account</Text>
-              <Entypo name="chevron-right" size={24} color="black" />
+              <Icon name="chevron-right" size={24} color={COLORS.BASE[100]} />
             </View>
           </View>
         </Pressable>
         <Pressable onPress={() => navigation.navigate("Notifications")}>
           <View style={styles.tabs}>
             <View style={styles.notification}>
-              <Ionicons
-                name="notifications-outline"
+              <Icon
+                name="bell-badge-outline"
                 size={24}
                 color="black"
                 style={styles.icon}
               />
               <Text style={styles.tabText}>Notifications</Text>
-              <Entypo name="chevron-right" size={24} color="black" style={{marginLeft: 38}} />
+              <Icon
+                name="chevron-right"
+                size={24}
+                color="black"
+                style={{ marginLeft: 38 }}
+              />
             </View>
           </View>
         </Pressable>

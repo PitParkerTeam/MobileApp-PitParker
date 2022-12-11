@@ -5,5 +5,5 @@ export {
   formatTime,
   timeDiff,
   formatTimestamp,
-  calculateDistance,
+  getDistanceString,
 } from "./utils";

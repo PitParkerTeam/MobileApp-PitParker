@@ -6,6 +6,10 @@ const formatTimestamp = (timestamp) =>
 
 const timeDiff = (time1, time2) => moment(time1).diff(moment(time2));
 
+const deg2rad = (deg) => {
+  return deg * (Math.PI / 180);
+};
+
 const calculateDistance = (coord1, coord2) => {
   const R = 6731;
   const dLat = deg2rad(coord1.latitude - coord2.latitude);
@@ -17,11 +21,19 @@ const calculateDistance = (coord1, coord2) => {
       Math.sin(dLon / 2) *
       Math.sin(dLon / 2);
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const distance = R * c; // Distance in km
+  const distance = Math.round(R * c * 1000);
   return distance;
 };
 
-const deg2rad = (deg) => {
-  return deg * (Math.PI / 180);
+const getDistanceString = (coord1, coord2) => {
+  const dist = calculateDistance(coord1, coord2);
+  if (dist > 1000) return `${Math.round(dist/1000)} km`
+  return `${dist} m`
+}
+
+export {
+  formatTime,
+  timeDiff,
+  formatTimestamp,
+  getDistanceString,
 };
-export { formatTime, timeDiff, formatTimestamp, calculateDistance };
