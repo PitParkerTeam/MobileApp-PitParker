@@ -18,6 +18,7 @@ import TimePeriodPicker from "../components/basics/TimePeriodPicker";
 import { Switch } from "react-native";
 import { userStore } from "../stores";
 import { observer } from "mobx-react-lite";
+import NotificationManager from "../components/basics/NotificationManager";
 
 const AddNewParking = observer(({ navigation, route }) => {
   const [plate, setPlate] = useState(null);
@@ -47,10 +48,10 @@ const AddNewParking = observer(({ navigation, route }) => {
       const { params } = route;
       const { latitude, longitude } = route.params;
       setLocation({ latitude, longitude });
-      (params.plate) && setPlate(params.plate);
-      (params.cost) && setCost(params.cost);
-      (params.notes) && setNotes(params.notes);
-      (params.slot) && setSlot(params.slot);
+      params.plate && setPlate(params.plate);
+      params.cost && setCost(params.cost);
+      params.notes && setNotes(params.notes);
+      params.slot && setSlot(params.slot);
       setPitID(params.pitID);
     }
   };
@@ -101,6 +102,20 @@ const AddNewParking = observer(({ navigation, route }) => {
       if (uri) {
         setUri(parkingAPI.uploadImage(uri));
       }
+
+      // Get the timestamps for the current time and end time
+      let nowTimeStamp = now.getTime();
+      let endTimeStamp = endTime.getTime();
+
+      // Calculate the time difference in milliseconds
+      let timeDifference = endTimeStamp - nowTimeStamp;
+
+      // Convert the time difference to seconds
+      let timeDifferenceInSeconds = timeDifference / 1000;
+
+      console.log(timeDifferenceInSeconds);
+
+      if(timeDifferenceInSeconds > 900) NotificationManager(timeDifferenceInSeconds);
 
       await parkingAPI.createNewParking({
         latitude,
