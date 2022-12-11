@@ -123,7 +123,7 @@ const AddNewParking = observer(({ navigation, route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
-        <SmallMap location={location} />
+        <SmallMap location={route.params? location : userStore.userLocation} />
         <TimePeriodPicker
           initialStartTime={startTime}
           initialEndTime={endTime}
