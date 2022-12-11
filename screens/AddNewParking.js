@@ -32,14 +32,13 @@ const AddNewParking = observer(({ navigation, route }) => {
     console.log("imageHandler called", uri);
     setUri(uri);
   };
-    
+
   const now = new Date();
   now.setHours(now.getHours() + 1);
   const [endTime, setEndTime] = useState(now);
   const [location, setLocation] = useState({});
   const [pitName, setPitName] = useState(null);
   const [startTime, setStartTime] = useState(new Date());
-
 
   const getLocation = () => {
     if (!route.params) {
@@ -48,9 +47,10 @@ const AddNewParking = observer(({ navigation, route }) => {
       const { params } = route;
       const { latitude, longitude } = route.params;
       setLocation({ latitude, longitude });
-      setPlate(params.plate);
-      setCost(params.cost);
-      setNotes(params.notes);
+      (params.plate) && setPlate(params.plate);
+      (params.cost) && setCost(params.cost);
+      (params.notes) && setNotes(params.notes);
+      (params.slot) && setSlot(params.slot);
       setPitID(params.pitID);
     }
   };
@@ -93,7 +93,7 @@ const AddNewParking = observer(({ navigation, route }) => {
           latitude: location.latitude,
           longitude: location.longitude,
           name: pitName,
-          pitID: id,
+          id: id,
         };
         await pitAPI.saveAsMyPit(myPit);
       }
@@ -112,14 +112,13 @@ const AddNewParking = observer(({ navigation, route }) => {
         cost,
         slot,
         notes,
-        pitID,
+        pitID: id,
         image: uri,
       });
       alert("Successfully Created Your Parking!");
       navigation.navigate("Home");
     }
   };
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -150,6 +149,10 @@ const AddNewParking = observer(({ navigation, route }) => {
           }}
         />
         <View style={{ marginVertical: 50, paddingVertical: 50 }}>
+          <ImageManager imageHandler={imageHandler} />
+        </View>
+
+        <View style={{ marginVertical: 1, paddingVertical: 1 }}>
           <Text style={{ fontSize: "20", fontWeight: "bold" }}>
             Save As My Pit
           </Text>
@@ -168,10 +171,8 @@ const AddNewParking = observer(({ navigation, route }) => {
               />
             )}
           </View>
-          <ImageManager imageHandler={imageHandler} />
         </View>
       </ScrollView>
-      {/* <TakePhoto imageHandler={imageHandler} /> */}
       <BottomContainer>
         <PitButton
           style={styles.button}
