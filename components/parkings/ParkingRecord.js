@@ -7,7 +7,12 @@ export default function ParkingRecord({ item, navigation }) {
     return;
   return (
     <View style={styles.parkingItem}>
-      <Text style={styles.parkingItem.title}>{item.name}</Text>
+      <Text style={styles.parkingItem.title}>
+        {item.name ||
+          `Pit @${Math.round(item.latitude * 1000) / 1000}, ${
+            Math.round(item.longitude * 1000) / 1000
+          }`}
+      </Text>
       <Pressable
         onPress={() => navigation.navigate("ParkingDetails", { id: item.id })}
       >
