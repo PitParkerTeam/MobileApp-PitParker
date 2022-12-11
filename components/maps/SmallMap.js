@@ -1,6 +1,7 @@
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import { StyleSheet, View, Text, Dimensions, Button } from "react-native";
 import { COLORS, MAP_STYLE } from "../../common";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function SmallMap({ location, style, disabled, delta }) {
   const coords = {
@@ -23,7 +24,11 @@ export default function SmallMap({ location, style, disabled, delta }) {
       rotateEnabled={!disabled}
       zoomEnabled={!disabled}
     >
-      <Marker coordinate={coords} />
+      <Marker
+        coordinate={coords}
+      >
+        <Icon name="map-marker" size={45} style={{color:COLORS.TINT[120]}} />
+      </Marker>
     </MapView>
   );
 }
