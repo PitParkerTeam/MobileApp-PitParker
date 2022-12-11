@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { SearchBar } from "@rneui/themed";
 import { MyPit } from "../../components";
 import { COLORS, TEXT_STYLES } from "../../common";
-import { pitStore, userStore } from "../../stores";
+import { pitStore } from "../../stores";
 import { observer } from "mobx-react";
 
 const MyPits = observer(({ navigation }) => {
@@ -22,14 +22,13 @@ const MyPits = observer(({ navigation }) => {
         lightTheme={true}
         round={true}
       />
-      <View style={styles.listContainer}>
         <FlatList
+          style={styles.listContainer}
           data={pitStore.userPits}
           renderItem={({ item }) => (
             <MyPit pit={item} navigation={navigation} />
           )}
         />
-      </View>
     </SafeAreaView>
   );
 });
@@ -37,7 +36,6 @@ const MyPits = observer(({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.BASE[0],
   },
   header: {
     ...TEXT_STYLES.heading.h2,
@@ -46,7 +44,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     flex: 1,
-    backgroundColor: COLORS.BASE[20],
+    backgroundColor: COLORS.BASE[0],
   },
 });
 export default MyPits;
