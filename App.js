@@ -34,7 +34,7 @@ export default function App() {
     return (
       <Stack.Navigator
         screenOptions={{
-          headerTitleAlign: "center",
+          headerShown:false
         }}
       >
         <Stack.Screen name="Login" component={Login} />

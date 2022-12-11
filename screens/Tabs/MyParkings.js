@@ -20,7 +20,7 @@ const MyParkings = observer(({ navigation }) => {
   }
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>My parking</Text>
+      <Text style={styles.header}>My Parking</Text>
       <View style={styles.listContainer}>
         <FlatList data={userStore.parkings} renderItem={listItemRender} />
       </View>
