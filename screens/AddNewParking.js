@@ -112,7 +112,7 @@ const AddNewParking = observer(({ navigation, route }) => {
         cost,
         slot,
         notes,
-        pitID,
+        pitID: id,
         image: uri,
       });
       alert("Successfully Created Your Parking!");
