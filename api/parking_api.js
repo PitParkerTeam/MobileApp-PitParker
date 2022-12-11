@@ -6,6 +6,8 @@ import {
   setDoc,
   onSnapshot,
   getDoc,
+  query,
+  orderBy
 } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
 import { firestore, auth, storage } from "./firestore/firebase_setup";
@@ -25,7 +27,8 @@ const parkingAPI = {
 
   fetchParkings(cb) {
     const uid = auth.currentUser.uid;
-    return onSnapshot(collection(firestore, "users", uid, "parkings"), cb);
+    const q = query(collection(firestore, "users", uid, "parkings"), orderBy("endTime", "desc"));
+    return onSnapshot(q, cb);
   },
 
   async getParking(id) {
