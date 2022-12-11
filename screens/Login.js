@@ -12,6 +12,7 @@ import React, { useState } from "react";
 import { auth } from "../api";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { COLORS, TEXT_STYLES } from "../common";
+import { BottomContainer, PitButton } from "../components";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState(null);
@@ -42,21 +43,28 @@ export default function Login({ navigation }) {
           <Text style={styles.label}>Email</Text>
         </View>
         <TextInput
-          placeholder="Email"
           style={styles.input}
           onChangeText={(newEmail) => setEmail(newEmail)}
           value={email}
           keyboardType="email-address"
         />
-        <Text style={styles.label}>password</Text>
+        <View style={styles.label}>
+          <Text style={styles.label}>Password</Text>
+        </View>
         <TextInput
           style={styles.input}
           secureTextEntry={true}
           onChangeText={(newPass) => setPassword(newPass)}
           value={password}
-          placeholder="Password"
         />
-        <View style={styles.button}>
+        <BottomContainer style={styles.bottomContainer}>
+          <PitButton text="Log In" type="primary" onPress={handleLogin} />
+          <PitButton
+            text="Sign Up"
+            onPress={() => navigation.replace("Signup")}
+          />
+        </BottomContainer>
+        {/* <View style={styles.button}>
           <Button title="Log In" onPress={handleLogin} />
         </View>
         <View style={styles.button}>
@@ -64,7 +72,7 @@ export default function Login({ navigation }) {
             title="New User? Create an account"
             onPress={() => navigation.replace("Signup")}
           />
-        </View>
+        </View> */}
       </View>
     </SafeAreaView>
   );
@@ -101,19 +109,29 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   label: {
-    marginBottom: 4,
+    marginBottom: 2,
     ...TEXT_STYLES.heading.h5,
   },
-
   input: {
     paddingVertical: 8,
     paddingHorizontal: 6,
     borderRadius: 4,
     fontSize: 16,
     borderColor: "black",
-    borderWidth: 2,
+    borderWidth: 0,
+    marginBottom: 20,
+    height: 40,
+    padding: 10,
+    backgroundColor: COLORS.BASE[20],
+    borderRadius: 4,
   },
   button: {
     marginTop: 5,
+  },
+  bottomContainer: {
+    marginTop: 20,
+    paddingVertical: 12,
+    alignItems: "center",
+    flexDirection: "column",
   },
 });
