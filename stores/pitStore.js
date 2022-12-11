@@ -1,7 +1,7 @@
 import { makeAutoObservable, flow, autorun } from "mobx";
 import { pitAPI, mapAPI } from "../api";
-import { DEFAULT_VARS, timeDiff } from "../common";
 import userStore from "./userStore";
+import { Alert } from "react-native";
 
 class PitStore {
   nearbyPits = [];
@@ -42,9 +42,23 @@ class PitStore {
   toggleSavePit = flow(function* (pit) {
     try {
       if (this.isUserPit(pit.id)) {
-        const removePit = yield pitAPI.removeFromMyPit(pit.id)
+        const removePit = yield pitAPI.removeFromMyPit(pit.id);
       } else {
-        const savePit = yield pitAPI.saveAsMyPit(pit);
+        if (!pit.name) {
+          Alert.prompt("Pit Name", "Please give your pit a name", [
+            {
+              text: "Cancel",
+              onPress: () => {},
+              style: "cancel",
+            },
+            {
+              text: "OK",
+              onPress: (name) => pitAPI.saveAsMyPit({ ...pit, name }),
+            },
+          ]);
+        } else {
+          const savePit = yield pitAPI.saveAsMyPit(pit);
+        }
       }
     } catch (e) {}
   });
