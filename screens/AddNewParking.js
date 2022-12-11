@@ -35,8 +35,9 @@ const AddNewParking = observer(({ navigation, route }) => {
   };
 
   const now = new Date();
-  now.setHours(now.getHours() + 1);
-  const [endTime, setEndTime] = useState(now);
+  const anHourAfterNow = new Date();
+  anHourAfterNow.setHours(now.getHours() + 1);
+  const [endTime, setEndTime] = useState(anHourAfterNow);
   const [location, setLocation] = useState({});
   const [pitName, setPitName] = useState(null);
   const [startTime, setStartTime] = useState(new Date());
@@ -103,19 +104,11 @@ const AddNewParking = observer(({ navigation, route }) => {
         setUri(parkingAPI.uploadImage(uri));
       }
 
-      // Get the timestamps for the current time and end time
-      let nowTimeStamp = now.getTime();
-      let endTimeStamp = endTime.getTime();
 
-      // Calculate the time difference in milliseconds
-      let timeDifference = endTimeStamp - nowTimeStamp;
+      const timeDifference = moment.duration(moment(endTime).diff(moment(now)));
+      const timeDifferenceInSeconds = timeDifference.asSeconds();
 
-      // Convert the time difference to seconds
-      let timeDifferenceInSeconds = timeDifference / 1000;
-
-      console.log(timeDifferenceInSeconds);
-
-      if(timeDifferenceInSeconds > 900) NotificationManager(timeDifferenceInSeconds);
+      if(timeDifferenceInSeconds > 900) <NotificationManager timeInSeconds={timeDifferenceInSeconds}/>;
 
       await parkingAPI.createNewParking({
         latitude,

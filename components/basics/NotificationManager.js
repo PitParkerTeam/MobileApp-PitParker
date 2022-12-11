@@ -2,8 +2,9 @@ import { View, Button } from "react-native";
 import React from "react";
 import * as Notifications from "expo-notifications";
 
-export default function NotificationManager( {timeInSeconds} ) {
-//   const name = "Neda";
+export default function NotificationManager({ timeInSeconds }) {
+  //   const name = "Neda";
+  console.log('test')
   const verifyPermission = async () => {
     const permissionStatus = await Notifications.getPermissionsAsync();
     if (permissionStatus.granted) {
@@ -17,7 +18,10 @@ export default function NotificationManager( {timeInSeconds} ) {
     return requestedPermission.granted;
   };
 
-  const scheduleNotificationHandler = async () => {
+  const scheduleNotificationHandler = async (timeInSeconds) => {
+    if (timeInSeconds <= 0) {
+        timeInSeconds = 1;
+    }
     try {
       const hasPermission = await verifyPermission();
       if (!hasPermission) {
@@ -25,17 +29,17 @@ export default function NotificationManager( {timeInSeconds} ) {
       }
       await Notifications.scheduleNotificationAsync({
         content: {
-        //   title: "You have a notification",
-        //   body: `This is my first local notificaftion ${name}`,
-        //   color: "red",
-        //   data: { url: "https://www.google.ca" },
+          //   title: "You have a notification",
+          //   body: `This is my first local notificaftion ${name}`,
+          //   color: "red",
+          //   data: { url: "https://www.google.ca" },
           title: "You have a notification",
           body: `Your parking will end in 15 minutes`,
           color: "red",
           data: { url: "https://www.google.ca" },
         },
         trigger: {
-          seconds: timeInSeconds,
+          seconds: 5,
         },
       });
     } catch (err) {
@@ -43,8 +47,7 @@ export default function NotificationManager( {timeInSeconds} ) {
     }
   };
 
-
   scheduleNotificationHandler();
 
-  return;
+  return(<View></View>);
 }
