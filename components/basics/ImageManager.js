@@ -1,4 +1,11 @@
-import { TouchableOpacity, View, Image, Button, Text } from "react-native";
+import {
+  TouchableOpacity,
+  View,
+  Image,
+  Button,
+  Text,
+  StyleSheet,
+} from "react-native";
 import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -30,42 +37,40 @@ export default function ImageManager({ imageHandler }) {
   };
   return (
     <View>
-      <Text
-        style={{
-          ...TEXT_STYLES.title[500],
-          marginBottom: 8,
-        }}
-      >
-        {" "}
-        Image{" "}
-      </Text>
-      {imageUri && (
-        <Image source={{ uri: imageUri }} style={{ width: 200, height: 200 }} />)}
-              <TouchableOpacity onPress={takeImageHandler}>
-          <View
-            style={{
-              width: 59,
-              height: 59,
-              borderWidth: 2,
-              borderColor: "#D3D3D3",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: 4,
-              marginVertical: 4,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 70,
-                color: "#808080",
-                textAlign: "center",
-                lineHeight: 65,
-              }}
-            >
-              +
-            </Text>
-          </View>
-        </TouchableOpacity>
+      <Text style={styles.label}>Image</Text>
+      {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
+      <TouchableOpacity onPress={takeImageHandler}>
+        <View style={styles.plusContainer}>
+          <Text style={styles.plusSign}>+</Text>
+        </View>
+      </TouchableOpacity>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  label: {
+    ...TEXT_STYLES.title[500],
+    marginBottom:8,
+  },
+  image: {
+    width: 200,
+    height: 200,
+  },
+  plusContainer: {
+    width: 60,
+    height: 60,
+    borderWidth: 1,
+    borderColor: COLORS.BASE[40],
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 4,
+    marginVertical: 4,
+  },
+  plusSign: {
+    fontSize: 70,
+    color: COLORS.BASE[60],
+    textAlign: "center",
+    lineHeight: 60,
+  },
+});

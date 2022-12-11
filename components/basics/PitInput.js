@@ -11,9 +11,10 @@ export default function PitInput(props) {
     labelOptions,
     label,
     inputOptions,
+    style
   } = props;
   return (
-    <View>
+    <View style={style}>
       <Text style={[styles.label, labelStyle]} {...labelOptions}>
         {label}
       </Text>
