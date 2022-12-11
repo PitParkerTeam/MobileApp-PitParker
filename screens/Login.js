@@ -3,7 +3,6 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  Button,
   Alert,
   Image,
   SafeAreaView,
@@ -28,35 +27,37 @@ export default function Login({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.authContent}>
-        <View style={styles.img}>
-          <Image source={require("../assets/My_Location.png")} />
-        </View>
-        <View style={styles.name}>
-          <View style={styles.title}>
-            <Text style={styles.title}>PitParker</Text>
+        <View style={styles.topContainer}>
+          <View style={styles.img}>
+            <Image source={require("../assets/My_Location.png")} />
           </View>
-          <View style={styles.intro}>
-            <Text style={styles.intro}>Park in your own pit</Text>
+          <View style={styles.name}>
+            <View style={styles.title}>
+              <Text style={styles.title}>PitParker</Text>
+            </View>
+            <View style={styles.intro}>
+              <Text style={styles.intro}>Park in your own pit</Text>
+            </View>
           </View>
+          <View style={styles.label}>
+            <Text style={styles.label}>Email</Text>
+          </View>
+          <TextInput
+            style={styles.input}
+            onChangeText={(newEmail) => setEmail(newEmail)}
+            value={email}
+            keyboardType="email-address"
+          />
+          <View style={styles.label}>
+            <Text style={styles.label}>Password</Text>
+          </View>
+          <TextInput
+            style={styles.input}
+            secureTextEntry={true}
+            onChangeText={(newPass) => setPassword(newPass)}
+            value={password}
+          />
         </View>
-        <View style={styles.label}>
-          <Text style={styles.label}>Email</Text>
-        </View>
-        <TextInput
-          style={styles.input}
-          onChangeText={(newEmail) => setEmail(newEmail)}
-          value={email}
-          keyboardType="email-address"
-        />
-        <View style={styles.label}>
-          <Text style={styles.label}>Password</Text>
-        </View>
-        <TextInput
-          style={styles.input}
-          secureTextEntry={true}
-          onChangeText={(newPass) => setPassword(newPass)}
-          value={password}
-        />
         <BottomContainer style={styles.bottomContainer}>
           <PitButton text="Log In" type="primary" onPress={handleLogin} />
           <PitButton
@@ -74,11 +75,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.BASE[0],
   },
+  topContainer: {
+    top: -25,
+  },
   name: {
-    // marginTop: 5,
     marginBottom: 40,
   },
   img: {
+    top: -20,
     alignItems: "center",
   },
   title: {
@@ -92,7 +96,7 @@ const styles = StyleSheet.create({
   authContent: {
     padding: 24,
     flex: 1,
-    paddingTop:70,
+    paddingTop: 70,
   },
   inputContainer: {
     marginVertical: 8,
@@ -114,17 +118,14 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.BASE[20],
     borderRadius: 4,
   },
-  button: {
-    marginTop: 5,
-  },
   bottomContainer: {
     alignItems: "center",
     flexDirection: "column",
     position: "absolute",
-    bottom:50,
-    width:"100%",
-    justifyContent:"center",
-    left:24,
-    right:24
+    bottom: 50,
+    width: "100%",
+    justifyContent: "center",
+    left: 24,
+    right: 24,
   },
 });
