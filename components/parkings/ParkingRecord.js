@@ -5,13 +5,13 @@ import { COLORS, formatTimestamp, TEXT_STYLES } from "../../common";
 export default function ParkingRecord({ item, navigation }) {
   if (!item.startTime || !item.longitude || !item.latitude || !item.duration)
     return;
+  const coordString = `${Math.round(item.latitude * 1000) / 1000}, ${
+    Math.round(item.longitude * 1000) / 1000
+  }`;
   return (
     <View style={styles.parkingItem}>
       <Text style={styles.parkingItem.title}>
-        {item.name ||
-          `Pit @${Math.round(item.latitude * 1000) / 1000}, ${
-            Math.round(item.longitude * 1000) / 1000
-          }`}
+        {`Parking @ ${item.name || coordString}`}
       </Text>
       <Pressable
         onPress={() => navigation.navigate("ParkingDetails", { id: item.id })}

@@ -14,10 +14,11 @@ import { firestore, auth } from "./firestore/firebase_setup";
 const pitAPI = {
   async batchAddPits(pits) {
     const batch = writeBatch(firestore);
-    pits.forEach((pit) => {
+    pits.forEach(async (pit) => {
       const { id, ...others } = pit;
       const pitRef = doc(firestore, "pits", id);
-      if(!pitRef.exists) batch.set(pitRef, others);
+      const docSnap = await getDoc(pitRef)
+      if (!docSnap.exists()) batch.set(pitRef, others);
     });
     await batch.commit();
   },
@@ -32,7 +33,17 @@ const pitAPI = {
       console.log(err);
     }
   },
-
+  async updatePit(pit) {
+    const { id, ...others } = pit;
+    try {
+      const docRef = await setDoc(
+        doc(firestore, "pits", id),
+        others
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  },
   async saveAsMyPit(pit) {
     const uid = auth.currentUser.uid;
     const { id, ...others } = pit;

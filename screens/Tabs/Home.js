@@ -37,7 +37,6 @@ const Home = observer(() => {
       <Map
         userLocation={userStore.userLocation}
         pits={activeTab == "nearby" ? pitStore.nearbyPits : pitStore.userPits}
-        iconColor={activeTab == "nearby" ? COLORS.TINT[120] : COLORS.TINT[100]}
       />
     </View>
   );

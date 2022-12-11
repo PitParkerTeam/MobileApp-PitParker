@@ -16,7 +16,7 @@ export default function Map({ pits, userLocation, iconColor, handleMapPress }) {
       <Marker
         coordinate={{ longitude, latitude }}
       >
-        <Icon name="map-marker" size={45} style={[styles.icon, {color: iconColor}]} />
+        <Icon name="map-marker" size={45} style={styles.icon} />
         <Callout onPress={handlePress} style={styles.callout}>
           <Text style={styles.markerName}>{name}</Text>
         </Callout>
@@ -62,5 +62,6 @@ const styles = StyleSheet.create({
   icon: {
     marginBottom: 4,
     borderRadius:1,
+    color:COLORS.TINT[120]
   },
 });
