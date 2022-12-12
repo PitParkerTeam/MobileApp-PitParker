@@ -84,7 +84,7 @@ export default function ChangePassword({ navigation }) {
           </View>
           <View>
             <View style={styles.tabContainer}>
-              <View flexDirection="row">
+              <View flexDirection="row" justifyContent="space-between">
                 <Text style={styles.title}>Current Password </Text>
                 <TouchableOpacity
                   onPress={() => setSecureTextEntry1(!secureTextEntry1)}
@@ -102,7 +102,7 @@ export default function ChangePassword({ navigation }) {
           </View>
           <View>
             <View style={styles.tabContainer}>
-              <View flexDirection="row">
+              <View flexDirection="row" justifyContent="space-between">
                 <Text style={styles.title}>New Password </Text>
                 <TouchableOpacity
                   onPress={() => setSecureTextEntry2(!secureTextEntry2)}
@@ -119,8 +119,8 @@ export default function ChangePassword({ navigation }) {
               ></TextInput>
             </View>
             <View style={styles.tabContainer}>
-              <View flexDirection="row">
-                <Text style={styles.title}>Confirm Password </Text>
+              <View flexDirection="row" justifyContent="space-between">
+                <Text style={styles.title}>Confirm Password</Text>
                 <TouchableOpacity
                   onPress={() => setSecureTextEntry3(!secureTextEntry3)}
                 >
