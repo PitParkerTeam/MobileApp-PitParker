@@ -48,6 +48,7 @@ const AddNewParking = observer(({ navigation, route }) => {
       params.cost && setCost(params.cost);
       params.notes && setNotes(params.notes);
       params.slot && setSlot(params.slot);
+      params.name && setPitName(params.name)
       setPitID(params.id);
     }
   };
