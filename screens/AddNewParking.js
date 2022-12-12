@@ -111,6 +111,7 @@ const AddNewParking = observer(({ navigation, route }) => {
         notes,
         pitID: id,
         image,
+        name: route?.params?.name
       });
 
       alert("Successfully Created Your Parking!");
