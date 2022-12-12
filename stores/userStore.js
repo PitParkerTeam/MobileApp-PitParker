@@ -1,7 +1,7 @@
 import { makeAutoObservable, flow, autorun } from "mobx";
 import { userAPI, pitAPI } from "../api";
 import * as Location from "expo-location";
-import { DEFAULT_VARS, timeDiff } from "../common";
+import { DEFAULT_VARS, timeDiff, getDistanceString } from "../common";
 
 class UserStore {
   userInfo = {};
@@ -22,6 +22,14 @@ class UserStore {
   }
   setCurrentTime(val) {
     this.currentTime = val;
+  }
+
+  setUserLocation(val) {
+    this.userLocation = val;
+  }
+
+  getCurrentDistance(coords) {
+    return getDistanceString(coords, this.userLocation);
   }
 
   isCurrent({ startTime, endTime }) {
@@ -47,14 +55,18 @@ class UserStore {
   locateUser = flow(function* () {
     const { status } = yield Location.requestForegroundPermissionsAsync();
     if (status !== "granted") return;
-    const location = yield Location.getCurrentPositionAsync({
-      accuracy: Location.Accuracy.Balanced,
-      enableHighAccuracy: true,
-    });
-    const { longitude, latitude } = location.coords;
-    if (longitude && latitude) {
-      this.userLocation = { longitude, latitude };
-    }
+    yield Location.watchPositionAsync(
+      {
+        accuracy: Location.Accuracy.Balanced,
+        timeInterval: 2000,
+      },
+      (location) => {
+        const { longitude, latitude } = location.coords;
+        if (longitude && latitude) {
+          this.setUserLocation({ longitude, latitude });
+        }
+      }
+    );
   });
 }
 

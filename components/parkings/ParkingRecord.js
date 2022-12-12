@@ -5,23 +5,27 @@ import { COLORS, formatTimestamp, TEXT_STYLES } from "../../common";
 export default function ParkingRecord({ item, navigation }) {
   if (!item.startTime || !item.longitude || !item.latitude || !item.duration)
     return;
+  const coordString = `${Math.round(item.latitude * 1000) / 1000}, ${
+    Math.round(item.longitude * 1000) / 1000
+  }`;
   return (
-    <View style={styles.parkingItem}>
-      <Text style={styles.parkingItem.title}>{item.name}</Text>
-      <Pressable
-        onPress={() => navigation.navigate("ParkingDetails", { id: item.id })}
-      >
-        <Text style={styles.parkingItem.text}>
-          {formatTimestamp(item.startTime)} • {item.duration}
-        </Text>
-      </Pressable>
-    </View>
+    <Pressable
+      onPress={() => navigation.navigate("ParkingDetails", { id: item.id })}
+      style={styles.parkingItem}
+    >
+      <Text style={styles.parkingItem.title}>
+        {`Parking @ ${item.name || coordString}`}
+      </Text>
+      <Text style={styles.parkingItem.text}>
+        {formatTimestamp(item.startTime)} • {item.duration}
+      </Text>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   parkingItem: {
-    height: 130,
+    height: 160,
     marginTop: 6,
     marginBottom: 6,
     padding: "4%",

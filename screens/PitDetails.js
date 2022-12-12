@@ -1,105 +1,108 @@
-import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+  SafeAreaView,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { BottomContainer, PitButton, SmallMap } from "../components";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { COLORS, TEXT_STYLES, formatTime } from "../common";
-import { Entypo } from "@expo/vector-icons";
-import { pitAPI, parkingAPI } from "../api";
+import {
+  COLORS,
+  TEXT_STYLES,
+  formatTimestamp,
+  locationLinkConfigs,
+} from "../common";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { pitAPI } from "../api";
 import { observer } from "mobx-react";
+import { pitStore, userStore } from "../stores";
+import { showLocation } from "react-native-map-link";
+
+
+const HistoryItem = ({ item, navigation }) => {
+  return (
+    <Pressable
+      onPress={() => navigation.navigate("ParkingDetails", { id: item.id })}
+      style={styles.historyList}
+    >
+      <View style={styles.historyContent}>
+        <Text style={styles.historyTime}>
+          {formatTimestamp(item.startTime)}
+        </Text>
+        <Text style={styles.historyText}> • </Text>
+        <Text style={styles.historyText}>{item.duration}</Text>
+      </View>
+      <Icon name="chevron-right" size={16} color={COLORS.BASE[100]} />
+    </Pressable>
+  );
+};
 
 const PitDetails = observer(({ route, navigation }) => {
   const { id } = route.params;
   useEffect(() => {
-    pitAPI.getPit(id).then((res) => setPit(res));
+    pitAPI.getPit(id).then((res) => setPit({ ...res, id }));
     return () => {};
   }, [route]);
 
-  const [parkingHistory, setParkingHistory] = useState([]);
-
-  useEffect(() => {
-    const unsubscribe = parkingAPI.fetchParkings((querySnapshot) => {
-      if (querySnapshot.empty) {
-        setParkingHistory([]);
-        return;
-      }
-      setParkingHistory(
-        querySnapshot.docs.map((snapDoc) => ({
-          ...snapDoc.data(),
-          id: snapDoc.id,
-          startTime: formatTime(snapDoc.startTime),
-          pitId: snapDoc.data().pitId,
-          duration: snapDoc.data().duration,
-        }))
-      );
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
-  const pitParkingHistory = parkingHistory.filter((obj) => obj.pitId == id);
+  const pitParkingHistory = userStore.parkings.filter((obj) => obj.pitID == id);
   const [pit, setPit] = useState({});
+  const { longitude, latitude, name, vicinity } = pit;
+  const dist = userStore.getCurrentDistance({ longitude, latitude });
+  const pitName = !name
+    ? `Pit @${Math.round(latitude * 1000) / 1000},${
+        Math.round(longitude * 1000) / 1000
+      }`
+    : name;
 
-  const { longitude, latitude, name, distance, area, address, rate } = pit;
-  const dist = (distance / 1000).toFixed(2);
+  const getDirections = () => {
+    showLocation({
+      longitude,
+      latitude,
+      sourceLatitude: userStore.userLocation.latitude,
+      sourceLongitude: userStore.userLocation.longitude,
+      title: name,
+      ...locationLinkConfigs,
+    });
+  };
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ paddingHorizontal: 24 }}>
+      <ScrollView style={styles.scrollView}>
         <SmallMap location={{ longitude, latitude }} />
         <View style={styles.pitItem}>
           <View style={styles.row}>
-            <Text style={styles.name}>{name}</Text>
-            <Entypo
-              name="star"
-              size={24}
+            <Text style={styles.name}>{pitName}</Text>
+            <Icon
+              name={pitStore.isUserPit(id) ? "star" : "star-outline"}
+              size={30}
               color={COLORS.TINT[100]}
-              style={{ marginTop: 14 }}
+              onPress={() => pitStore.toggleSavePit(pit)}
             />
           </View>
-          <View>
-            <Text style={styles.content}>
-              {address}, {area}
-            </Text>
-            <Text style={styles.content}>
-              {dist < 1 ? `${distance} m` : `${dist} km`} • ${rate}/hour
-            </Text>
-          </View>
+          {vicinity && <Text style={styles.content}>{vicinity}</Text>}
+          <Text style={styles.content}>{dist}</Text>
         </View>
-        <View>
-          <View>
-            <Text style={styles.historyTitle}>Parking History</Text>
-          </View>
-          <View style={styles.historyContainer}>
-            <ScrollView>
-              {pitParkingHistory.map((item) => {
-                return (
-                  <View key={item.id}>
-                    <Pressable
-                      onPress={() =>
-                        navigation.navigate("ParkingDetails", { id: item.id })
-                      }
-                    >
-                      <View style={styles.historyList}>
-                        <Text style={styles.historyContent}>
-                          {item.startTime} • {item.duration}
-                        </Text>
-                        <Entypo name="chevron-right" size={16} color="black" />
-                      </View>
-                    </Pressable>
-                  </View>
-                );
-              })}
-            </ScrollView>
-          </View>
-        </View>
-        <BottomContainer>
-          <PitButton text="Get Directions" />
-          <PitButton
-            text="Park Here"
-            type="primary"
-            onPress={() => navigation.navigate("Home")}
-          />
-        </BottomContainer>
-      </View>
+        {pitParkingHistory.length > 0 && (
+          <Text style={styles.historyTitle}>Parking History</Text>
+        )}
+        {pitParkingHistory.map((item) => (
+          <HistoryItem navigation={navigation} item={item} key={item.id} />
+        ))}
+      </ScrollView>
+      <BottomContainer>
+        <PitButton
+          text="Get Directions"
+          style={styles.button}
+          onPress={getDirections}
+        />
+        <PitButton
+          text="Park Here"
+          type="primary"
+          style={styles.button}
+          onPress={() => navigation.navigate("AddNewParking", pit)}
+        />
+      </BottomContainer>
     </SafeAreaView>
   );
 });
@@ -110,37 +113,54 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: COLORS.BASE[0],
   },
+  scrollView: {
+    marginVertical: 4,
+    paddingHorizontal: 24,
+  },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 2,
+    alignItems: "center",
+    marginVertical: 12,
   },
   name: {
     ...TEXT_STYLES.heading.h4,
-    marginTop: 14,
+    width: "80%",
   },
   content: {
-    marginTop: 2,
     ...TEXT_STYLES.title[300],
   },
   historyContainer: {
-    height: 200,
+    marginTop: 10,
   },
   historyTitle: {
     ...TEXT_STYLES.title[700],
     marginTop: 50,
+    marginBottom: 21,
   },
   historyList: {
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: 10,
-    marginTop: 8,
+    paddingHorizontal: 12,
     borderColor: COLORS.BASE[40],
     borderWidth: 1,
+    height: 52,
+    alignItems: "center",
+    marginTop: -1,
   },
   historyContent: {
-    fontSize: 14,
-    fontWeight: "600",
+    flexDirection: "row",
+  },
+  historyTime: {
+    ...TEXT_STYLES.base[700],
+    width: 146,
+  },
+
+  historyText: {
+    ...TEXT_STYLES.base[700],
+  },
+  button: {
+    marginBottom: 0,
   },
 });
 export default PitDetails;

@@ -1,41 +1,52 @@
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SmallMap } from "../maps";
 import { COLORS, TEXT_STYLES } from "../../common";
-import { Entypo } from "@expo/vector-icons";
+import { observer } from "mobx-react-lite";
+import { pitStore, userStore } from "../../stores";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-export default function MyPit({ pit, navigation }) {
-  const dist = (pit.distance / 1000).toFixed(2);
+const MyPit = observer(({ pit, navigation }) => {
   const { longitude, latitude, name, vicinity } = pit;
+
   return (
     <Pressable
       onPress={() => navigation.navigate("PitDetails", { id: pit.id })}
       style={styles.container}
     >
-      <SmallMap
-        disabled={true}
-        style={styles.map}
-        location={{ longitude, latitude }}
-      />
-      <View style={styles.pitItem}>
-        <View style={styles.row}>
-          <Text style={styles.pitName}>{name}</Text>
-          <Entypo name="star" size={24} color={COLORS.TINT[100]} />
-        </View>
-        <View style={styles.row}>
-          <Text>{vicinity || ""}</Text>
-          <Text style={styles.distance}>
-            {dist < 1 ? `${pit.distance} m` : `${dist} km`}
-          </Text>
+      <View>
+        <SmallMap
+          disabled={true}
+          style={styles.map}
+          location={{ longitude, latitude }}
+        />
+        <View style={styles.pitItem}>
+          <View style={styles.row}>
+            <Text style={styles.pitName}>{name}</Text>
+            <Icon
+              name={"star"}
+              size={30}
+              color={COLORS.TINT[100]}
+              onPress={() => pitStore.toggleSavePit(pit)}
+            />
+          </View>
+          <View style={styles.row}>
+            <Text>{vicinity || ""}</Text>
+            <Text style={styles.distance}>
+              {userStore.getCurrentDistance({ longitude, latitude })}
+            </Text>
+          </View>
         </View>
       </View>
     </Pressable>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {
-    margin: 24,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.BASE[40],
+    padding: 24,
   },
   map: {
     height: 150,
@@ -50,7 +61,15 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   pitName: {
-    fontWeight: "bold",
-    fontSize: 18,
+    ...TEXT_STYLES.title[600],
+    width: "75%",
+  },
+  save: {
+    width: "20%",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "right",
   },
 });
+
+export default MyPit;

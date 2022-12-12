@@ -11,9 +11,10 @@ export default function PitInput(props) {
     labelOptions,
     label,
     inputOptions,
+    style
   } = props;
   return (
-    <View>
+    <View style={[styles.container, style]}>
       <Text style={[styles.label, labelStyle]} {...labelOptions}>
         {label}
       </Text>
@@ -28,6 +29,9 @@ export default function PitInput(props) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    marginVertical:8,
+  },
   label: {
     ...TEXT_STYLES.title[500],
     marginBottom: 8,
@@ -36,6 +40,6 @@ const styles = StyleSheet.create({
     height: 40,
     padding: 10,
     backgroundColor: COLORS.BASE[20],
-    borderRadius: 4,
+    borderRadius: 8,
   },
 });

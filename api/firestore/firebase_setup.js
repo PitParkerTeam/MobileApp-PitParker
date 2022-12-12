@@ -30,6 +30,7 @@ export const firestore = getFirestore(myApp);
 export const auth = initializeAuth(myApp, {
   persistence: getReactNativePersistence(AsyncStorage),
 });
+
 export const storage = getStorage();
 
 // console.log(module.exports);

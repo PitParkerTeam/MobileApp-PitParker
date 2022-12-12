@@ -5,73 +5,51 @@ import {
   ScrollView,
   SafeAreaView,
   Alert,
-  TextInput,
+  Switch,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { SmallMap, PitInput, BottomContainer } from "../components";
-import { COLORS } from "../common";
-import { PitButton } from "../components";
-import { parkingAPI, pitAPI } from "../api";
-import * as Location from "expo-location";
-// import DateTimePicker from "@react-native-community/datetimepicker";
-import DatePicker from "react-native-datepicker";
-import ImageManager from "../components/basics/ImageManager";
+import { SmallMap, PitInput, BottomContainer , PitButton, ImageManager, TimePeriodPicker} from "../components";
+import { COLORS, TEXT_STYLES, reminderOptions } from "../common";
+import { parkingAPI, pitAPI, notificationsAPI } from "../api";
 import moment from "moment";
-import { addHours } from "moment";
-import DateTimePicker from "react-native-modal-datetime-picker";
-import TimePeriodPicker from "../components/basics/TimePeriodPicker";
-import { Switch } from "react-native";
+import { userStore } from "../stores";
+import { observer } from "mobx-react-lite";
+import SelectDropdown from "react-native-select-dropdown";
 
-export default function AddNewParking({ navigation, route }) {
+const AddNewParking = observer(({ navigation, route }) => {
   const [plate, setPlate] = useState(null);
   const [cost, setCost] = useState(null);
   const [slot, setSlot] = useState(null);
   const [notes, setNotes] = useState(null);
   const [pitID, setPitID] = useState(null);
-
-  // const imageHandler = (uri) => {
-  //   console.log("imageHandler called", uri);
-  //   setUri(uri);
-  // };
-
+  const [shouldSavePit, setShouldSavePit] = useState(false);
   const [uri, setUri] = useState("");
-  const imageHandler = (uri) => {
-    console.log("imageHandler called", uri);
-    setUri(uri);
-  };
-
+  const now = new Date();
+  const anHourAfterNow = new Date();
+  anHourAfterNow.setHours(now.getHours() + 1);
+  const [endTime, setEndTime] = useState(anHourAfterNow);
   const [location, setLocation] = useState({});
-  // const [isModalVisible, setIsModalVisible] = useState(false);
   const [pitName, setPitName] = useState(null);
   const [startTime, setStartTime] = useState(new Date());
-  const now = new Date();
-  now.setHours(now.getHours() + 1);
-  const [endTime, setEndTime] = useState(now);
+  const [reminderTime, setReminderTime] = useState(null);
 
-  const locateUser = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
-      return;
-    }
-    let location = await Location.getCurrentPositionAsync({
-      accuracy: Location.Accuracy.Balanced,
-      enableHighAccuracy: true,
-    });
-    const { latitude, longitude } = location.coords;
-    setLocation({ latitude, longitude });
-  };
+  const handleReminderSelect = ({value},_) => {
+    setReminderTime(value)
+  }
 
   const getLocation = () => {
     if (!route.params) {
-      locateUser();
+      setLocation(userStore.userLocation);
     } else {
       const { params } = route;
       const { latitude, longitude } = route.params;
       setLocation({ latitude, longitude });
-      setPlate(params.plate);
-      setCost(params.cost);
-      setNotes(params.notes);
-      setPitID(params.pitID);
+      params.plate && setPlate(params.plate);
+      params.cost && setCost(params.cost);
+      params.notes && setNotes(params.notes);
+      params.slot && setSlot(params.slot);
+      params.name && setPitName(params.name)
+      setPitID(params.id);
     }
   };
 
@@ -91,43 +69,40 @@ export default function AddNewParking({ navigation, route }) {
     return res;
   };
 
-
-
   const saveParking = async () => {
     const { latitude, longitude } = location;
-    var time = moment().format("YYYY-MM-DD hh:mm:ss");
-
     const duration = moment.duration(moment(endTime).diff(moment(startTime)));
     const durationInMinutes = duration.asMinutes();
     const hours = Math.floor(durationInMinutes / 60);
     const minutes = Math.floor(durationInMinutes % 60);
-    const formattedDuration = `${hours}hours ${minutes}minutes`;
+    const formattedDuration = `${hours} hours ${minutes} minutes`;
 
     if (startTime >= endTime) {
       Alert.alert("Action Failed", "Start Time must be earlier than End Time");
-    } else if (isSwitchOn && !pitName) {
+    } else if (shouldSavePit && !pitName) {
       Alert.alert("Action Failed", "Your Pit must have a name");
     } else {
       let id = pitID;
       if (!id) {
         id = await handlePit();
       }
-      if (isSwitchOn) {
+      if (shouldSavePit) {
         const myPit = {
-          latitude: location.latitude,
-          longitude: location.longitude,
+          latitude,
+          longitude,
           name: pitName,
-          pitID: id,
+          id: id,
         };
         await pitAPI.saveAsMyPit(myPit);
       }
-
-      
-      if(uri) {setUri(parkingAPI.uploadImage(uri))};
-      console.log(uri);
+      let image = "";
+      if (uri) {
+        image = await parkingAPI.uploadImage(uri);
+      }
 
       await parkingAPI.createNewParking({
         latitude,
+
         longitude,
         startTime,
         endTime,
@@ -136,27 +111,42 @@ export default function AddNewParking({ navigation, route }) {
         cost,
         slot,
         notes,
-        pitID,
-        image: uri,
+        pitID: id,
+        image,
+        name: route?.params?.name || pitName || null
       });
+
       alert("Successfully Created Your Parking!");
+
+      if(reminderTime) {
+        await notificationsAPI.parkingReminder(endTime, reminderTime);
+      }
+
       navigation.navigate("Home");
     }
   };
 
-
-  const [isSwitchOn, setIsSwitchOn] = useState(false);
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
-        <SmallMap location={location} />
+        <SmallMap location={route.params || userStore.userLocation} />
         <TimePeriodPicker
           initialStartTime={startTime}
           initialEndTime={endTime}
           onStartTimeChange={(time) => setStartTime(time)}
           onEndTimeChange={(time) => setEndTime(time)}
         />
+        <View style={[styles.spaceBetween]}>
+          <Text style={TEXT_STYLES.title[500]}>Reminder</Text>
+          <SelectDropdown
+            data={reminderOptions}
+            onSelect={handleReminderSelect}
+            buttonTextAfterSelection={(item) => item.text}
+            rowTextForSelection={(item) => item.text}
+            defaultValueByIndex={0}
+            buttonStyle={styles.reminderButton}
+          />
+        </View>
         <PitInput label="Plate" value={plate} onChangeText={setPlate} />
         <PitInput
           label="Cost"
@@ -167,6 +157,7 @@ export default function AddNewParking({ navigation, route }) {
         <PitInput label="Slot" value={slot} onChangeText={setSlot} />
         <PitInput
           label="Notes"
+          style={{ minHeight: 180 }}
           inputStyle={{ minHeight: 120 }}
           value={notes}
           onChangeText={setNotes}
@@ -175,29 +166,31 @@ export default function AddNewParking({ navigation, route }) {
             multiline: true,
           }}
         />
-        <View style={{ marginVertical: 50, paddingVertical: 50 }}>
-          <Text style={{ fontSize: "20", fontWeight: "bold" }}>
-            Save As My Pit
-          </Text>
-          <View>
-            <Switch
-              value={isSwitchOn}
-              onValueChange={(value) => setIsSwitchOn(value)}
-              style={styles.switch}
-            />
-            {/* Show the input field only when the switch is turned on */}
-            {isSwitchOn && (
-              <PitInput
-                label="Pit Name"
-                value={pitName}
-                onChangeText={setPitName}
-              />
-            )}
-          </View>
-          <ImageManager imageHandler={imageHandler} />
+
+        <View style={[styles.spaceBetween, { marginTop: 18 }]}>
+          <Text style={TEXT_STYLES.title[500]}>Save As My Pit</Text>
+          <Switch
+            value={shouldSavePit}
+            onValueChange={(value) => setShouldSavePit(value)}
+            style={styles.switch}
+          />
         </View>
+
+        {shouldSavePit && (
+          <View style={styles.pitName}>
+            <PitInput
+              label="Pit Name"
+              value={pitName}
+              onChangeText={setPitName}
+            />
+          </View>
+        )}
+
+        <View style={styles.imgManager}>
+          <ImageManager imageHandler={(uri) => setUri(uri)} />
+        </View>
+        <View style={{ marginTop: 150 }} />
       </ScrollView>
-      {/* <TakePhoto imageHandler={imageHandler} /> */}
       <BottomContainer>
         <PitButton
           style={styles.button}
@@ -208,7 +201,7 @@ export default function AddNewParking({ navigation, route }) {
       </BottomContainer>
     </SafeAreaView>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -220,8 +213,23 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     paddingHorizontal: 24,
   },
-  switch: {
-    paddingVertical: 5,
-    marginVertical: 5,
+  spaceBetween: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
+  pitName: {
+    marginTop: 12,
+  },
+  imgManager: {
+    marginTop: 12,
+  },
+  reminderButton:{
+    borderRadius:8,
+    backgroundColor:COLORS.BASE[20],
+    height:40,
+    width:"57%"
+  }
 });
+
+export default AddNewParking;

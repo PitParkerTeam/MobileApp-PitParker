@@ -17,7 +17,7 @@ const LineDisplay = ({ label, content, item }) => {
   const displayContent =
     content == "cost"
       ? `$${item[content]}`
-      : content == "startTime" || content == "endTime"
+      : (content == "startTime" || content == "endTime")
       ? formatTimestamp(item[content])
       : item[content];
   return (
