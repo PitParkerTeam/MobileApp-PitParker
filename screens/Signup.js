@@ -51,7 +51,7 @@ export default function Signup({ navigation }) {
               <Text style={styles.title}>PitParker</Text>
             </View>
             <View style={styles.intro}>
-              <Text style={styles.intro}>Park in your own pit</Text>
+              <Text style={styles.intro}>Park in your own Pit</Text>
             </View>
           </View>
           <View style={styles.label}>

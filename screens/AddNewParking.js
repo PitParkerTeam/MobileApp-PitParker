@@ -101,6 +101,7 @@ const AddNewParking = observer(({ navigation, route }) => {
 
       await parkingAPI.createNewParking({
         latitude,
+
         longitude,
         startTime,
         endTime,
@@ -111,7 +112,7 @@ const AddNewParking = observer(({ navigation, route }) => {
         notes,
         pitID: id,
         image,
-        name: route?.params?.name
+        name: route?.params?.name || pitName || null
       });
 
       alert("Successfully Created Your Parking!");
