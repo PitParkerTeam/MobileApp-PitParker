@@ -5,18 +5,59 @@ import {
   View,
   Pressable,
   TextInput,
+  TouchableOpacity,
+  Alert,
 } from "react-native";
 import React from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../../api";
 import { BottomContainer, PitButton } from "../../components";
 import { COLORS, TEXT_STYLES } from "../../common";
-import { getAuth } from "firebase/auth";
+import { Ionicons } from "@expo/vector-icons";
+import { useState } from "react";
+import {
+  EmailAuthProvider,
+  getAuth,
+  reauthenticateWithCredential,
+  updatePassword,
+} from "firebase/auth";
 
 export default function ProfileSettings({ navigation }) {
   const auth = getAuth();
   const user = auth.currentUser;
   const email = user.email;
+
+  const [secureTextEntry1, setSecureTextEntry1] = useState(true);
+  const [secureTextEntry2, setSecureTextEntry2] = useState(true);
+  const [secureTextEntry3, setSecureTextEntry3] = useState(true);
+
+  const [userProvidedPassword, setUserProvidedPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [validatePassword, setValidatePassword] = useState("");
+
+  const changePassword = () => {if (newPassword === validatePassword && newPassword !== "") {
+    const credential = EmailAuthProvider.credential(
+      email,
+      userProvidedPassword
+    );
+    reauthenticateWithCredential(user, credential).then(() => {
+      // User re-authenticated.
+      // console.log("success");
+      updatePassword(user, newPassword).then(() => {
+        // Update successful.
+        Alert.alert("Notice", "Successfully updated your New Password!");
+        signOut(auth);
+      }).catch((error) => {
+        // console.log("Update password failed, ", error);
+        Alert.alert("Update password failed, ", error);
+      });
+    }).catch((error) => {
+      console.log("Re-authentication failed, ", error);
+      Alert.alert("Action Failed", "Please make sure the Current Password is correct.");
+    });
+  } else {
+    Alert.alert("Action Failed", "New Password is empty or does not match Confirm Password")
+  }}
 
   return (
     <SafeAreaView style={styles.container}>
@@ -33,26 +74,55 @@ export default function ProfileSettings({ navigation }) {
           </View>
           <View>
             <View style={styles.tabContainer}>
-              <Text style={styles.title}>Current Password</Text>
+              <View flexDirection="row">
+                <Text style={styles.title}>Current Password </Text>
+                <TouchableOpacity
+                  onPress={() => setSecureTextEntry1(!secureTextEntry1)}
+                >
+                  <Ionicons name="ios-eye" size={24} />
+                </TouchableOpacity>
+              </View>
               <TextInput
                 style={styles.input}
-                placeholder={"abc@aaa.com"}
+                secureTextEntry={secureTextEntry1}
+                value={userProvidedPassword}
+                onChangeText={(newText) => setUserProvidedPassword(newText)}
               ></TextInput>
             </View>
           </View>
           <View>
             <View style={styles.tabContainer}>
-              <Text style={styles.title}>New Password</Text>
+              <View flexDirection="row">
+                <Text style={styles.title}>New Password </Text>
+                <TouchableOpacity
+                  onPress={() => setSecureTextEntry2(!secureTextEntry2)}
+                >
+                  <Ionicons name="ios-eye" size={24} />
+                </TouchableOpacity>
+              </View>
+
               <TextInput
                 style={styles.input}
-                placeholder={"abc@aaa.com"}
+                secureTextEntry={secureTextEntry2}
+                value={newPassword}
+                onChangeText={(newText) => setNewPassword(newText)}
               ></TextInput>
             </View>
             <View style={styles.tabContainer}>
-              <Text style={styles.title}>Confirm Password</Text>
+              <View flexDirection="row">
+                <Text style={styles.title}>Confirm Password </Text>
+                <TouchableOpacity
+                  onPress={() => setSecureTextEntry3(!secureTextEntry3)}
+                >
+                  <Ionicons name="ios-eye" size={24} />
+                </TouchableOpacity>
+              </View>
+
               <TextInput
                 style={styles.input}
-                placeholder={"abc@aaa.com"}
+                secureTextEntry={secureTextEntry3}
+                value={validatePassword}
+                onChangeText={(newText) => setValidatePassword(newText)}
               ></TextInput>
             </View>
             <View style={styles.buttonContainer}>
@@ -61,6 +131,7 @@ export default function ProfileSettings({ navigation }) {
                 type="primary"
                 style={styles.pitButton}
                 textStyle={styles.saveButton}
+                onPress={() => changePassword()}
               />
             </View>
           </View>
