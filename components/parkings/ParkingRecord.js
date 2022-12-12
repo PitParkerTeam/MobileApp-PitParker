@@ -26,7 +26,7 @@ export default function ParkingRecord({ item, navigation }) {
 
 const styles = StyleSheet.create({
   parkingItem: {
-    height: 130,
+    height: 160,
     marginTop: 6,
     marginBottom: 6,
     padding: "4%",

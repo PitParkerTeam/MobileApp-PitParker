@@ -16,13 +16,23 @@ import { userStore } from "../../stores";
 const MyParkings = observer(({ navigation }) => {
   const listItemRender = ({ item }) => {
     if (userStore.isCurrent(item))
-      return <CurrentParking key={item.id} parking={item} showMap />;
+      return (
+        <View style={styles.currentParking}>
+          <CurrentParking key={item.id} parking={item} showMap />
+        </View>
+      );
     else return <ParkingRecord item={item} navigation={navigation} />;
   };
+  const isEmpty = userStore.parkings.length < 1
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>My Parking</Text>
-      <View style={styles.listContainer}>
+      <View
+        style={{
+          height: "93%",
+          backgroundColor: isEmpty ? COLORS.BASE[0] : COLORS.BASE[20],
+        }}
+      >
         <FlatList
           data={userStore.parkings}
           renderItem={listItemRender}
@@ -35,12 +45,13 @@ const MyParkings = observer(({ navigation }) => {
 });
 
 const styles = StyleSheet.create({
-  container: { backgroundColor: COLORS.BASE[0] },
-  listContainer: {
-    backgroundColor: COLORS.BASE[20],
-    height: "93%",
+  container: { 
+    backgroundColor: COLORS.BASE[0],
   },
-  currentParking: { padding: 10 },
+
+  currentParking: { 
+    padding: 12, 
+    backgroundColor:COLORS.BASE[0] },
   header: {
     ...TEXT_STYLES.heading.h2,
     marginLeft: "4%",
