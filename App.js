@@ -8,7 +8,7 @@ import {
   Signup,
   Main,
   AddNewParking,
-  ManageAccount,
+  ChangePassword,
 } from "./screens";
 import React, { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
@@ -94,11 +94,11 @@ export default function App() {
           ...hideBackTitle,
         }}
       />
-      <Stack.Screen 
-        name="ManageAccount"
-        component={ManageAccount}
+      <Stack.Screen
+        name="ChangePassword"
+        component={ChangePassword}
         options={{
-          headerTitle: "Manage Account",
+          headerTitle: "Change Password",
           ...hideBackTitle,
         }}
       />

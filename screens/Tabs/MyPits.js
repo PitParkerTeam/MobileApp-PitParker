@@ -7,7 +7,7 @@ import {
   TextInput,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { MyPit, SearchBar } from "../../components";
+import { MyPit, SearchBar, Empty } from "../../components";
 import { COLORS, TEXT_STYLES } from "../../common";
 import { pitStore } from "../../stores";
 import { observer } from "mobx-react";
@@ -32,6 +32,7 @@ const MyPits = observer(({ navigation }) => {
             .includes(search.toLowerCase())
         )}
         renderItem={({ item }) => <MyPit pit={item} navigation={navigation} />}
+        ListEmptyComponent={<Empty text="You have no saved pits"/> }
       />
     </SafeAreaView>
   );
