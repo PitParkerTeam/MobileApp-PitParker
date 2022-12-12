@@ -46,12 +46,13 @@ export default function ProfileSettings({ navigation }) {
       updatePassword(user, newPassword).then(() => {
         // Update successful.
         Alert.alert("Notice", "Successfully updated your New Password!");
+        signOut(auth);
       }).catch((error) => {
         // console.log("Update password failed, ", error);
         Alert.alert("Update password failed, ", error);
       });
     }).catch((error) => {
-      // console.log("Re-authentication failed, ", error);
+      console.log("Re-authentication failed, ", error);
       Alert.alert("Action Failed", "Please make sure the Current Password is correct.");
     });
   } else {
