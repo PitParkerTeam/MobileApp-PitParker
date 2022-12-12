@@ -9,11 +9,19 @@ import {
   Main,
   AddNewParking,
   ManageAccount,
-  Notifications,
 } from "./screens";
 import React, { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./api";
+import * as Notifications from "expo-notifications";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: true,
+  }),
+});
 
 const Stack = createNativeStackNavigator();
 const hideHeader = { headerShown: false };
@@ -30,6 +38,22 @@ export default function App() {
       }
     });
   });
+  useEffect(() => {
+    const subscription = Notifications.addNotificationReceivedListener(
+      (notification) => {
+      }
+    );
+    const subscription2 = Notifications.addNotificationResponseReceivedListener(
+      async (notificationResponse) => {
+
+      }
+    );
+    return () => {
+      subscription.remove();
+      subscription2.remove();
+    };
+  });
+
   const AuthStack = () => {
     return (
       <Stack.Navigator
@@ -74,14 +98,6 @@ export default function App() {
         component={ManageAccount}
         options={{
           headerTitle: "Manage Account",
-          ...hideBackTitle,
-        }}
-      />
-      <Stack.Screen 
-        name="Notifications"
-        component={Notifications}
-        options={{
-          headerTitle: "Notification Setting",
           ...hideBackTitle,
         }}
       />
