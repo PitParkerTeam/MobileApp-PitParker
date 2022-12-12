@@ -33,13 +33,21 @@
 - Xiaoben Yin - [@XiaobenYin](https://github.com/XiaobenYin) - yin.xiaob@northeastern.edu
 - Chenru Wu - [@wuchenru](https://github.com/wuchenru) - wu.chenru@northeastern.edu
 
+## Demo
+[Demo Video On YouTube](https://youtu.be/J8gz3yZgoUU)
+
 ## Design
+
+![wireframe](logs/v4.0.0/wireframe_v4.png)
+![components_design](logs/v4.0.0/components_design_v4.png)
+
 [Figma](https://www.figma.com/file/bdToIyhr0VmqOBXjil023Y/PitParker-Mobile-Design?node-id=0%3A1&t=Zz1Viqm3hyRdWWrL-1)
 
 <!-- ## Screens -->
+## Screens
+![screens_design](logs/v4.0.0/screens_design_v4.png)
 
 <!-- LOGS -->
-
 ## Logs
 
 ### Iteration 1 - 2022/11/23
@@ -52,8 +60,6 @@
 
 ### Iteration 2 - 2022/11/30
 - Finished UX/UI design for all major screens & components
-    ![components_design](logs/v2.0.0/components_design_v2.0.0.png)
-    ![screens_design](logs/v2.0.0/screens_design_v2.0.0.png)
 - Created data structure for firebase and query
 - Added authorization for login/signup
 - Connected Map API for home screen/components/display
@@ -84,10 +90,14 @@
 - Added account page
 - Added Image function
 
-## Testing
-Test User with some data:
-- email: abc@aaa.com
-- password: abc123
+### Iteration 4 - 2022/12/12
+- Finished all basics and logics of the app
+- Created feature for user customized notifications
+- Added reminder function for parking expiring
+- Added feature for password changing
+- Allowed users to get directions directly from our app
+
+
 <!-- MARKDOWN LINKS & IMAGES -->
 
 [project-url]: https://github.com/PitParkerTeam/MobileApp-PitParker
