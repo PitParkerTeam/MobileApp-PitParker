@@ -9,18 +9,17 @@ export default function ParkingRecord({ item, navigation }) {
     Math.round(item.longitude * 1000) / 1000
   }`;
   return (
-    <View style={styles.parkingItem}>
+    <Pressable
+      onPress={() => navigation.navigate("ParkingDetails", { id: item.id })}
+      style={styles.parkingItem}
+    >
       <Text style={styles.parkingItem.title}>
         {`Parking @ ${item.name || coordString}`}
       </Text>
-      <Pressable
-        onPress={() => navigation.navigate("ParkingDetails", { id: item.id })}
-      >
-        <Text style={styles.parkingItem.text}>
-          {formatTimestamp(item.startTime)} • {item.duration}
-        </Text>
-      </Pressable>
-    </View>
+      <Text style={styles.parkingItem.text}>
+        {formatTimestamp(item.startTime)} • {item.duration}
+      </Text>
+    </Pressable>
   );
 }
 
