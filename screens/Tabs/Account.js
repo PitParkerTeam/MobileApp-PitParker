@@ -6,15 +6,21 @@ import {
   Pressable,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import React from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../../api";
 import { BottomContainer, PitButton } from "../../components";
 import { COLORS, TEXT_STYLES } from "../../common";
-import { getAuth, reauthenticateWithCredential } from "firebase/auth";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
+import {
+  EmailAuthProvider,
+  getAuth,
+  reauthenticateWithCredential,
+  updatePassword,
+} from "firebase/auth";
 
 export default function ProfileSettings({ navigation }) {
   const auth = getAuth();
@@ -24,6 +30,45 @@ export default function ProfileSettings({ navigation }) {
   const [secureTextEntry1, setSecureTextEntry1] = useState(true);
   const [secureTextEntry2, setSecureTextEntry2] = useState(true);
   const [secureTextEntry3, setSecureTextEntry3] = useState(true);
+
+  const [userProvidedPassword, setUserProvidedPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [validatePassword, setValidatePassword] = useState("");
+
+  const changePassword = () => {if (newPassword === validatePassword && newPassword !== "") {
+    const credential = EmailAuthProvider.credential(
+      email,
+      userProvidedPassword
+    );
+    reauthenticateWithCredential(user, credential).then(() => {
+      // User re-authenticated.
+      // console.log("success");
+      updatePassword(user, newPassword).then(() => {
+        // Update successful.
+        Alert.alert("Notice", "Successfully updated your New Password!");
+      }).catch((error) => {
+        console.log("Update password failed, ", error);
+      });
+    }).catch((error) => {
+      console.log("Re-authentication failed, ", error);
+      Alert.alert("Action Failed", "Please make sure the Current Password is correct.");
+    });
+  } else {
+    Alert.alert("Action Failed", "New Password is empty or does not match Confirm Password")
+  }}
+  
+
+  // const changePassword = () => {
+  //   if(newPassword === validatePassword) {
+  //     const result = reauthenticateUser();
+  //     // console.log(result);
+  //     // alert(result);
+  //   } else {
+  //     console.log(newPassword);
+  //     console.log(validatePassword);
+  //     Alert.alert("Action Failed!", "New Password and Confirm Password do not match")
+  //   }
+  // }
 
   // TODO(you): prompt the user to re-provide their sign-in credentials
   // const credential = promptForCredentials();
@@ -65,6 +110,8 @@ export default function ProfileSettings({ navigation }) {
               <TextInput
                 style={styles.input}
                 secureTextEntry={secureTextEntry1}
+                value={userProvidedPassword}
+                onChangeText={(newText) => setUserProvidedPassword(newText)}
               ></TextInput>
             </View>
           </View>
@@ -82,19 +129,26 @@ export default function ProfileSettings({ navigation }) {
               <TextInput
                 style={styles.input}
                 secureTextEntry={secureTextEntry2}
+                value={newPassword}
+                onChangeText={(newText) => setNewPassword(newText)}
               ></TextInput>
             </View>
             <View style={styles.tabContainer}>
               <View flexDirection="row">
-              <Text style={styles.title}>Confirm Password </Text>
-              <TouchableOpacity
+                <Text style={styles.title}>Confirm Password </Text>
+                <TouchableOpacity
                   onPress={() => setSecureTextEntry3(!secureTextEntry3)}
                 >
                   <Ionicons name="ios-eye" size={24} />
                 </TouchableOpacity>
               </View>
-              
-              <TextInput style={styles.input} secureTextEntry={secureTextEntry3}></TextInput>
+
+              <TextInput
+                style={styles.input}
+                secureTextEntry={secureTextEntry3}
+                value={validatePassword}
+                onChangeText={(newText) => setValidatePassword(newText)}
+              ></TextInput>
             </View>
             <View style={styles.buttonContainer}>
               <PitButton
@@ -102,6 +156,7 @@ export default function ProfileSettings({ navigation }) {
                 type="primary"
                 style={styles.pitButton}
                 textStyle={styles.saveButton}
+                onPress={() => changePassword()}
               />
             </View>
           </View>
@@ -109,7 +164,6 @@ export default function ProfileSettings({ navigation }) {
       </View>
       <BottomContainer style={styles.bottom}>
         <PitButton text="Sign Out" onPress={() => signOut(auth)} />
-        <PitButton text="Reauth" onPress={() => reauthenticateWithCredential} />
       </BottomContainer>
     </SafeAreaView>
   );
