@@ -8,12 +8,13 @@ import {
   Signup,
   Main,
   AddNewParking,
-  ManageAccount,
+  ChangePassword,
 } from "./screens";
 import React, { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./api";
 import * as Notifications from "expo-notifications";
+import { TEXT_STYLES } from "./common";
 
 
 Notifications.setNotificationHandler({
@@ -25,11 +26,16 @@ Notifications.setNotificationHandler({
 });
 
 const Stack = createNativeStackNavigator();
-const hideHeader = { headerShown: false };
-const hideBackTitle = { headerBackTitleVisible: false };
 
 export default function App() {
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
+  const hideHeader = { headerShown: false };
+  const headerWithTitle = {
+    headerBackTitleVisible: false,
+    headerTitleStyle: styles.headerTitle,
+    headerStyle: styles.header
+  };
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -75,7 +81,7 @@ export default function App() {
         component={ParkingDetails}
         options={{
           headerTitle: "Parking Details",
-          ...hideBackTitle,
+          ...headerWithTitle,
         }}
       />
       <Stack.Screen
@@ -83,7 +89,7 @@ export default function App() {
         component={PitDetails}
         options={{
           headerTitle: "Pit Details",
-          ...hideBackTitle,
+          ...headerWithTitle,
         }}
       />
       <Stack.Screen
@@ -91,15 +97,15 @@ export default function App() {
         component={AddNewParking}
         options={{
           headerTitle: "Add New Parking",
-          ...hideBackTitle,
+          ...headerWithTitle,
         }}
       />
-      <Stack.Screen 
-        name="ManageAccount"
-        component={ManageAccount}
+      <Stack.Screen
+        name="ChangePassword"
+        component={ChangePassword}
         options={{
-          headerTitle: "Manage Account",
-          ...hideBackTitle,
+          headerTitle: "Change Password",
+          ...headerWithTitle,
         }}
       />
     </Stack.Navigator>
@@ -113,5 +119,10 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  header: {},
+  header: {
+    
+  },
+  headerTitle: {
+    ...TEXT_STYLES.heading.h4
+  }
 });

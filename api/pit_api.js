@@ -17,8 +17,7 @@ const pitAPI = {
     pits.forEach(async (pit) => {
       const { id, ...others } = pit;
       const pitRef = doc(firestore, "pits", id);
-      const docSnap = await getDoc(pitRef)
-      if (!docSnap.exists()) batch.set(pitRef, others);
+      batch.set(pitRef, {...others, isPublic: true},);
     });
     await batch.commit();
   },
