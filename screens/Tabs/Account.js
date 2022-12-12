@@ -56,33 +56,6 @@ export default function ProfileSettings({ navigation }) {
   } else {
     Alert.alert("Action Failed", "New Password is empty or does not match Confirm Password")
   }}
-  
-
-  // const changePassword = () => {
-  //   if(newPassword === validatePassword) {
-  //     const result = reauthenticateUser();
-  //     // console.log(result);
-  //     // alert(result);
-  //   } else {
-  //     console.log(newPassword);
-  //     console.log(validatePassword);
-  //     Alert.alert("Action Failed!", "New Password and Confirm Password do not match")
-  //   }
-  // }
-
-  // TODO(you): prompt the user to re-provide their sign-in credentials
-  // const credential = promptForCredentials();
-
-  // reauthenticateWithCredential(user, credential)
-  //   .then(() => {
-  //     // User re-authenticated.
-  //     console.log("successful")
-  //   })
-  //   .catch((error) => {
-  //     // An error ocurred
-  //     // ...
-  //     console.log(error)
-  //   });
 
   return (
     <SafeAreaView style={styles.container}>
