@@ -15,6 +15,7 @@ import { initializeAuth, getReactNativePersistence } from "firebase/auth";
 
 // import {apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId } from '@env'
 // Your web app's Firebase configuration
+console.log("test")
 const firebaseConfig = {
   apiKey: apiKey,
   authDomain: authDomain,

@@ -5,18 +5,39 @@ import {
   View,
   Pressable,
   TextInput,
+  TouchableOpacity,
 } from "react-native";
 import React from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../../api";
 import { BottomContainer, PitButton } from "../../components";
 import { COLORS, TEXT_STYLES } from "../../common";
-import { getAuth } from "firebase/auth";
+import { getAuth, reauthenticateWithCredential } from "firebase/auth";
+import { Ionicons } from "@expo/vector-icons";
+import { useState } from "react";
 
 export default function ProfileSettings({ navigation }) {
   const auth = getAuth();
   const user = auth.currentUser;
   const email = user.email;
+
+  const [secureTextEntry1, setSecureTextEntry1] = useState(true);
+  const [secureTextEntry2, setSecureTextEntry2] = useState(true);
+  const [secureTextEntry3, setSecureTextEntry3] = useState(true);
+
+  // TODO(you): prompt the user to re-provide their sign-in credentials
+  // const credential = promptForCredentials();
+
+  // reauthenticateWithCredential(user, credential)
+  //   .then(() => {
+  //     // User re-authenticated.
+  //     console.log("successful")
+  //   })
+  //   .catch((error) => {
+  //     // An error ocurred
+  //     // ...
+  //     console.log(error)
+  //   });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -33,27 +54,47 @@ export default function ProfileSettings({ navigation }) {
           </View>
           <View>
             <View style={styles.tabContainer}>
-              <Text style={styles.title}>Current Password</Text>
+              <View flexDirection="row">
+                <Text style={styles.title}>Current Password </Text>
+                <TouchableOpacity
+                  onPress={() => setSecureTextEntry1(!secureTextEntry1)}
+                >
+                  <Ionicons name="ios-eye" size={24} />
+                </TouchableOpacity>
+              </View>
               <TextInput
                 style={styles.input}
-                placeholder={"abc@aaa.com"}
+                secureTextEntry={secureTextEntry1}
               ></TextInput>
             </View>
           </View>
           <View>
             <View style={styles.tabContainer}>
-              <Text style={styles.title}>New Password</Text>
+              <View flexDirection="row">
+                <Text style={styles.title}>New Password </Text>
+                <TouchableOpacity
+                  onPress={() => setSecureTextEntry2(!secureTextEntry2)}
+                >
+                  <Ionicons name="ios-eye" size={24} />
+                </TouchableOpacity>
+              </View>
+
               <TextInput
                 style={styles.input}
-                placeholder={"abc@aaa.com"}
+                secureTextEntry={secureTextEntry2}
               ></TextInput>
             </View>
             <View style={styles.tabContainer}>
-              <Text style={styles.title}>Confirm Password</Text>
-              <TextInput
-                style={styles.input}
-                placeholder={"abc@aaa.com"}
-              ></TextInput>
+              <View flexDirection="row">
+              <Text style={styles.title}>Confirm Password </Text>
+              <TouchableOpacity
+                  onPress={() => setSecureTextEntry3(!secureTextEntry3)}
+                >
+                  <Ionicons name="ios-eye" size={24} />
+                </TouchableOpacity>
+              </View>
+              
+              <TextInput style={styles.input} secureTextEntry={secureTextEntry3}></TextInput>
             </View>
             <View style={styles.buttonContainer}>
               <PitButton
@@ -68,6 +109,7 @@ export default function ProfileSettings({ navigation }) {
       </View>
       <BottomContainer style={styles.bottom}>
         <PitButton text="Sign Out" onPress={() => signOut(auth)} />
+        <PitButton text="Reauth" onPress={() => reauthenticateWithCredential} />
       </BottomContainer>
     </SafeAreaView>
   );
