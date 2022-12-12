@@ -71,6 +71,6 @@ const styles = StyleSheet.create({
     fontSize: 70,
     color: COLORS.BASE[60],
     textAlign: "center",
-    lineHeight: 60,
+    lineHeight: 65,
   },
 });
