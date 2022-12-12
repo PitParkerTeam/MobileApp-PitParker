@@ -11,7 +11,6 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../api";
 import { BottomContainer, PitButton } from "../../components";
 import { COLORS, TEXT_STYLES } from "../../common";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 export default function ProfileSettings({ navigation }) {
   return (
@@ -58,36 +57,6 @@ export default function ProfileSettings({ navigation }) {
           </View>
         </View>
       </View>
-      {/* <View style={{ paddingHorizontal: 24 }}>
-        <Pressable onPress={() => navigation.navigate("ManageAccount")}>
-          <View style={styles.tabs}>
-            <Icon
-              name="cog-outline"
-              size={24}
-              color="black"
-              style={styles.icon}
-            />
-            <Text style={styles.tabText}>Manage Account</Text>
-            <Icon name="chevron-right" size={24} color={COLORS.BASE[100]} />
-          </View>
-        </Pressable>
-        <Pressable onPress={() => navigation.navigate("Notifications")}>
-          <View style={styles.tabs}>
-            <Icon
-              name="bell-badge-outline"
-              size={24}
-              color="black"
-              style={styles.icon}
-            />
-            <Text style={styles.tabText}>Notifications</Text>
-            <Icon
-              name="chevron-right"
-              size={24}
-              color="black"
-            />
-          </View>
-        </Pressable> */}
-      {/* </View> */}
       <BottomContainer style={styles.bottom}>
         <PitButton text="Sign Out" onPress={() => signOut(auth)} />
       </BottomContainer>
@@ -130,20 +99,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  listContainer: {
-    flex: 1,
-    backgroundColor: COLORS.BASE[20],
-  },
   contentContainer: {
     marginTop: 20,
-  },
-  tabText: {
-    fontSize: 20,
-    width: 290,
-  },
-  icon: {
-    marginHorizontal: 12,
-    width: 40,
   },
   saveButton: {
     fontSize: 11,
@@ -153,7 +110,6 @@ const styles = StyleSheet.create({
     height: 40,
   },
   buttonContainer: {
-    // paddingLeft: -100,
     marginLeft: -10,
     marginTop: -20,
   },
