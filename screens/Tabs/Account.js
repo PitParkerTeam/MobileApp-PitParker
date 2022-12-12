@@ -11,8 +11,13 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../api";
 import { BottomContainer, PitButton } from "../../components";
 import { COLORS, TEXT_STYLES } from "../../common";
+import { getAuth } from "firebase/auth";
 
 export default function ProfileSettings({ navigation }) {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const email = user.email;
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>Account</Text>
@@ -20,7 +25,7 @@ export default function ProfileSettings({ navigation }) {
         <View style={{ paddingHorizontal: 24 }}>
           <View style={styles.tabContainer}>
             <Text style={styles.title}>Email</Text>
-            <TextInput style={styles.input} value={"abc@aaa.com"}></TextInput>
+            <TextInput style={styles.input} value={email}></TextInput>
           </View>
           <View>
             <View style={styles.tabContainer}>
