@@ -5,20 +5,16 @@ import {
   ScrollView,
   SafeAreaView,
   Alert,
-  TextInput,
+  Switch,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { SmallMap, PitInput, BottomContainer } from "../components";
-import { COLORS, TEXT_STYLES } from "../common";
-import { PitButton } from "../components";
-import { parkingAPI, pitAPI } from "../api";
-import ImageManager from "../components/basics/ImageManager";
+import { SmallMap, PitInput, BottomContainer , PitButton, ImageManager, TimePeriodPicker} from "../components";
+import { COLORS, TEXT_STYLES, reminderOptions } from "../common";
+import { parkingAPI, pitAPI, notificationsAPI } from "../api";
 import moment from "moment";
-import TimePeriodPicker from "../components/basics/TimePeriodPicker";
-import { Switch } from "react-native";
 import { userStore } from "../stores";
 import { observer } from "mobx-react-lite";
-import NotificationManager from "../components/basics/NotificationManager";
+import SelectDropdown from "react-native-select-dropdown";
 
 const AddNewParking = observer(({ navigation, route }) => {
   const [plate, setPlate] = useState(null);
@@ -26,13 +22,8 @@ const AddNewParking = observer(({ navigation, route }) => {
   const [slot, setSlot] = useState(null);
   const [notes, setNotes] = useState(null);
   const [pitID, setPitID] = useState(null);
-  const [isSwitchOn, setIsSwitchOn] = useState(false);
+  const [shouldSavePit, setShouldSavePit] = useState(false);
   const [uri, setUri] = useState("");
-
-  const imageHandler = (uri) => {
-    setUri(uri);
-  };
-
   const now = new Date();
   const anHourAfterNow = new Date();
   anHourAfterNow.setHours(now.getHours() + 1);
@@ -40,6 +31,11 @@ const AddNewParking = observer(({ navigation, route }) => {
   const [location, setLocation] = useState({});
   const [pitName, setPitName] = useState(null);
   const [startTime, setStartTime] = useState(new Date());
+  const [reminderTime, setReminderTime] = useState(null);
+
+  const handleReminderSelect = ({value},_) => {
+    setReminderTime(value)
+  }
 
   const getLocation = () => {
     if (!route.params) {
@@ -82,17 +78,17 @@ const AddNewParking = observer(({ navigation, route }) => {
 
     if (startTime >= endTime) {
       Alert.alert("Action Failed", "Start Time must be earlier than End Time");
-    } else if (isSwitchOn && !pitName) {
+    } else if (shouldSavePit && !pitName) {
       Alert.alert("Action Failed", "Your Pit must have a name");
     } else {
       let id = pitID;
       if (!id) {
         id = await handlePit();
       }
-      if (isSwitchOn) {
+      if (shouldSavePit) {
         const myPit = {
-          latitude: location.latitude,
-          longitude: location.longitude,
+          latitude,
+          longitude,
           name: pitName,
           id: id,
         };
@@ -102,12 +98,6 @@ const AddNewParking = observer(({ navigation, route }) => {
       if (uri) {
         image = await parkingAPI.uploadImage(uri);
       }
-
-
-      const timeDifference = moment.duration(moment(endTime).diff(moment(now)));
-      const timeDifferenceInSeconds = timeDifference.asSeconds();
-
-      if(timeDifferenceInSeconds > 900) <NotificationManager timeInSeconds={timeDifferenceInSeconds}/>;
 
       await parkingAPI.createNewParking({
         latitude,
@@ -122,7 +112,13 @@ const AddNewParking = observer(({ navigation, route }) => {
         pitID: id,
         image,
       });
+
       alert("Successfully Created Your Parking!");
+
+      if(reminderTime) {
+        await notificationsAPI.parkingReminder(endTime, reminderTime);
+      }
+
       navigation.navigate("Home");
     }
   };
@@ -137,6 +133,17 @@ const AddNewParking = observer(({ navigation, route }) => {
           onStartTimeChange={(time) => setStartTime(time)}
           onEndTimeChange={(time) => setEndTime(time)}
         />
+        <View style={[styles.spaceBetween]}>
+          <Text style={TEXT_STYLES.title[500]}>Reminder</Text>
+          <SelectDropdown
+            data={reminderOptions}
+            onSelect={handleReminderSelect}
+            buttonTextAfterSelection={(item) => item.text}
+            rowTextForSelection={(item) => item.text}
+            defaultValueByIndex={0}
+            buttonStyle={styles.reminderButton}
+          />
+        </View>
         <PitInput label="Plate" value={plate} onChangeText={setPlate} />
         <PitInput
           label="Cost"
@@ -157,18 +164,16 @@ const AddNewParking = observer(({ navigation, route }) => {
           }}
         />
 
-        <View style={styles.savePit}>
-          <Text style={TEXT_STYLES.title[500]}>
-            Save As My Pit
-          </Text>
+        <View style={[styles.spaceBetween, { marginTop: 18 }]}>
+          <Text style={TEXT_STYLES.title[500]}>Save As My Pit</Text>
           <Switch
-            value={isSwitchOn}
-            onValueChange={(value) => setIsSwitchOn(value)}
+            value={shouldSavePit}
+            onValueChange={(value) => setShouldSavePit(value)}
             style={styles.switch}
           />
         </View>
 
-        {isSwitchOn && (
+        {shouldSavePit && (
           <View style={styles.pitName}>
             <PitInput
               label="Pit Name"
@@ -177,10 +182,11 @@ const AddNewParking = observer(({ navigation, route }) => {
             />
           </View>
         )}
+
         <View style={styles.imgManager}>
-          <ImageManager imageHandler={imageHandler} />
+          <ImageManager imageHandler={(uri) => setUri(uri)} />
         </View>
-        <View style={{marginTop:150}} />
+        <View style={{ marginTop: 150 }} />
       </ScrollView>
       <BottomContainer>
         <PitButton
@@ -204,7 +210,7 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     paddingHorizontal: 24,
   },
-  savePit: {
+  spaceBetween: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -215,6 +221,12 @@ const styles = StyleSheet.create({
   imgManager: {
     marginTop: 12,
   },
+  reminderButton:{
+    borderRadius:8,
+    backgroundColor:COLORS.BASE[20],
+    height:40,
+    width:"57%"
+  }
 });
 
 export default AddNewParking;
