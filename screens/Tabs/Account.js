@@ -25,7 +25,11 @@ export default function ProfileSettings({ navigation }) {
         <View style={{ paddingHorizontal: 24 }}>
           <View style={styles.tabContainer}>
             <Text style={styles.title}>Email</Text>
-            <TextInput style={styles.input} value={email}></TextInput>
+            <TextInput
+              style={styles.input}
+              value={email}
+              editable={false}
+            ></TextInput>
           </View>
           <View>
             <View style={styles.tabContainer}>
