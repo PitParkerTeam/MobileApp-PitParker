@@ -28,9 +28,10 @@ export default function ImageManager({ imageHandler }) {
         return;
       }
       const result = await ImagePicker.launchCameraAsync();
-      // if (!result.canceled) {setImageUri(result.assets[0].uri)}
-      setImageUri(result.assets[0].uri);
-      imageHandler(result.assets[0].uri);
+      if (!result.canceled) {
+        setImageUri(result.assets[0].uri);
+        imageHandler(result.assets[0].uri);
+      }
     } catch (err) {
       console.log("Image taking error ", err);
     }
@@ -51,7 +52,7 @@ export default function ImageManager({ imageHandler }) {
 const styles = StyleSheet.create({
   label: {
     ...TEXT_STYLES.title[500],
-    marginBottom:8,
+    marginBottom: 8,
   },
   image: {
     width: 200,
